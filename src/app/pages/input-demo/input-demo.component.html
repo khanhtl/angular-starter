@@ -1,0 +1,128 @@
+<div class="demo-container">
+    <header class="header-section">
+        <h2>Input Controls</h2>
+        <p class="text-secondary">Explore our suite of intelligent, accessible form control directives.</p>
+    </header>
+
+    <form [formGroup]="form" class="mt-8">
+        <!-- Masking Section -->
+        <div class="demo-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i-lucide [img]="Keyboard" [size]="18"></i-lucide>
+                </div>
+                <h3>Intelligent Masking</h3>
+            </div>
+
+            <div class="demo-grid">
+                <div class="card">
+                    <app-input label="Phone Number" hint="Pattern: +84 (0000) 000 000" [mask]="'+84 (0000) 000 000'"
+                        formControlName="phone" placeholder="+84 (____) ___ ___" [prefixIcon]="Keyboard">
+                    </app-input>
+                    <div class="value-display">
+                        <div class="val-row">
+                            <span class="val-label">Model State:</span>
+                            <span class="val-content">{{ form.get('phone')?.value }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <app-input label="Standard Date" hint="Maintains mask while typing" [datePattern]="'dd/MM/yyyy'"
+                        formControlName="customDate" placeholder="DD/MM/YYYY">
+                    </app-input>
+                    <div class="value-display">
+                        <div class="val-row">
+                            <span class="val-label">Model State:</span>
+                            <span class="val-content">{{ form.get('customDate')?.value }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Numeric Section -->
+        <div class="demo-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i-lucide [img]="Binary" [size]="18"></i-lucide>
+                </div>
+                <h3>Numeric & Formatting</h3>
+            </div>
+
+            <div class="demo-grid">
+                <div class="card">
+                    <app-input label="Currency (VND)" [format]="'#,##0'" formControlName="currency" placeholder="0"
+                        [prefixIcon]="Binary">
+                    </app-input>
+                    <div class="value-display">
+                        <div class="val-row">
+                            <span class="val-label">Numeric Value:</span>
+                            <span class="val-content">{{ form.get('currency')?.value }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <app-input label="Fixed Point (Decimal)" [format]="'##.##'" formControlName="numeric"
+                        placeholder="0.00">
+                    </app-input>
+                    <div class="value-display">
+                        <div class="val-row">
+                            <span class="val-label">Float Value:</span>
+                            <span class="val-content">{{ form.get('numeric')?.value }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <app-input label="Accounting" [format]="'#,##0.00'" formControlName="accounting" placeholder="0.00">
+                    </app-input>
+                    <div class="value-display">
+                        <div class="val-row">
+                            <span class="val-label">Raw Model:</span>
+                            <span class="val-content">{{ form.get('accounting')?.value }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Utility Section -->
+        <div class="demo-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i-lucide [img]="ShieldCheck" [size]="18"></i-lucide>
+                </div>
+                <h3>Security & Utilities</h3>
+            </div>
+
+            <div class="demo-grid">
+                <div class="card">
+                    <app-input label="Secure Password" type="password" formControlName="password"
+                        placeholder="Enter password..." [prefixIcon]="ShieldCheck">
+                    </app-input>
+                </div>
+            </div>
+
+            <h3 class="section-title">States & Actions</h3>
+            <div class="demo-grid">
+                <div class="card">
+                    <app-input label="Disabled Input" [disabled]="true" [prefixIcon]="Keyboard"
+                        placeholder="Cannot edit this">
+                    </app-input>
+                </div>
+                <div class="card">
+                    <app-input label="Readonly Input" [readonly]="true" [prefixIcon]="Keyboard"
+                        placeholder="You can read but not change">
+                    </app-input>
+                </div>
+                <div class="card">
+                    <app-input label="Clearable Input" [clearable]="true" formControlName="phone"
+                        placeholder="Type to see clear button" [prefixIcon]="Keyboard">
+                    </app-input>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

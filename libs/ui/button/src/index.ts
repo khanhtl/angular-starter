@@ -1,1 +1,5 @@
-export * from './lib/button/button';
+export { ButtonComponent } from './lib/button/button';
+export { AppButtonDirective } from './lib/button/button.directive';
+export type { ButtonSize, ButtonType, ButtonVariant, DropdownItem } from './lib/button/button.types';
+export { AppRippleDirective } from './lib/button/ripple.directive';
+

@@ -10,6 +10,10 @@ export const appRoutes: Route[] = [
         loadComponent: () => import('./pages/grid-demo/grid-demo.component').then(m => m.GridDemoComponent)
     },
     {
+        path: 'input',
+        loadComponent: () => import('./pages/input-demo/input-demo.component').then(m => m.InputDemoComponent)
+    },
+    {
         path: 'candidates',
         loadChildren: () =>
             import('@angular-starter/feature/candidate')

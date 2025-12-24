@@ -7,8 +7,10 @@
         </ng-template>
 
         <ng-template cellTemplate="cell-actions">
-            <button
-                style="padding: 4px 12px; border: 1px solid #ccc; border-radius: 4px; background: white; cursor: pointer;">Edit</button>
+            <app-button variant="outline" size="sm" [ripple]="true">
+                <i-lucide [img]="Pencil" [size]="14" style="margin-right: 4px;"></i-lucide>
+                Edit
+            </app-button>
         </ng-template>
     </app-data-grid>
 </div>

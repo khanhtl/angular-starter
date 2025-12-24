@@ -1,13 +1,16 @@
+import { ButtonComponent } from '@angular-starter/ui/button';
 import { CellTemplateDirective, ColumnConfig, DataGridComponent } from '@angular-starter/ui/data-grid';
 import { Component, signal } from '@angular/core';
+import { LucideAngularModule, Pencil } from 'lucide-angular';
 
 @Component({
     selector: 'app-grid-demo',
     standalone: true,
-    imports: [DataGridComponent, CellTemplateDirective],
+    imports: [DataGridComponent, CellTemplateDirective, ButtonComponent, LucideAngularModule],
     templateUrl: './grid-demo.component.html',
 })
 export class GridDemoComponent {
+    readonly Pencil = Pencil;
     columns = signal<ColumnConfig[]>([
         { key: 'id', title: 'ID', width: '100px', align: 'center', pinned: 'left', pinnable: true },
         {

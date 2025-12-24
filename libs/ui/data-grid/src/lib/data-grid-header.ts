@@ -62,7 +62,7 @@ import { PinIconComponent } from './pin-icon';
 
         &.pinned-left {
           .header-cell-content:last-child {
-          border: none;
+          border-right: none;
         }
         }
     }

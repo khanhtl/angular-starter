@@ -1,66 +1,51 @@
-<!-- Ripple Container -->
-<span class="ripple-container" #rippleContainer></span>
+<div class="button-inner" [class.is-split]="split" (click)="handleClick($event)">
+  <!-- Main Content Area -->
+  <span class="button-content main-content" [class.invisible]="loading">
+    <ng-content select="[slot=start]"></ng-content>
+    <ng-content></ng-content>
+    <ng-content select="[slot=end]"></ng-content>
+  </span>
 
-<!-- Main Content Area -->
-<span class="button-content main-content">
-  <!-- Slot for left icon -->
-  <ng-content select="[slot=start]"></ng-content>
+  @if (split) {
+  <span class="separator" [class.invisible]="loading"></span>
+  }
 
-  <!-- Main label -->
-  <ng-content></ng-content>
+  <!-- Dropdown Chevron & Overlay -->
+  @if (dropdown || menu || items.length > 0) {
+  <span class="button-content dropdown-trigger" [class.invisible]="loading" cdkOverlayOrigin #trigger="cdkOverlayOrigin"
+    (click)="toggle($event)">
+    <i-lucide [img]="ChevronDown" [size]="16" class="dropdown-chevron"></i-lucide>
+  </span>
 
-  <!-- Slot for right icon -->
-  <ng-content select="[slot=end]"></ng-content>
-</span>
-
-<!-- Separator (Only if split) -->
-@if (split()) {
-<span class="separator"></span>
-}
-
-<!-- Dropdown Chevron & Overlay -->
-@if (dropdown() || menu() || items().length > 0) {
-<span class="button-content dropdown-trigger" [class.invisible]="loading()" cdkOverlayOrigin #trigger="cdkOverlayOrigin"
-  (click)="toggle($event)">
-  <svg class="dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="m6 9 6 6 6-6" />
-  </svg>
-</span>
-
-<!-- Dropdown Overlay (Must be inside @if to access #trigger) -->
-<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen()"
-  [cdkConnectedOverlayHasBackdrop]="true" [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
-  (backdropClick)="close()">
-
-  <div class="dropdown-panel">
-    <!-- If User Content Template -->
-    @if (menu()) {
-    <ng-container *ngTemplateOutlet="menu()"></ng-container>
-    }
-    <!-- Else If Items List -->
-    @else if (items().length > 0) {
-    <div class="dropdown-list">
-      @for (item of items(); track item.label) {
-      <button class="dropdown-item" [disabled]="item.disabled" (click)="handleItemClick(item)">
-        @if (item.icon) {
-        <i [class]="item.icon"></i>
+  <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayHasBackdrop]="true" [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
+    (backdropClick)="close()">
+    <div class="dropdown-panel">
+      @if (menu) {
+      <ng-container *ngTemplateOutlet="menu!"></ng-container>
+      } @else if (items.length > 0) {
+      <div class="dropdown-list">
+        @for (item of items; track $index) {
+        <button class="dropdown-item" [disabled]="item.disabled" (click)="handleItemClick(item)">
+          @if (item.icon) {
+          <i-lucide [img]="item.icon" [size]="16" class="dropdown-item-icon"></i-lucide>
+          }
+          {{ item.label }}
+        </button>
         }
-        {{ item.label }}
-      </button>
+      </div>
       }
     </div>
-    }
-  </div>
-</ng-template>
-}
+  </ng-template>
+  }
 
-<!-- Loading Spinner -->
-@if (loading()) {
-<span class="spinner-overlay">
-  <svg class="spinner" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-  </svg>
-</span>
-}
+  <!-- Loading Spinner -->
+  @if (loading) {
+  <span class="spinner-overlay">
+    <svg class="spinner" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+    </svg>
+  </span>
+  }
+</div>

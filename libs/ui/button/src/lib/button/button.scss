@@ -1,300 +1,306 @@
-:host {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  white-space: nowrap;
-  vertical-align: middle;
-  outline: none;
-  border: 1px solid transparent;
-  width: auto;
-  font-family: inherit;
-  font-weight: 500;
-  transition: all 0.2s ease-in-out;
-  cursor: pointer;
-  user-select: none;
-  
-  // Radius from global
-  border-radius: var(--w-radius, 8px); 
-}
+  // Base styles for any button (component host or directive)
+  .lib-button,
+  app-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: middle;
+    outline: none;
+    border: 1px solid transparent;
+    width: auto;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    user-select: none;
+    overflow: hidden;
+    border-radius: var(--w-radius, 8px) !important;
+    box-sizing: border-box;
 
-.button-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--w-space-xs, 8px);
-}
-
-// Variables from src/styles.scss map:
-// --c-blue (primary), --c-white, --c-gray, --c-red, --c-text, --c-bg
-
-// Variants
-:host.variant-primary {
-  background-color: var(--c-brand, #42b983);
-  color: var(--c-white, #fff);
-  &:hover:not(.is-disabled) {
-    opacity: 0.9;
-    background-color: color-mix(in srgb, var(--c-brand, #42b983), black 10%);
-  }
-}
-
-:host.variant-secondary {
-  // Assuming secondary is a neutral gray
-  background-color: var(--c-gray, #9ca3af);
-  color: var(--c-white, #fff);
-  &:hover:not(.is-disabled) {
-    background-color: color-mix(in srgb, var(--c-gray, #9ca3af), black 10%);
-  }
-}
-
-:host.variant-outline {
-  background-color: transparent;
-  border-color: var(--c-border, #ccc);
-  color: var(--c-text, #333);
-  &:hover:not(.is-disabled) {
-    background-color: rgba(0,0,0,0.05);
-  }
-}
-
-:host.variant-ghost {
-  background-color: transparent;
-  color: var(--c-text, #333);
-  border-color: transparent;
-  &:hover:not(.is-disabled) {
-    background-color: rgba(0,0,0,0.05);
-  }
-}
-
-:host.variant-danger {
-  background-color: var(--c-red, #ef4444);
-  color: var(--c-white, #fff);
-  &:hover:not(.is-disabled) {
-    background-color: color-mix(in srgb, var(--c-red, #ef4444), black 10%);
-  }
-}
-
-:host.variant-link {
-  background-color: transparent;
-  color: var(--c-blue, #3b82f6);
-  text-decoration: underline;
-  padding: 0;
-  height: auto;
-  border: none;
-  &:hover:not(.is-disabled) {
-    opacity: 0.8;
-  }
-}
-
-// Sizes
-:host.size-sm {
-  height: 32px;
-  padding: 0 var(--w-space-sm, 12px); // Use specific padding
-  // Adjusting padding since --w-space-sm is 16px, might be large for SM. 
-  // Let's use vars if possible but fallback to sensible px.
-  font-size: 0.875rem;
-}
-:host.size-md {
-  height: 40px;
-  padding: 0 var(--w-space, 16px);
-  font-size: 1rem;
-}
-:host.size-lg {
-  height: 48px;
-  padding: 0 var(--w-space-lg, 24px);
-  font-size: 1.125rem;
-}
-:host.size-icon {
-  height: 40px;
-  width: 40px;
-  padding: 0;
-  border-radius: 50%; /* Often icon buttons are round or square */
-}
-
-// States
-:host.is-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-  background-color: var(--c-disable, rgba(0,0,0,0.1));
-  color: var(--c-text, #999);
-  border-color: transparent;
-}
-
-:host.is-loading {
-  cursor: wait;
-}
-
-.spinner-overlay {
-  position: absolute;
-  top: 0; 
-  left: 0; 
-  right: 0; 
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.spinner {
-  animation: spin 1s linear infinite;
-  height: 1.25em;
-  width: 1.25em;
-}
-
-.invisible {
-  visibility: hidden;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-// Dropdown Chevron
-.dropdown-chevron {
-  opacity: 0.8;
-  margin-left: 0; // Reset margin if split
-}
-
-/* ========================================= */
-/*               Split & Layout              */
-/* ========================================= */
-
-// General Layout for Split
-:host.is-split {
-  padding: 0; // Remove host padding, move to children
-  gap: 0;     // No gap between split parts
-}
-
-.button-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-// Main Content Part
-.main-content {
-  padding: 0 var(--w-space, 16px);
-  gap: var(--w-space-xs, 8px);
-  flex: 1;
-}
-
-// Dropdown Trigger Part
-.dropdown-trigger {
-  padding: 0 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  
-  &:hover:not(.invisible) {
-    background-color: rgba(0,0,0,0.1); 
-  }
-}
-
-// Separator
-.separator {
-  width: 1px;
-  height: 60%;
-  background-color: rgba(255, 255, 255, 0.3); // Default for primary/filled
-  margin: 0 2px;
-}
-
-// Adjust padding and margins based on variants/sizes
-:host.size-sm .main-content { padding: 0 var(--w-space-sm, 12px); }
-:host.size-lg .main-content { padding: 0 var(--w-space-lg, 24px); }
-
-// Adjust separator for outline/ghost
-:host.variant-outline .separator,
-:host.variant-ghost .separator,
-:host.variant-secondary .separator {
-  background-color: var(--c-border, #ccc);
-}
-
-// Ripple Styles
-:host {
-  overflow: hidden; // Contain ripple
-}
-
-.ripple-container {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  border-radius: inherit;
-}
-
-::ng-deep .ripple {
-  position: absolute;
-  border-radius: 50%;
-  transform: scale(0);
-  animation: ripple-effect 0.6s linear;
-  background-color: rgba(255, 255, 255, 0.3); // Light ripple for filled buttons
-  pointer-events: none;
-}
-
-:host.variant-outline ::ng-deep .ripple,
-:host.variant-ghost ::ng-deep .ripple,
-:host.variant-link ::ng-deep .ripple {
-  background-color: rgba(0, 0, 0, 0.1); // Dark ripple for light/transparent buttons
-}
-
-@keyframes ripple-effect {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-// Ensure Dropdown Panel Styles are kept
-::ng-deep .dropdown-panel {
-  background: var(--c-bg, #fff);
-  border: 1px solid var(--c-border, #e5e7eb);
-  border-radius: var(--w-radius, 8px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  margin-top: 4px;
-  min-width: 180px;
-  max-width: 320px;
-  overflow: hidden;
-  z-index: 1000;
-  padding: 4px;
-  color: var(--c-text, #374151);
-}
-
-::ng-deep .dropdown-list {
-  display: flex;
-  flex-direction: column;
-}
-
-::ng-deep .dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 12px;
-  text-align: left;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--c-text, #374151);
-  font-size: 0.875rem;
-  border-radius: var(--w-radius-xs, 4px);
-  transition: all 0.2s;
-  font-weight: 500;
-
-  &:hover:not([disabled]) {
-    background-color: var(--c-hover, rgba(0, 0, 0, 0.05));
-    color: var(--c-brand, inherit);
+    .button-inner.is-split {
+      padding-left: var(--w-space, 16px);
+      ;
+      gap: 0;
+    }
   }
 
-  &[disabled] {
+  // Inner wrapper for complex layout (split/dropdowns)
+  .button-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  .button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--w-space-xs, 8px);
+  }
+
+  // Variants
+  .variant-primary {
+    background-color: var(--c-brand, #42b983);
+    color: var(--c-white, #fff);
+
+    &:hover:not(.is-disabled) {
+      background-color: color-mix(in srgb, var(--c-brand, #42b983), black 10%);
+    }
+  }
+
+  .variant-secondary {
+    background-color: var(--c-gray-500, #9ca3af);
+    color: var(--c-white, #fff);
+
+    &:hover:not(.is-disabled) {
+      background-color: color-mix(in srgb, var(--c-gray-500, #9ca3af), black 10%);
+    }
+  }
+
+  .variant-outline {
+    background-color: transparent;
+    border-color: var(--c-border, #e5e7eb);
+    color: var(--c-text-primary, #374151);
+
+    &:hover:not(.is-disabled) {
+      background-color: rgba(0, 0, 0, 0.02);
+      border-color: var(--c-brand, #42b983);
+      color: var(--c-brand, #42b983);
+    }
+  }
+
+  .variant-ghost {
+    background-color: transparent;
+    color: var(--c-text-primary, #374151);
+    border-color: transparent;
+
+    &:hover:not(.is-disabled) {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  .variant-danger {
+    background-color: var(--c-danger, #ef4444);
+    color: var(--c-white, #fff);
+
+    &:hover:not(.is-disabled) {
+      background-color: color-mix(in srgb, var(--c-danger, #ef4444), black 10%);
+    }
+  }
+
+  .variant-link {
+    background-color: transparent;
+    color: var(--c-brand, #42b983);
+    text-decoration: underline;
+    padding: 0;
+    height: auto !important;
+    border: none;
+
+    &:hover:not(.is-disabled) {
+      opacity: 0.8;
+    }
+  }
+
+  // Sizes
+  .size-sm {
+    height: 32px;
+    font-size: 0.875rem;
+    padding: 0 var(--w-space-sm, 12px);
+  }
+
+  .size-md {
+    height: 40px;
+    font-size: 1rem;
+    padding: 0 var(--w-space, 16px);
+  }
+
+  .size-lg {
+    height: 48px;
+    font-size: 1.125rem;
+    padding: 0 var(--w-space-lg, 24px);
+  }
+
+  .size-icon {
+    height: 40px;
+    width: 40px;
+    padding: 0;
+    border-radius: 50% !important;
+  }
+
+  // States
+  .is-disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    pointer-events: none;
+
+    background-color: var(--c-bg-tertiary, #f3f4f6);
+    color: var(--c-text-tertiary, #9ca3af);
+    border-color: transparent;
+
+    &.variant-outline,
+    &.variant-ghost,
+    &.variant-link {
+      background-color: transparent;
+      border-color: var(--c-border, #e5e7eb);
+      color: var(--c-text-tertiary, #9ca3af);
+    }
+
+    &.variant-ghost,
+    &.variant-link {
+      border-color: transparent;
+    }
   }
-  
-  i {
-    font-size: 1.1em;
-    opacity: 0.7;
+
+  .is-loading {
+    cursor: wait;
+    pointer-events: none;
   }
-}
+
+  .spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .spinner {
+    animation: spin 1s linear infinite;
+    height: 1.25em;
+    width: 1.25em;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .invisible {
+    visibility: hidden;
+  }
+
+  // Dropdown Chevron
+  .dropdown-chevron {
+    opacity: 0.8;
+  }
+
+  .is-split {
+    padding: 0;
+    gap: 0;
+  }
+
+  .main-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex: 1;
+  }
+
+  .dropdown-trigger {
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    &:hover:not(.invisible) {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .separator {
+    width: 1px;
+    height: 60%;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 0 2px;
+  }
+
+  .variant-outline .separator,
+  .variant-ghost .separator,
+  .variant-secondary .separator {
+    background-color: var(--c-border, #e5e7eb);
+  }
+
+  // Ripple logic
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple-effect 0.6s linear;
+    background-color: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .variant-outline .ripple,
+  .variant-ghost .ripple,
+  .variant-link .ripple {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  @keyframes ripple-effect {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+
+  // Dropdown Panel
+  .dropdown-panel {
+    background: var(--c-bg-primary, #fff);
+    border: 1px solid var(--c-border, #e5e7eb);
+    border-radius: var(--w-radius, 8px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    margin-top: 4px;
+    min-width: 180px;
+    max-width: 320px;
+    overflow: hidden;
+    z-index: 1000;
+    padding: 4px;
+  }
+
+  .dropdown-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 12px;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--c-text-primary, #374151);
+    font-size: 0.875rem;
+    border-radius: var(--w-radius-xs, 4px);
+    transition: all 0.2s;
+    font-weight: 500;
+
+    &:hover:not([disabled]) {
+      background-color: var(--c-bg-secondary, #f9fafb);
+      color: var(--c-brand, inherit);
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }

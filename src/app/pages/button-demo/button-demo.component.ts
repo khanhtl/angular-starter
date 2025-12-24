@@ -1,13 +1,18 @@
-import { ButtonComponent, DropdownItem } from '@angular-starter/ui/button';
+import { AppButtonDirective, AppRippleDirective, ButtonComponent, DropdownItem } from '@angular-starter/ui/button';
 import { Component, signal } from '@angular/core';
+import { ArrowRight, Download, LucideAngularModule, Settings } from 'lucide-angular';
 
 @Component({
     selector: 'app-button-demo',
     standalone: true,
-    imports: [ButtonComponent],
+    imports: [ButtonComponent, AppButtonDirective, AppRippleDirective, LucideAngularModule],
     templateUrl: './button-demo.component.html',
 })
 export class ButtonDemoComponent {
+    readonly Settings = Settings;
+    readonly Download = Download;
+    readonly ArrowRight = ArrowRight;
+
     isLoading = signal(false);
 
     toggleLoading() {
@@ -16,9 +21,9 @@ export class ButtonDemoComponent {
     }
 
     menuItems: DropdownItem[] = [
-        { label: 'Edit Profile', icon: 'ri-pencil-line' },
-        { label: 'Preferences', icon: 'ri-settings-3-line' },
-        { label: 'Logout', icon: 'ri-logout-box-r-line' }
+        { label: 'Edit Profile', icon: 'pencil' },
+        { label: 'Preferences', icon: 'settings' },
+        { label: 'Logout', icon: 'log-out' }
     ];
 
     onMenuAction(item: DropdownItem) {

@@ -37,6 +37,9 @@
       ],
       "@angular-starter/ui/button": [
         "libs/ui/button/src/index.ts"
+      ],
+      "@angular-starter/ui/input": [
+        "libs/ui/input/src/index.ts"
       ]
     }
   },

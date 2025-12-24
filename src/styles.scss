@@ -1,14 +1,21 @@
+@use '../libs/ui/input/src/lib/input/input.scss';
+
+
 /* You can add global styles to this file, and also import other style files */
 :root {
   --w-space-xs: 8px;
   --w-space-sm: 16px;
-  --w-space: 24px;
-  --w-space-lg: 32px;
+  --w-space: 16px;
+  --w-space-lg: 24px;
 
   --w-radius-xs: 4px;
   --w-radius: 8px;
   --w-radius-lg: 12px;
   --w-radius-xl: 16px;
+
+  --h-sm: 32px;
+  --h-md: 40px;
+  --h-lg: 48px;
 
   --c-white: #fff;
   --c-black: #000;
@@ -32,12 +39,13 @@
     --c-text: #e5e7eb;
   }
 }
+
 .box-shadow-right {
-  box-shadow: 5px 0 10px -5px rgba(0,0,0,0.5);
+  box-shadow: 5px 0 10px -5px rgba(0, 0, 0, 0.5);
 }
 
 .box-shadow-left {
-  box-shadow: -5px 0 10px -5px rgba(0,0,0,0.5);
+  box-shadow: -5px 0 10px -5px rgba(0, 0, 0, 0.5);
 }
 
 body {
@@ -46,4 +54,14 @@ body {
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   font-variant: tabular-nums;
   margin: 0;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+i-lucide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
