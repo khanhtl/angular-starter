@@ -5,27 +5,64 @@
     "emitDecoratorMetadata": false,
     "target": "es2022",
     "module": "preserve",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@angular-starter/core/auth": ["libs/core/auth/src/index.ts"],
-      "@angular-starter/core/http": ["libs/core/http/src/index.ts"],
-      "@angular-starter/core/config": ["libs/core/config/src/index.ts"],
-      "@angular-starter/ui/popup": ["libs/ui/popup/src/index.ts"],
+      "@angular-starter/core/auth": [
+        "libs/core/auth/src/index.ts"
+      ],
+      "@angular-starter/core/http": [
+        "libs/core/http/src/index.ts"
+      ],
+      "@angular-starter/core/config": [
+        "libs/core/config/src/index.ts"
+      ],
+      "@angular-starter/core/data-source": [
+        "libs/core/data-source/src/index.ts"
+      ],
+      "@angular-starter/ui/popup": [
+        "libs/ui/popup/src/index.ts"
+      ],
       "@angular-starter/feature/candidate": [
         "libs/feature/candidate/src/index.ts"
       ],
-      "@angular-starter/ui/dialogs": ["libs/ui/dialogs/src/index.ts"],
-      "@angular-starter/core/i18n": ["libs/core/i18n/src/index.ts"],
-      "@angular-starter/ui/data-grid": ["libs/ui/data-grid/src/index.ts"],
-      "@angular-starter/ui/button": ["libs/ui/button/src/index.ts"],
-      "@angular-starter/ui/input": ["libs/ui/input/src/index.ts"],
-      "@angular-starter/calendar": ["libs/ui/calendar/src/index.ts"],
-      "@angular-starter/date-box": ["libs/ui/date-box/src/index.ts"],
-      "@angular-starter/date-range": ["libs/ui/date-range/src/index.ts"],
-      "@angular-starter/select-box": ["libs/ui/select-box/src/index.ts"],
-      "@angular-starter/tag-box": ["libs/ui/tag-box/src/index.ts"]
+      "@angular-starter/ui/dialogs": [
+        "libs/ui/dialogs/src/index.ts"
+      ],
+      "@angular-starter/core/i18n": [
+        "libs/core/i18n/src/index.ts"
+      ],
+      "@angular-starter/ui/data-grid": [
+        "libs/ui/data-grid/src/index.ts"
+      ],
+      "@angular-starter/ui/button": [
+        "libs/ui/button/src/index.ts"
+      ],
+      "@angular-starter/ui/input": [
+        "libs/ui/input/src/index.ts"
+      ],
+      "@angular-starter/calendar": [
+        "libs/ui/calendar/src/index.ts"
+      ],
+      "@angular-starter/date-box": [
+        "libs/ui/date-box/src/index.ts"
+      ],
+      "@angular-starter/date-range": [
+        "libs/ui/date-range/src/index.ts"
+      ],
+      "@angular-starter/select-box": [
+        "libs/ui/select-box/src/index.ts"
+      ],
+      "@angular-starter/tag-box": [
+        "libs/ui/tag-box/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

@@ -31,6 +31,10 @@ export const appRoutes: Route[] = [
         path: 'date-range',
         loadComponent: () => import('./pages/date-range-demo/date-range-demo.component').then(m => m.DateRangeDemoComponent)
     },
+    {
+        path: 'select-box',
+        loadComponent: () => import('./pages/select-box-demo/select-box-demo.component').then(m => m.SelectBoxDemoComponent)
+    },
 
     { path: '', redirectTo: 'button', pathMatch: 'full' },
 ];
