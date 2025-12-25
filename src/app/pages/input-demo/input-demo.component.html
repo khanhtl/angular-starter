@@ -1,12 +1,12 @@
 <div class="page-container">
     <header class="page-header">
-        <h1>Ô nhập liệu (Input)</h1>
-        <p>Thành phần ô nhập liệu toàn diện với hỗ trợ mặt nạ (mask), biểu tượng và kiểm tra dữ liệu (validation).</p>
+        <h1>Input</h1>
+        <p>Comprehensive input component with support for masks, icons, and validation.</p>
     </header>
 
     <nav class="tab-nav">
-        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Xem trước</button>
-        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">Tài liệu API</button>
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
     </nav>
 
     <div class="tab-content">
@@ -14,7 +14,7 @@
 
         <!-- Interactive Playground -->
         <div class="demo-section">
-            <h2>Khu vực thử nghiệm (Playground)</h2>
+            <h2>Interactive Playground</h2>
             <div class="playground-grid">
                 <div class="demo-card"
                     style="min-height: 400px; display: flex; flex-direction: column; justify-content: center;">
@@ -28,23 +28,23 @@
 
 
                         <div class="value-display">
-                            <strong>Giá trị Control:</strong> {{ playgroundControl.value || '(trống)' }}
+                            <strong>Control Value:</strong> {{ playgroundControl.value || '(empty)' }}
                         </div>
                         <div class="value-display"
                             style="margin-top: 8px; background-color: #fef2f2; border-color: #fecaca; color: #991b1b;"
                             *ngIf="playgroundControl.invalid && (playgroundControl.dirty || playgroundControl.touched)">
-                            <strong>Không hợp lệ:</strong> {{ config().errorText }}
+                            <strong>Invalid:</strong> {{ config().errorText }}
                         </div>
 
 
                         <div class="code-section" style="margin-top: 24px;">
                             <div
                                 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                                <h3 style="margin: 0; font-size: 1rem; color: #64748b;">Mã nguồn mẫu</h3>
+                                <h3 style="margin: 0; font-size: 1rem; color: #64748b;">Source Code</h3>
                                 <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                     <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                         [size]="16"></i-lucide>
-                                    {{ showCode() ? 'Ẩn mã nguồn' : 'Xem mã nguồn' }}
+                                    {{ showCode() ? 'Hide Code' : 'Show Code' }}
                                 </app-button>
                             </div>
 
@@ -58,60 +58,59 @@
 
                 <!-- Right Controls Panel -->
                 <div class="controls-panel">
-                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Thuộc tính</h3>
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
                         <div class="control-row">
                             <input type="checkbox" id="chk-disabled" [ngModel]="config().disabled"
                                 (ngModelChange)="updateConfig('disabled', $event)">
-                            <label for="chk-disabled" style="margin: 0; cursor: pointer;">Vô hiệu hóa</label>
+                            <label for="chk-disabled" style="margin: 0; cursor: pointer;">Disabled</label>
                         </div>
                         <div class="control-row">
                             <input type="checkbox" id="chk-readonly" [ngModel]="config().readonly"
                                 (ngModelChange)="updateConfig('readonly', $event)">
-                            <label for="chk-readonly" style="margin: 0; cursor: pointer;">Chỉ đọc (Readonly)</label>
+                            <label for="chk-readonly" style="margin: 0; cursor: pointer;">Readonly</label>
                         </div>
                         <div class="control-row">
                             <input type="checkbox" id="chk-required" [ngModel]="config().required"
                                 (ngModelChange)="updateConfig('required', $event)">
-                            <label for="chk-required" style="margin: 0; cursor: pointer;">Bắt buộc (Required)</label>
+                            <label for="chk-required" style="margin: 0; cursor: pointer;">Required</label>
                         </div>
                         <div class="control-row">
                             <input type="checkbox" id="chk-clearable" [ngModel]="config().clearable"
                                 (ngModelChange)="updateConfig('clearable', $event)">
-                            <label for="chk-clearable" style="margin: 0; cursor: pointer;">Có thể xóa
-                                (Clearable)</label>
+                            <label for="chk-clearable" style="margin: 0; cursor: pointer;">Clearable</label>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label>Nhãn (Label)</label>
+                        <label>Label</label>
                         <input type="text" class="app-input"
                             style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
                             [ngModel]="config().label" (ngModelChange)="updateConfig('label', $event)">
                     </div>
 
                     <div class="control-group">
-                        <label>Gợi ý (Placeholder)</label>
+                        <label>Placeholder</label>
                         <input type="text" class="app-input"
                             style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
                             [ngModel]="config().placeholder" (ngModelChange)="updateConfig('placeholder', $event)">
                     </div>
 
                     <div class="control-group">
-                        <label>Văn bản hỗ trợ (Hint)</label>
+                        <label>Hint</label>
                         <input type="text" class="app-input"
                             style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
                             [ngModel]="config().hint" (ngModelChange)="updateConfig('hint', $event)">
                     </div>
 
                     <div class="control-group">
-                        <label>Loại ô nhập</label>
+                        <label>Input Type</label>
                         <select class="app-input"
                             style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
                             [ngModel]="config().type" (ngModelChange)="updateConfig('type', $event)">
                             <option value="text">Text</option>
-                            <option value="password">Mật khẩu</option>
+                            <option value="password">Password</option>
                             <option value="email">Email</option>
                             <option value="number">Number</option>
                         </select>
@@ -122,81 +121,81 @@
 
         <!-- Common Use Cases -->
         <div class="demo-section">
-            <h2>Các trường hợp sử dụng phổ biến</h2>
+            <h2>Common Use Cases</h2>
             <div class="card-grid">
 
                 <!-- Email (Validation) -->
                 <div class="preview-card">
-                    <app-input label="Địa chỉ Email" type="email" placeholder="Nhập email của bạn"
-                        hint="Chúng tôi sẽ không bao giờ chia sẻ email của bạn." [prefixIcon]="MailIcon"
-                        [formControl]="showcaseForm.controls.email" errorText="Vui lòng nhập địa chỉ email hợp lệ">
+                    <app-input label="Email Address" type="email" placeholder="Enter your email"
+                        hint="We will never share your email." [prefixIcon]="MailIcon"
+                        [formControl]="showcaseForm.controls.email" errorText="Please enter a valid email address">
                     </app-input>
                     <div class="value-display" style="margin-top: 12px; font-size: 0.75rem;">
-                        Giá trị: {{ showcaseForm.controls.email.value }} <br>
-                        Hợp lệ: {{ showcaseForm.controls.email.valid }}
+                        Value: {{ showcaseForm.controls.email.value }} <br>
+                        Valid: {{ showcaseForm.controls.email.valid }}
                     </div>
                 </div>
 
                 <!-- Password -->
                 <div class="preview-card">
-                    <app-input label="Mật khẩu" type="password" placeholder="Nhập mật khẩu bảo mật"
+                    <app-input label="Password" type="password" placeholder="Enter secure password"
                         [prefixIcon]="LockIcon" [formControl]="showcaseForm.controls.password">
                     </app-input>
                     <div class="value-display" style="margin-top: 12px; font-size: 0.75rem;">
-                        Giá trị: {{ showcaseForm.controls.password.value }}
+                        Value: {{ showcaseForm.controls.password.value }}
                     </div>
                 </div>
 
                 <!-- Phone Mask -->
                 <div class="preview-card">
-                    <app-input label="Số điện thoại" mask="(000) 000-0000" placeholder="(555) 123-4567"
+                    <app-input label="Phone Number" mask="(000) 000-0000" placeholder="(555) 123-4567"
                         [prefixIcon]="PhoneIcon" [formControl]="showcaseForm.controls.phone">
                     </app-input>
                     <div class="value-display" style="margin-top: 12px; font-size: 0.75rem;">
-                        Giá trị: {{ showcaseForm.controls.phone.value }}
+                        Value: {{ showcaseForm.controls.phone.value }}
                     </div>
                 </div>
 
                 <!-- Currency -->
                 <div class="preview-card">
-                    <app-input label="Mức lương mong muốn" mask="currency" suffix="₫" textAlign="right" placeholder="0"
+                    <app-input label="Desired Salary" mask="currency" suffix="₫" textAlign="right" placeholder="0"
                         [prefixIcon]="DollarIcon" [formControl]="showcaseForm.controls.currency">
                     </app-input>
                     <div class="value-display" style="margin-top: 12px; font-size: 0.75rem;">
-                        Giá trị: {{ showcaseForm.controls.currency.value }}
+                        Value: {{ showcaseForm.controls.currency.value }}
                     </div>
                 </div>
 
                 <!-- Date Mask -->
                 <div class="preview-card">
-                    <app-input label="Ngày sinh" mask="00/00/0000" placeholder="DD/MM/YYYY" [prefixIcon]="CalendarIcon"
-                        [formControl]="showcaseForm.controls.date">
+                    <app-input label="Date of Birth" mask="00/00/0000" placeholder="DD/MM/YYYY"
+                        [prefixIcon]="CalendarIcon" [formControl]="showcaseForm.controls.date">
                     </app-input>
                     <div class="value-display" style="margin-top: 12px; font-size: 0.75rem;">
-                        Giá trị: {{ showcaseForm.controls.date.value }}
+                        Value: {{ showcaseForm.controls.date.value }}
                     </div>
                 </div>
 
                 <!-- Generic Mask (License Plate) -->
                 <div class="preview-card">
-                    <app-input label="Biển số xe" mask="00-A0 000.00" placeholder="59-F1 123.45"
+                    <app-input label="License Plate" mask="00-A0 000.00" placeholder="59-F1 123.45"
                         [formControl]="showcaseForm.controls.licensePlate">
                     </app-input>
                     <div class="value-display" style="margin-top: 12px; font-size: 0.75rem;">
-                        Giá trị: {{ showcaseForm.controls.licensePlate.value }}
+                        Value: {{ showcaseForm.controls.licensePlate.value }}
                     </div>
                 </div>
 
                 <!-- Search -->
                 <div class="preview-card">
-                    <app-input class="search-input" placeholder="Tìm kiếm..." [prefixIcon]="SearchIcon"
-                        [clearable]="true" [formControl]="showcaseForm.controls.search">
+                    <app-input class="search-input" placeholder="Search..." [prefixIcon]="SearchIcon" [clearable]="true"
+                        [formControl]="showcaseForm.controls.search">
                     </app-input>
                     <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #64748b;">
-                        Ô nhập với phong cách bo tròn tùy chỉnh
+                        Input with custom rounded styling
                     </div>
                     <div class="value-display" style="margin-top: 12px; font-size: 0.75rem;">
-                        Truy vấn: {{ showcaseForm.controls.search.value }}
+                        Query: {{ showcaseForm.controls.search.value }}
                     </div>
                 </div>
 
@@ -210,10 +209,10 @@
             <table class="api-table">
                 <thead>
                     <tr>
-                        <th>Thuộc tính</th>
-                        <th>Kiểu dữ liệu</th>
-                        <th>Mặc định</th>
-                        <th>Mô tả</th>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -221,61 +220,61 @@
                         <td>label</td>
                         <td class="type-cell">string</td>
                         <td class="default-cell">''</td>
-                        <td>Nhãn phía trên.</td>
+                        <td>Label text displayed above the input.</td>
                     </tr>
                     <tr>
                         <td>hint</td>
                         <td class="type-cell">string</td>
                         <td class="default-cell">''</td>
-                        <td>Văn bản gợi ý hiển thị bên dưới ô nhập.</td>
+                        <td>Helper text displayed below the input.</td>
                     </tr>
                     <tr>
                         <td>placeholder</td>
                         <td class="type-cell">string</td>
                         <td class="default-cell">''</td>
-                        <td>Văn bản gợi ý (placeholder).</td>
+                        <td>Placeholder text.</td>
                     </tr>
                     <tr>
                         <td>mask</td>
                         <td class="type-cell">string | 'currency' | 'date'</td>
                         <td class="default-cell">null</td>
-                        <td>Mẫu mặt nạ nhập liệu (ví dụ: '(000) 000-0000').</td>
+                        <td>Input mask pattern (e.g., '(000) 000-0000').</td>
                     </tr>
                     <tr>
                         <td>prefixIcon</td>
                         <td class="type-cell">LucideIcon</td>
                         <td class="default-cell">null</td>
-                        <td>Biểu tượng bên phải.</td>
+                        <td>Icon displayed on the left.</td>
                     </tr>
                     <tr>
                         <td>suffixIcon</td>
                         <td class="type-cell">LucideIcon</td>
                         <td class="default-cell">null</td>
-                        <td>Biểu tượng bên phải.</td>
+                        <td>Icon displayed on the right.</td>
                     </tr>
                     <tr>
                         <td>errorText</td>
                         <td class="type-cell">string</td>
                         <td class="default-cell">''</td>
-                        <td>Thông báo lỗi khi dữ liệu không hợp lệ.</td>
+                        <td>Error message shown when validation fails.</td>
                     </tr>
                     <tr>
                         <td>clearable</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">false</td>
-                        <td>Hiển thị nút xóa khi có giá trị.</td>
+                        <td>Shows a clear button when value is present.</td>
                     </tr>
                     <tr>
                         <td>disabled</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">false</td>
-                        <td>Vô hiệu hóa ô nhập.</td>
+                        <td>Standard HTML disabled state.</td>
                     </tr>
                     <tr>
                         <td>readonly</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">false</td>
-                        <td>Chỉ cho phép đọc, không thể chỉnh sửa.</td>
+                        <td>Read-only state, prevents editing.</td>
                     </tr>
                 </tbody>
             </table>

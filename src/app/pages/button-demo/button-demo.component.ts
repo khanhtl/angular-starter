@@ -73,7 +73,7 @@ export class ButtonDemoComponent implements OnDestroy {
 
   // Playground Config
   config = signal<ButtonConfig>({
-    text: 'Nhấn vào tôi',
+    text: 'Click Me',
     variant: 'primary',
     size: 'md',
     loading: false,
@@ -85,9 +85,9 @@ export class ButtonDemoComponent implements OnDestroy {
   });
 
   mockItems: DropdownItem[] = [
-    { label: 'Hồ sơ', click: () => console.log('Profile clicked') },
-    { label: 'Cài đặt', click: () => console.log('Settings clicked') },
-    { label: 'Đăng xuất', click: () => console.log('Logout clicked') }
+    { label: 'Profile', click: () => console.log('Profile clicked') },
+    { label: 'Settings', click: () => console.log('Settings clicked') },
+    { label: 'Logout', click: () => console.log('Logout clicked') }
   ];
 
   generatedCode = computed(() => {

@@ -101,55 +101,55 @@ export class GridDemoComponent implements OnDestroy {
 
         if (c.useNested) {
             return [
-                { key: 'id', title: 'Mã số', width: '100px', align: 'center', pinned: 'left' as const, pinnable: true },
+                { key: 'id', title: 'ID', width: '100px', align: 'center', pinned: 'left' as const, pinnable: true },
                 {
                     key: 'personal',
-                    title: 'Thông tin cá nhân',
+                    title: 'Personal Info',
                     align: 'center',
                     pinnable: true,
                     children: [
-                        { key: 'name', title: 'Họ và tên', width: '150px' },
+                        { key: 'name', title: 'Full Name', width: '150px' },
                         { key: 'email', title: 'Email', width: '200px' },
-                        { key: 'phone', title: 'Điện thoại', width: '250px' }
+                        { key: 'phone', title: 'Phone', width: '250px' }
                     ]
                 },
                 {
                     key: 'work',
-                    title: 'Chi tiết công việc',
+                    title: 'Work Details',
                     align: 'center',
                     pinnable: true,
                     children: [
-                        { key: 'department', title: 'Phòng ban', width: '150px' },
-                        { key: 'role', title: 'Chức vụ', width: '120px' },
-                        { key: 'salary', title: 'Lương', width: '120px', align: 'right' as const }
+                        { key: 'department', title: 'Department', width: '150px' },
+                        { key: 'role', title: 'Position', width: '120px' },
+                        { key: 'salary', title: 'Salary', width: '120px', align: 'right' as const }
                     ]
                 },
                 {
                     key: 'employment',
-                    title: 'Thông tin tuyển dụng',
+                    title: 'Employment Info',
                     align: 'center',
                     pinnable: true,
                     children: [
-                        { key: 'startDate', title: 'Ngày bắt đầu', width: '120px' },
-                        { key: 'location', title: 'Vị trí', width: '150px' },
-                        { key: 'manager', title: 'Người quản lý', width: '150px' },
-                        { key: 'projects', title: 'Dự án', width: '100px', align: 'center' as const }
+                        { key: 'startDate', title: 'Start Date', width: '120px' },
+                        { key: 'location', title: 'Location', width: '150px' },
+                        { key: 'manager', title: 'Manager', width: '150px' },
+                        { key: 'projects', title: 'Projects', width: '100px', align: 'center' as const }
                     ]
                 },
-                { key: 'status', cellTemplate: 'cell-status', title: 'Trạng thái', width: '150px', align: 'center' as const, pinned: 'right' as const },
-                { key: 'actions', title: 'Hành động', width: '120px', align: 'center' as const, pinned: 'right' as const, pinnable: false }
+                { key: 'status', cellTemplate: 'cell-status', title: 'Status', width: '150px', align: 'center' as const, pinned: 'right' as const },
+                { key: 'actions', title: 'Actions', width: '120px', align: 'center' as const, pinned: 'right' as const, pinnable: false }
             ];
         }
 
         // Flat version for variety
         return [
-            { key: 'id', title: 'Mã số', width: '100px', align: 'center', pinned: 'left' as const },
-            { key: 'name', title: 'Họ và tên', width: '200px' },
+            { key: 'id', title: 'ID', width: '100px', align: 'center', pinned: 'left' as const },
+            { key: 'name', title: 'Full Name', width: '200px' },
             { key: 'email', title: 'Email', width: '250px' },
-            { key: 'department', title: 'Phòng ban', width: '150px' },
-            { key: 'role', title: 'Chức vụ', width: '150px' },
-            { key: 'status', cellTemplate: 'cell-status', title: 'Trạng thái', width: '120px', align: 'center' as const, pinned: 'right' as const },
-            { key: 'actions', title: 'Hành động', width: '120px', align: 'center' as const, pinned: 'right' as const, cellTemplate: 'cell-actions' }
+            { key: 'department', title: 'Department', width: '150px' },
+            { key: 'role', title: 'Position', width: '150px' },
+            { key: 'status', cellTemplate: 'cell-status', title: 'Status', width: '120px', align: 'center' as const, pinned: 'right' as const },
+            { key: 'actions', title: 'Actions', width: '120px', align: 'center' as const, pinned: 'right' as const, cellTemplate: 'cell-actions' }
         ];
     });
 

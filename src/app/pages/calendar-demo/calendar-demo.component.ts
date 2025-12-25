@@ -64,9 +64,9 @@ export class CalendarDemoComponent implements OnDestroy {
     });
 
     events: CalendarEvent[] = [
-        { date: new Date(), title: 'Họp hôm nay', color: 'var(--c-brand)' },
-        { date: new Date(new Date().setDate(new Date().getDate() + 2)), title: 'Hạn chót', color: '#ef4444' },
-        { date: new Date(new Date().setDate(new Date().getDate() - 3)), title: 'Sinh nhật', color: '#f59e0b' },
+        { date: new Date(), title: 'Meeting Today', color: 'var(--c-brand)' },
+        { date: new Date(new Date().setDate(new Date().getDate() + 2)), title: 'Deadline', color: '#ef4444' },
+        { date: new Date(new Date().setDate(new Date().getDate() - 3)), title: 'Birthday', color: '#f59e0b' },
     ];
 
     generatedCode = computed(() => {

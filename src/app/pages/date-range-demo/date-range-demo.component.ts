@@ -63,9 +63,9 @@ export class DateRangeDemoComponent implements OnDestroy {
 
   // Playground Config
   config = signal({
-    label: 'Thời gian đặt chỗ',
-    startPlaceholder: 'Từ ngày',
-    endPlaceholder: 'Đến ngày',
+    label: 'Reservation Period',
+    startPlaceholder: 'Start date',
+    endPlaceholder: 'End date',
     disabled: false
   });
 
@@ -73,8 +73,8 @@ export class DateRangeDemoComponent implements OnDestroy {
     const c = this.config();
     const props = [
       c.label ? `label="${c.label}"` : '',
-      c.startPlaceholder !== 'Từ ngày' ? `startPlaceholder="${c.startPlaceholder}"` : '',
-      c.endPlaceholder !== 'Đến ngày' ? `endPlaceholder="${c.endPlaceholder}"` : '',
+      c.startPlaceholder !== 'Start date' ? `startPlaceholder="${c.startPlaceholder}"` : '',
+      c.endPlaceholder !== 'End date' ? `endPlaceholder="${c.endPlaceholder}"` : '',
       c.disabled ? 'disabled' : '',
       '[formControl]="control"'
     ].filter(Boolean).join('\n  ');

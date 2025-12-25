@@ -1,12 +1,12 @@
 <div class="page-container">
     <header class="page-header">
-        <h1>Nút bấm (Button)</h1>
-        <p>Thành phần nút bấm tương tác hỗ trợ nhiều biến thể, kích thước, trạng thái và tương tác menu thả xuống.</p>
+        <h1>Button</h1>
+        <p>Interactive button component supporting multiple variants, sizes, states, and dropdown interactions.</p>
     </header>
 
     <nav class="tab-nav">
-        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Xem trước</button>
-        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">Tài liệu API</button>
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
     </nav>
 
     <div class="tab-content">
@@ -37,11 +37,11 @@
                     <div class="code-section" style="margin-top: 48px; width: 100%;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
-                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Mã nguồn mẫu</h3>
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                     [size]="16"></i-lucide>
-                                {{ showCode() ? 'Ẩn mã nguồn' : 'Xem mã nguồn' }}
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
                             </app-button>
                         </div>
 
@@ -55,38 +55,38 @@
 
                 <!-- Controls Panel -->
                 <div class="controls-panel">
-                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Thuộc tính</h3>
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
-                        <label>Văn bản trên nút</label>
+                        <label>Button Text</label>
                         <input type="text" class="app-input"
                             style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
                             [ngModel]="config().text" (ngModelChange)="updateConfig('text', $event)">
                     </div>
 
                     <div class="control-group">
-                        <label>Biến thể (Variant)</label>
+                        <label>Variant</label>
                         <select class="app-input"
                             style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
                             [ngModel]="config().variant" (ngModelChange)="updateConfig('variant', $event)">
-                            <option value="primary">Chính (Primary)</option>
-                            <option value="secondary">Phụ (Secondary)</option>
-                            <option value="outline">Đường viền (Outline)</option>
-                            <option value="ghost">Trong suốt (Ghost)</option>
-                            <option value="danger">Nguy hiểm (Danger)</option>
-                            <option value="link">Liên kết (Link)</option>
+                            <option value="primary">Primary</option>
+                            <option value="secondary">Secondary</option>
+                            <option value="outline">Outline</option>
+                            <option value="ghost">Ghost</option>
+                            <option value="danger">Danger</option>
+                            <option value="link">Link</option>
                         </select>
                     </div>
 
                     <div class="control-group">
-                        <label>Kích thước (Size)</label>
+                        <label>Size</label>
                         <select class="app-input"
                             style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
                             [ngModel]="config().size" (ngModelChange)="updateConfig('size', $event)">
-                            <option value="sm">Nhỏ (Small)</option>
-                            <option value="md">Trung bình (Mặc định)</option>
-                            <option value="lg">Lớn (Large)</option>
-                            <option value="icon">Chỉ biểu tượng (Icon)</option>
+                            <option value="sm">Small</option>
+                            <option value="md">Medium (Default)</option>
+                            <option value="lg">Large</option>
+                            <option value="icon">Icon Only</option>
                         </select>
                     </div>
 
@@ -94,23 +94,23 @@
                         <div class="control-row">
                             <input type="checkbox" id="chk-loading" [ngModel]="config().loading"
                                 (ngModelChange)="updateConfig('loading', $event)">
-                            <label for="chk-loading" style="margin:0; cursor:pointer;">Trạng thái chờ (Loading)</label>
+                            <label for="chk-loading" style="margin:0; cursor:pointer;">Loading State</label>
                         </div>
                         <div class="control-row">
                             <input type="checkbox" id="chk-disabled" [ngModel]="config().disabled"
                                 (ngModelChange)="updateConfig('disabled', $event)">
-                            <label for="chk-disabled" style="margin:0; cursor:pointer;">Vô hiệu hóa (Disabled)</label>
+                            <label for="chk-disabled" style="margin:0; cursor:pointer;">Disabled</label>
                         </div>
                         <div class="control-row">
                             <input type="checkbox" id="chk-ripple" [ngModel]="config().ripple"
                                 (ngModelChange)="updateConfig('ripple', $event)">
-                            <label for="chk-ripple" style="margin:0; cursor:pointer;">Hiệu ứng gợn sóng (Ripple)</label>
+                            <label for="chk-ripple" style="margin:0; cursor:pointer;">Ripple Effect</label>
                         </div>
                         <div class="control-row">
                             <input type="checkbox" id="chk-icon" [ngModel]="config().showIcon"
                                 (ngModelChange)="updateConfig('showIcon', $event)"
                                 [disabled]="config().size === 'icon'">
-                            <label for="chk-icon" style="margin:0; cursor:pointer;">Bao gồm biểu tượng</label>
+                            <label for="chk-icon" style="margin:0; cursor:pointer;">Show Icon</label>
                         </div>
                     </div>
 
@@ -118,13 +118,12 @@
                         <div class="control-row">
                             <input type="checkbox" id="chk-dropdown" [ngModel]="config().dropdown"
                                 (ngModelChange)="updateConfig('dropdown', $event)">
-                            <label for="chk-dropdown" style="margin:0; cursor:pointer;">Menu thả xuống
-                                (Dropdown)</label>
+                            <label for="chk-dropdown" style="margin:0; cursor:pointer;">Dropdown Menu</label>
                         </div>
                         <div class="control-row">
                             <input type="checkbox" id="chk-split" [ngModel]="config().split"
                                 (ngModelChange)="updateConfig('split', $event)">
-                            <label for="chk-split" style="margin:0; cursor:pointer;">Nút chia đôi (Split Button)</label>
+                            <label for="chk-split" style="margin:0; cursor:pointer;">Split Button</label>
                         </div>
                     </div>
                 </div>
@@ -132,19 +131,19 @@
         </div>
 
         <div class="demo-section">
-            <h2>Ví dụ phổ biến</h2>
+            <h2>Common Examples</h2>
             <div class="card-grid"
                 style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
                 <!-- States -->
                 <div class="preview-card"
                     style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
-                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Trạng thái & Chỉ báo</h3>
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">States & Indicators</h3>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem;">
                         <app-button [loading]="isLoading()" (click)="toggleLoading()">
-                            Lưu thay đổi
+                            Save Changes
                         </app-button>
                         <app-button variant="outline" disabled>
-                            Không cho phép
+                            Not Allowed
                         </app-button>
                     </div>
                 </div>
@@ -152,13 +151,13 @@
                 <!-- Dropdowns -->
                 <div class="preview-card"
                     style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
-                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Menu & Hành động</h3>
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Menus & Actions</h3>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem;">
                         <app-button dropdown [items]="mockItems">
-                            Hành động
+                            Actions
                         </app-button>
                         <app-button split variant="secondary" [items]="mockItems">
-                            Quản lý
+                            Management
                         </app-button>
                     </div>
                 </div>
@@ -166,17 +165,17 @@
                 <!-- Icons usage -->
                 <div class="preview-card"
                     style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
-                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Vị trí biểu tượng</h3>
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Icon Positions</h3>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem;">
                         <app-button>
                             <i-lucide [img]="SaveIcon" [size]="16" style="margin-right: 8px"></i-lucide>
-                            Lưu
+                            Save
                         </app-button>
                         <app-button variant="ghost" size="icon">
                             <i-lucide [img]="TrashIcon" [size]="18" style="color: #ef4444"></i-lucide>
                         </app-button>
                         <app-button variant="outline">
-                            Tiếp tục
+                            Continue
                             <i-lucide [img]="ArrowIcon" [size]="16" style="margin-left: 8px"></i-lucide>
                         </app-button>
                     </div>
@@ -187,14 +186,14 @@
 
         @if (activeTab() === 'api') {
         <div class="api-section">
-            <h2>app-button API</h2>
+            <h2>app-button API Reference</h2>
             <table class="api-table">
                 <thead>
                     <tr>
-                        <th>Thuộc tính</th>
-                        <th>Kiểu dữ liệu</th>
-                        <th>Mặc định</th>
-                        <th>Mô tả</th>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -202,49 +201,49 @@
                         <td>variant</td>
                         <td class="type-cell">'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'link'</td>
                         <td class="default-cell">'primary'</td>
-                        <td>Kiểu dáng trực quan của nút.</td>
+                        <td>The visual style of the button.</td>
                     </tr>
                     <tr>
                         <td>size</td>
                         <td class="type-cell">'sm' | 'md' | 'lg' | 'icon'</td>
                         <td class="default-cell">'md'</td>
-                        <td>Điều chỉnh khoảng cách (padding) và kích thước chữ.</td>
+                        <td>Adjusts padding and font size.</td>
                     </tr>
                     <tr>
                         <td>loading</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">false</td>
-                        <td>Hiển thị biểu tượng xoay và vô hiệu hóa tương tác.</td>
+                        <td>Shows a spinner and disables interaction.</td>
                     </tr>
                     <tr>
                         <td>disabled</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">false</td>
-                        <td>Trạng thái vô hiệu hóa HTML chuẩn.</td>
+                        <td>Standard HTML disabled state.</td>
                     </tr>
                     <tr>
                         <td>ripple</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">false</td>
-                        <td>Bật/tắt hiệu ứng gợn sóng (Material Design).</td>
+                        <td>Enables Material Design ripple effect.</td>
                     </tr>
                     <tr>
                         <td>dropdown</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">false</td>
-                        <td>Thêm biểu tượng mũi tên và cho phép mở menu thả xuống.</td>
+                        <td>Adds a chevron and enables dropdown menu.</td>
                     </tr>
                     <tr>
                         <td>split</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">false</td>
-                        <td>Tách biệt hành động chính với nút kích hoạt menu thả xuống.</td>
+                        <td>Separates main action from dropdown trigger.</td>
                     </tr>
                     <tr>
                         <td>items</td>
                         <td class="type-cell">DropdownItem[]</td>
                         <td class="default-cell">[]</td>
-                        <td>Mảng các mục hiển thị trong menu thả xuống.</td>
+                        <td>Items to display in the dropdown menu.</td>
                     </tr>
                 </tbody>
             </table>

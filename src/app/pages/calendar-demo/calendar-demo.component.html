@@ -1,12 +1,12 @@
 <div class="page-container">
     <header class="page-header">
-        <h1>Lịch (Calendar)</h1>
-        <p>Thành phần lịch linh hoạt để chọn ngày và hiển thị sự kiện.</p>
+        <h1>Calendar</h1>
+        <p>Flexible calendar component for date selection and event display.</p>
     </header>
 
     <nav class="tab-nav">
-        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Xem trước</button>
-        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">Tài liệu API</button>
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
     </nav>
 
     <div class="tab-content">
@@ -14,7 +14,7 @@
 
         <!-- Interactive Playground -->
         <div class="demo-section">
-            <h2>Khu vực thử nghiệm (Playground)</h2>
+            <h2>Interactive Playground</h2>
             <div class="playground-grid">
                 <div class="demo-card">
                     <div class="preview-area"
@@ -27,18 +27,18 @@
                         </div>
 
                         <div style="margin-top: 1.5rem; text-align: center; color: #64748b; font-size: 0.9rem;">
-                            Đã chọn: <strong>{{ selectedDate() | date:'dd/MM/yyyy' }}</strong>
+                            Selected: <strong>{{ selectedDate() | date:'dd/MM/yyyy' }}</strong>
                         </div>
                     </div>
 
                     <div class="code-section" style="margin-top: 48px;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
-                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Mã nguồn mẫu</h3>
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                     [size]="16"></i-lucide>
-                                {{ showCode() ? 'Ẩn mã nguồn' : 'Xem mã nguồn' }}
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
                             </app-button>
                         </div>
 
@@ -52,31 +52,30 @@
 
                 <!-- Controls Panel -->
                 <div class="controls-panel">
-                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Thuộc tính</h3>
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
                         <div class="control-row">
                             <input type="checkbox" id="chk-header" [ngModel]="config().showHeader"
                                 (ngModelChange)="updateConfig('showHeader', $event)">
-                            <label for="chk-header" style="margin: 0; cursor: pointer;">Hiển thị tiêu đề</label>
+                            <label for="chk-header" style="margin: 0; cursor: pointer;">Show Header</label>
                         </div>
                         <div class="control-row">
                             <input type="checkbox" id="chk-footer" [ngModel]="config().showFooter"
                                 (ngModelChange)="updateConfig('showFooter', $event)">
-                            <label for="chk-footer" style="margin: 0; cursor: pointer;">Hiển thị chân trang</label>
+                            <label for="chk-footer" style="margin: 0; cursor: pointer;">Show Footer</label>
                         </div>
                         <div class="control-row">
                             <input type="checkbox" id="chk-events" [ngModel]="config().showEvents"
                                 (ngModelChange)="updateConfig('showEvents', $event)">
-                            <label for="chk-events" style="margin: 0; cursor: pointer;">Hiển thị sự kiện</label>
+                            <label for="chk-events" style="margin: 0; cursor: pointer;">Show Events</label>
                         </div>
                     </div>
 
                     <div
                         style="margin-top: 2rem; padding: 1rem; background: #fff; border-radius: 0.5rem; border: 1px dashed #cbd5e1;">
                         <p style="margin:0; font-size: 0.8rem; color: #64748b; font-style: italic;">
-                            Sự kiện được xử lý bằng cách truyền một danh sách các `CalendarEvent` (ngày, tiêu đề, màu
-                            sắc).
+                            Events are handled by passing a list of `CalendarEvent` (date, title, color).
                         </p>
                     </div>
                 </div>
@@ -90,10 +89,10 @@
             <table class="api-table">
                 <thead>
                     <tr>
-                        <th>Thuộc tính</th>
-                        <th>Kiểu dữ liệu</th>
-                        <th>Mặc định</th>
-                        <th>Mô tả</th>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,25 +100,25 @@
                         <td>value</td>
                         <td class="type-cell">Date | null</td>
                         <td class="default-cell">null</td>
-                        <td>Ngày hiện đang được chọn. Hỗ trợ ràng buộc hai chiều.</td>
+                        <td>The currently selected date. Supports two-way binding.</td>
                     </tr>
                     <tr>
                         <td>events</td>
                         <td class="type-cell">CalendarEvent[]</td>
                         <td class="default-cell">[]</td>
-                        <td>Danh sách các sự kiện để làm nổi bật trên lịch.</td>
+                        <td>A list of events to highlight on the calendar.</td>
                     </tr>
                     <tr>
                         <td>showHeader</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">true</td>
-                        <td>Có hiển thị thanh điều hướng tháng/năm hay không.</td>
+                        <td>Whether to show the month/year navigation header.</td>
                     </tr>
                     <tr>
                         <td>showFooter</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">true</td>
-                        <td>Có hiển thị chân trang với nút "Hôm nay" hay không.</td>
+                        <td>Whether to show the footer with the "Today" button.</td>
                     </tr>
                 </tbody>
             </table>
