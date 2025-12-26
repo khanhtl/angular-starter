@@ -43,66 +43,204 @@
     gap: var(--w-space-xs, 8px);
   }
 
-  // Variants
-  .variant-primary {
-    background-color: var(--c-brand, #42b983);
-    color: var(--c-white, #fff);
+  // Helper Mixins
+  @mixin set-colors($bg, $color, $border: transparent) {
+    background-color: $bg;
+    color: $color;
+    border-color: $border;
+  }
 
+  @mixin hover-darken($bg) {
     &:hover:not(.is-disabled) {
-      background-color: color-mix(in srgb, var(--c-brand, #42b983), black 10%);
+      background-color: color-mix(in srgb, $bg, black 10%);
     }
   }
 
-  .variant-secondary {
-    background-color: var(--c-gray-500, #9ca3af);
-    color: var(--c-white, #fff);
+  // Colors Variables (Local or Global reference)
+  $c-primary: var(--c-brand, #42b983);
+  $c-secondary: var(--c-gray, #9ca3af);
+  $c-success: var(--c-green, #42b983);
+  $c-warning: var(--c-yellow, #f59e0b);
+  $c-danger: var(--c-red, #ef4444);
+  $c-info: var(--c-blue, #3b82f6);
+  $c-neutral: var(--c-text-primary, #374151);
+  $c-white: var(--c-white, #fff);
 
-    &:hover:not(.is-disabled) {
-      background-color: color-mix(in srgb, var(--c-gray-500, #9ca3af), black 10%);
+  // Variant: Solid (Default)
+  .variant-solid {
+    &.color-primary {
+      @include set-colors($c-primary, $c-white);
+      @include hover-darken($c-primary);
+    }
+
+    &.color-secondary {
+      @include set-colors($c-secondary, $c-white);
+      @include hover-darken($c-secondary);
+    }
+
+    &.color-success {
+      @include set-colors($c-success, $c-white);
+      @include hover-darken($c-success);
+    }
+
+    &.color-warning {
+      @include set-colors($c-warning, $c-white);
+      @include hover-darken($c-warning);
+    }
+
+    &.color-danger {
+      @include set-colors($c-danger, $c-white);
+      @include hover-darken($c-danger);
+    }
+
+    &.color-info {
+      @include set-colors($c-info, $c-white);
+      @include hover-darken($c-info);
+    }
+
+    &.color-neutral {
+      // Maybe a dark gray button
+      @include set-colors(#4b5563, $c-white);
+      @include hover-darken(#4b5563);
     }
   }
 
+  // Variant: Outline
   .variant-outline {
     background-color: transparent;
-    border-color: var(--c-border, #e5e7eb);
-    color: var(--c-text-primary, #374151);
+    border: 1px solid currentColor; // Border matches text color by default
 
-    &:hover:not(.is-disabled) {
-      background-color: rgba(0, 0, 0, 0.02);
-      border-color: var(--c-brand, #42b983);
-      color: var(--c-brand, #42b983);
+    &.color-primary {
+      color: $c-primary;
+
+      &:hover:not(.is-disabled) {
+        background-color: rgba(var(--c-brand-rgb, 66, 185, 131), 0.1); // Fallback if no rgb var
+      }
+    }
+
+    // Generic outline logic: base text color, border color, hover tint
+    @mixin outline-color($color) {
+      color: $color; // Text is color
+
+      &:hover:not(.is-disabled) {
+        background-color: color-mix(in srgb, $color, white 95%); // Light tint
+      }
+    }
+
+    &.color-primary {
+      @include outline-color($c-primary);
+    }
+
+    &.color-secondary {
+      @include outline-color($c-secondary);
+    }
+
+    &.color-success {
+      @include outline-color($c-success);
+    }
+
+    &.color-warning {
+      @include outline-color($c-warning);
+    }
+
+    &.color-danger {
+      @include outline-color($c-danger);
+    }
+
+    &.color-info {
+      @include outline-color($c-info);
+    }
+
+    &.color-neutral {
+      @include outline-color($c-neutral);
     }
   }
 
+  // Variant: Ghost
   .variant-ghost {
     background-color: transparent;
-    color: var(--c-text-primary, #374151);
     border-color: transparent;
 
-    &:hover:not(.is-disabled) {
-      background-color: rgba(0, 0, 0, 0.05);
+    @mixin ghost-color($color) {
+      color: $color;
+
+      &:hover:not(.is-disabled) {
+        background-color: color-mix(in srgb, $color, white 90%);
+      }
+    }
+
+    &.color-primary {
+      @include ghost-color($c-primary);
+    }
+
+    &.color-secondary {
+      @include ghost-color($c-secondary);
+    }
+
+    &.color-success {
+      @include ghost-color($c-success);
+    }
+
+    &.color-warning {
+      @include ghost-color($c-warning);
+    }
+
+    &.color-danger {
+      @include ghost-color($c-danger);
+    }
+
+    &.color-info {
+      @include ghost-color($c-info);
+    }
+
+    &.color-neutral {
+      @include ghost-color($c-neutral);
     }
   }
 
-  .variant-danger {
-    background-color: var(--c-danger, #ef4444);
-    color: var(--c-white, #fff);
 
-    &:hover:not(.is-disabled) {
-      background-color: color-mix(in srgb, var(--c-danger, #ef4444), black 10%);
-    }
-  }
-
+  // Variant: Link
   .variant-link {
     background-color: transparent;
-    color: var(--c-brand, #42b983);
+    border: none;
     text-decoration: underline;
     padding: 0;
     height: auto !important;
-    border: none;
 
     &:hover:not(.is-disabled) {
       opacity: 0.8;
+    }
+
+    @mixin link-color($color) {
+      color: $color;
+    }
+
+    &.color-primary {
+      @include link-color($c-primary);
+    }
+
+    &.color-secondary {
+      @include link-color($c-secondary);
+    }
+
+    &.color-success {
+      @include link-color($c-success);
+    }
+
+    &.color-warning {
+      @include link-color($c-warning);
+    }
+
+    &.color-danger {
+      @include link-color($c-danger);
+    }
+
+    &.color-info {
+      @include link-color($c-info);
+    }
+
+    &.color-neutral {
+      @include link-color($c-neutral);
     }
   }
 
@@ -227,13 +365,13 @@
     width: 1px;
     height: 60%;
     background-color: rgba(255, 255, 255, 0.3);
-    margin: 0 2px;
+    margin-left: 8px;
   }
 
   .variant-outline .separator,
-  .variant-ghost .separator,
-  .variant-secondary .separator {
-    background-color: var(--c-border, #e5e7eb);
+  .variant-ghost .separator {
+    background-color: currentColor;
+    opacity: 0.3;
   }
 
   // Ripple logic

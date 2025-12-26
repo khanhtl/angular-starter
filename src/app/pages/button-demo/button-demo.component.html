@@ -18,9 +18,9 @@
                 <div class="demo-card"
                     style="min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                     <div class="preview-area" style="border: none; background: transparent; padding: 40px;">
-                        <app-button [variant]="config().variant" [size]="config().size" [loading]="config().loading"
-                            [disabled]="config().disabled" [ripple]="config().ripple" [dropdown]="config().dropdown"
-                            [split]="config().split" [items]="mockItems">
+                        <app-button [variant]="config().variant" [color]="config().color" [size]="config().size"
+                            [loading]="config().loading" [disabled]="config().disabled" [ripple]="config().ripple"
+                            [dropdown]="config().dropdown" [items]="mockItems">
 
                             @if (config().size === 'icon') {
                             <i-lucide [img]="SendIcon" [size]="18"></i-lucide>
@@ -69,12 +69,25 @@
                         <select class="app-input"
                             style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
                             [ngModel]="config().variant" (ngModelChange)="updateConfig('variant', $event)">
-                            <option value="primary">Primary</option>
-                            <option value="secondary">Secondary</option>
+                            <option value="solid">Solid</option>
                             <option value="outline">Outline</option>
                             <option value="ghost">Ghost</option>
-                            <option value="danger">Danger</option>
                             <option value="link">Link</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Color</label>
+                        <select class="app-input"
+                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
+                            [ngModel]="config().color" (ngModelChange)="updateConfig('color', $event)">
+                            <option value="primary">Primary</option>
+                            <option value="secondary">Secondary</option>
+                            <option value="success">Success</option>
+                            <option value="warning">Warning</option>
+                            <option value="danger">Danger</option>
+                            <option value="info">Info</option>
+                            <option value="neutral">Neutral</option>
                         </select>
                     </div>
 
@@ -118,12 +131,7 @@
                         <div class="control-row">
                             <input type="checkbox" id="chk-dropdown" [ngModel]="config().dropdown"
                                 (ngModelChange)="updateConfig('dropdown', $event)">
-                            <label for="chk-dropdown" style="margin:0; cursor:pointer;">Dropdown Menu</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-split" [ngModel]="config().split"
-                                (ngModelChange)="updateConfig('split', $event)">
-                            <label for="chk-split" style="margin:0; cursor:pointer;">Split Button</label>
+                            <label for="chk-dropdown" style="margin:0; cursor:pointer;">Dropdown Menu (Split)</label>
                         </div>
                     </div>
                 </div>
@@ -142,7 +150,7 @@
                         <app-button [loading]="isLoading()" (click)="toggleLoading()">
                             Save Changes
                         </app-button>
-                        <app-button variant="outline" disabled>
+                        <app-button variant="outline" color="danger" disabled>
                             Not Allowed
                         </app-button>
                     </div>
@@ -153,10 +161,10 @@
                     style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
                     <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Menus & Actions</h3>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem;">
-                        <app-button dropdown [items]="mockItems">
+                        <app-button dropdown [items]="mockItems" color="primary">
                             Actions
                         </app-button>
-                        <app-button split variant="secondary" [items]="mockItems">
+                        <app-button variant="solid" color="secondary" [items]="mockItems" dropdown>
                             Management
                         </app-button>
                     </div>
@@ -199,9 +207,16 @@
                 <tbody>
                     <tr>
                         <td>variant</td>
-                        <td class="type-cell">'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'link'</td>
-                        <td class="default-cell">'primary'</td>
+                        <td class="type-cell">'solid' | 'outline' | 'ghost' | 'link'</td>
+                        <td class="default-cell">'solid'</td>
                         <td>The visual style of the button.</td>
+                    </tr>
+                    <tr>
+                        <td>color</td>
+                        <td class="type-cell">'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' |
+                            'neutral'</td>
+                        <td class="default-cell">'primary'</td>
+                        <td>The color theme of the button.</td>
                     </tr>
                     <tr>
                         <td>size</td>
@@ -231,13 +246,13 @@
                         <td>dropdown</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">false</td>
-                        <td>Adds a chevron and enables dropdown menu.</td>
+                        <td>Enables dropdown menu and forces split layout.</td>
                     </tr>
                     <tr>
                         <td>split</td>
                         <td class="type-cell">boolean</td>
                         <td class="default-cell">false</td>
-                        <td>Separates main action from dropdown trigger.</td>
+                        <td>Forces split layout (now included by default when dropdown is enabled).</td>
                     </tr>
                     <tr>
                         <td>items</td>

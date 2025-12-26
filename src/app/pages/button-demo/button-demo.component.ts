@@ -1,4 +1,4 @@
-import { ButtonComponent, ButtonSize, ButtonVariant, DropdownItem } from '@angular-starter/ui/button';
+import { ButtonColor, ButtonComponent, ButtonSize, ButtonVariant, DropdownItem } from '@angular-starter/ui/button';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,13 +9,13 @@ import { ArrowRight, Code, Eye, EyeOff, LucideAngularModule, Save, Send, Trash2 
 interface ButtonConfig {
   text: string;
   variant: ButtonVariant;
+  color: ButtonColor;
   size: ButtonSize;
   loading: boolean;
   disabled: boolean;
   ripple: boolean;
   showIcon: boolean;
   dropdown: boolean;
-  split: boolean;
 }
 
 @Component({
@@ -74,14 +74,14 @@ export class ButtonDemoComponent implements OnDestroy {
   // Playground Config
   config = signal<ButtonConfig>({
     text: 'Click Me',
-    variant: 'primary',
+    variant: 'solid',
+    color: 'primary',
     size: 'md',
     loading: false,
     disabled: false,
     ripple: true,
     showIcon: false,
     dropdown: false,
-    split: false
   });
 
   mockItems: DropdownItem[] = [
@@ -93,14 +93,14 @@ export class ButtonDemoComponent implements OnDestroy {
   generatedCode = computed(() => {
     const c = this.config();
     const props = [
-      c.variant !== 'primary' ? `variant="${c.variant}"` : '',
+      c.variant !== 'solid' ? `variant="${c.variant}"` : '',
+      c.color !== 'primary' ? `color="${c.color}"` : '',
       c.size !== 'md' ? `size="${c.size}"` : '',
       c.loading ? '[loading]="true"' : '',
       c.disabled ? 'disabled' : '',
       !c.ripple ? '[ripple]="false"' : '',
       c.dropdown ? 'dropdown' : '',
-      c.split ? 'split' : '',
-      (c.dropdown || c.split) ? '[items]="myItems"' : ''
+      c.dropdown ? '[items]="myItems"' : ''
     ].filter(Boolean).join('\n  ');
 
     const iconSnippet = c.showIcon ? `\n  <i-lucide [img]="SendIcon" [size]="16" style="margin-right: 8px"></i-lucide>` : '';

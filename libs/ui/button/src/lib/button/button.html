@@ -1,19 +1,19 @@
-<div class="button-inner" [class.is-split]="split" (click)="handleClick($event)">
+<div class="button-inner" [class.is-split]="hasMenu()" (click)="handleClick($event)">
   <!-- Main Content Area -->
-  <span class="button-content main-content" [class.invisible]="loading">
+  <span class="button-content main-content" [class.invisible]="loading()">
     <ng-content select="[slot=start]"></ng-content>
     <ng-content></ng-content>
     <ng-content select="[slot=end]"></ng-content>
   </span>
 
-  @if (split) {
-  <span class="separator" [class.invisible]="loading"></span>
+  @if (hasMenu()) {
+  <span class="separator" [class.invisible]="loading()"></span>
   }
 
   <!-- Dropdown Chevron & Overlay -->
-  @if (dropdown || menu || items.length > 0) {
-  <span class="button-content dropdown-trigger" [class.invisible]="loading" cdkOverlayOrigin #trigger="cdkOverlayOrigin"
-    (click)="toggle($event)">
+  @if (hasMenu()) {
+  <span class="button-content dropdown-trigger" [class.invisible]="loading()" cdkOverlayOrigin
+    #trigger="cdkOverlayOrigin" (click)="toggle($event)">
     <i-lucide [img]="ChevronDown" [size]="16" class="dropdown-chevron"></i-lucide>
   </span>
 
@@ -21,11 +21,11 @@
     [cdkConnectedOverlayHasBackdrop]="true" [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
     (backdropClick)="close()">
     <div class="dropdown-panel">
-      @if (menu) {
-      <ng-container *ngTemplateOutlet="menu!"></ng-container>
-      } @else if (items.length > 0) {
+      @if (menu()) {
+      <ng-container *ngTemplateOutlet="menu()!"></ng-container>
+      } @else if (items().length > 0) {
       <div class="dropdown-list">
-        @for (item of items; track $index) {
+        @for (item of items(); track $index) {
         <button class="dropdown-item" [disabled]="item.disabled" (click)="handleItemClick(item)">
           @if (item.icon) {
           <i-lucide [img]="item.icon" [size]="16" class="dropdown-item-icon"></i-lucide>
@@ -40,7 +40,7 @@
   }
 
   <!-- Loading Spinner -->
-  @if (loading) {
+  @if (loading()) {
   <span class="spinner-overlay">
     <svg class="spinner" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
