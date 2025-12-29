@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { CalendarCell, CalendarEvent, CalendarLocale, CalendarViewType } from '../calendar.types';
 import { CalendarUtil } from '../calendar.util';
+import { ElementRef, ViewChildren, QueryList, AfterViewInit, effect } from '@angular/core';
 
 const VI_LOCALE: CalendarLocale = {
   days: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
@@ -77,6 +78,13 @@ export class CalendarComponent {
   /** Whether to show the calendar footer */
   showFooter = input<boolean>(true);
 
+  /** Mode of the calendar: date only, time only, or both */
+  mode = input<'date' | 'time' | 'datetime'>('date');
+
+  /** Time options */
+  hours = Array.from({ length: 24 }, (_, i) => i);
+  minutes = Array.from({ length: 60 }, (_, i) => i);
+
   /** Names of the days of the week */
   weekDays = computed(() => this.locale().days);
 
@@ -117,6 +125,10 @@ export class CalendarComponent {
     const date = this.viewDate();
     const type = this.viewType();
 
+    if (this.mode() === 'time') {
+       return 'Select Time';
+    }
+
     if (type === 'month') {
       return `${this.months()[date.getMonth()]} ${date.getFullYear()}`;
     } else if (type === 'year') {
@@ -126,6 +138,75 @@ export class CalendarComponent {
       return `${startYear} - ${startYear + 9}`;
     }
   });
+
+  get currentHour(): number {
+    return this.value()?.getHours() || 0;
+  }
+
+  get currentMinute(): number {
+    return this.value()?.getMinutes() || 0;
+  }
+
+  @ViewChildren('timeParams') timeParams!: QueryList<ElementRef>;
+  
+  constructor(private elementRef: ElementRef) {
+    effect(() => {
+        // When value changes, scroll to time if in time mode
+        const val = this.value();
+        if (val && (this.mode() === 'time' || this.mode() === 'datetime')) {
+            // Small timeout to allow render
+            setTimeout(() => this.scrollToTime(), 0);
+        }
+    });
+  }
+
+  scrollToTime() {
+    const el = this.elementRef.nativeElement;
+    const hoursEl = el.querySelector('.hours-column');
+    const minutesEl = el.querySelector('.minutes-column');
+    
+    if (hoursEl) {
+        const selectedHour = hoursEl.querySelector(`.time-item[data-value="${this.currentHour}"]`);
+        if (selectedHour) {
+            this.scrollToElement(hoursEl, selectedHour);
+        }
+    }
+    
+    if (minutesEl) {
+        const selectedMinute = minutesEl.querySelector(`.time-item[data-value="${this.currentMinute}"]`);
+        if (selectedMinute) {
+             this.scrollToElement(minutesEl, selectedMinute);
+        }
+    }
+  }
+
+  private scrollToElement(container: HTMLElement, target: HTMLElement) {
+      // Calculate position to center the target
+      const containerHeight = container.clientHeight;
+      const targetHeight = target.clientHeight;
+      const targetTop = target.offsetTop;
+      
+      const scrollTop = targetTop - (containerHeight / 2) + (targetHeight / 2);
+      
+      container.scrollTo({
+          top: scrollTop,
+          behavior: 'smooth'
+      });
+  }
+
+  updateTime(type: 'hour' | 'minute', val: number) {
+    const date = new Date(this.value() || new Date());
+    if (!this.value()) {
+         // If no date selected yet, start with today
+         this.viewDate.set(date);
+    }
+    
+    if (type === 'hour') date.setHours(val);
+    else date.setMinutes(val);
+    
+    this.value.set(date);
+    this.viewDate.set(date);
+  }
 
   prev() {
     const type = this.viewType();

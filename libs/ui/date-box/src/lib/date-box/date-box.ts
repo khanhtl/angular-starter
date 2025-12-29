@@ -8,7 +8,9 @@ import {
   forwardRef,
   HostListener,
   input,
+  computed,
   signal,
+  effect,
   ViewChild
 } from '@angular/core';
 import {
@@ -18,7 +20,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule
 } from '@angular/forms';
-import { Calendar as CalendarIcon, LucideAngularModule, X } from 'lucide-angular';
+import { Calendar as CalendarIcon, Clock, LucideAngularModule, X } from 'lucide-angular';
 
 @Component({
   selector: 'app-date-box',
@@ -49,9 +51,26 @@ export class DateBoxComponent implements ControlValueAccessor {
   /** Size of the input */
   size = input<'sm' | 'md' | 'lg'>('md');
 
+  /** Type of picker: date, time, or datetime */
+  type = input<'date' | 'time' | 'datetime'>('date');
+
+  /** Computed format string based on type */
+  format = computed(() => {
+    switch (this.type()) {
+      case 'time': return 'HH:mm';
+      case 'datetime': return 'dd/MM/yyyy HH:mm';
+      default: return 'dd/MM/yyyy';
+    }
+  });
 
   /** Placeholder for the input */
-  placeholder = input<string>('dd/mm/yyyy');
+  placeholder = input<string>('');
+
+  /** Computed placeholder to use */
+  activePlaceholder = computed(() => {
+     if (this.placeholder()) return this.placeholder();
+     return this.format();
+  });
 
   /** Whether the popover is open */
   isOpen = signal(false);
@@ -64,12 +83,24 @@ export class DateBoxComponent implements ControlValueAccessor {
 
   /** Icons */
   readonly CalendarIcon = CalendarIcon;
+  readonly ClockIcon = Clock;
   readonly XIcon = X;
 
   @ViewChild('container') container?: ElementRef;
 
   private onChange: (value: any) => void = () => { };
   private onTouched: () => void = () => { };
+
+  constructor() {
+    effect(() => {
+        // Trigger re-format when type changes
+        const t = this.type(); // dependency
+        const date = this.dateValue();
+        if (date) {
+            this.updateInputFormat(date);
+        }
+    });
+  }
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {
@@ -85,9 +116,20 @@ export class DateBoxComponent implements ControlValueAccessor {
 
   onDateSelect(date: Date | null) {
     this.dateValue.set(date);
-    this.inputControl.setValue(CalendarUtil.formatDate(date));
+    const includeTime = this.type() !== 'date';
+    
+    if (this.type() === 'time') {
+       this.inputControl.setValue(CalendarUtil.formatTime(date));
+    } else {
+       this.inputControl.setValue(CalendarUtil.formatDate(date, includeTime));
+    }
+    
     this.onChange(date);
-    this.isOpen.set(false);
+    // Only auto-close if in simple date mode. 
+    // For time/datetime, keep open to allow scrolling/adjusting.
+    if (this.type() === 'date') { 
+        this.isOpen.set(false);
+    }
   }
 
   onInputBlur() {
@@ -110,7 +152,20 @@ export class DateBoxComponent implements ControlValueAccessor {
     }
 
     this.dateValue.set(date);
-    this.inputControl.setValue(CalendarUtil.formatDate(date));
+    this.updateInputFormat(date);
+  }
+
+  private updateInputFormat(date: Date | null) {
+      const includeTime = this.type() !== 'date';
+      let val = '';
+      if (this.type() === 'time') {
+          val = CalendarUtil.formatTime(date);
+      } else {
+          val = CalendarUtil.formatDate(date, includeTime);
+      }
+      // Only update if value matches mask format to avoid overwriting partial inputs during typing?
+      // Actually here we are setting the FULL value from the DATE object, so it's the source of truth.
+      this.inputControl.setValue(val, { emitEvent: false });
   }
 
   registerOnChange(fn: any): void {

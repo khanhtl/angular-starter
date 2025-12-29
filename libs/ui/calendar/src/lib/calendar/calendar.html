@@ -1,6 +1,7 @@
 <div class="calendar-container">
     <!-- Header -->
-    @if (showHeader()) {
+    <!-- Header -->
+    @if (showHeader() && mode() !== 'time') {
     <div class="calendar-header">
         <button class="nav-btn prev" (click)="prev()">
             <svg viewBox="0 0 24 24" width="20" height="20">
@@ -20,65 +21,120 @@
     </div>
     }
 
-    <!-- Body -->
-    <div class="calendar-body">
 
-        <!-- Month View -->
-        @if (viewType() === 'month') {
-        <div class="month-view">
-            <div class="week-days">
-                @for (day of weekDays(); track day) {
-                <div class="week-day">{{ day }}</div>
-                }
-            </div>
-            <div class="grid">
-                @for (cell of monthGrid(); track cell.date.getTime()) {
-                <button class="cell day-cell" [class.current-month]="cell.isCurrentMonth"
-                    [class.other-month]="cell.isOtherView" [class.today]="cell.isToday"
-                    [class.selected]="cell.isSelected" [class.range-start]="cell.isRangeStart"
-                    [class.range-end]="cell.isRangeEnd" [class.in-range]="cell.isInRange" (click)="selectCell(cell)"
-                    (mouseenter)="cellHover.emit(cell.date)">
-                    <span class="cell-label">{{ cell.label }}</span>
-                    @if (cell.events && cell.events.length > 0) {
-                    <div class="event-dots">
-                        @for (event of cell.events.slice(0, 3); track event.title) {
-                        <span class="event-dot" [style.background-color]="event.color || 'var(--cal-primary)'"></span>
-                        }
-                        @if (cell.events.length > 3) {
-                        <span class="event-more">+</span>
-                        }
-                    </div>
+    <!-- Main Content Area -->
+    <div class="calendar-content" [class.datetime-layout]="mode() === 'datetime'">
+        <!-- Body -->
+        @if (mode() !== 'time') {
+        <div class="calendar-body">
+
+            <!-- Month View -->
+            @if (viewType() === 'month') {
+            <div class="month-view">
+                <div class="week-days">
+                    @for (day of weekDays(); track day) {
+                    <div class="week-day">{{ day }}</div>
                     }
+                </div>
+                <div class="grid">
+                    @for (cell of monthGrid(); track cell.date.getTime()) {
+                    <button class="cell day-cell" [class.current-month]="cell.isCurrentMonth"
+                        [class.other-month]="cell.isOtherView" [class.today]="cell.isToday"
+                        [class.selected]="cell.isSelected" [class.range-start]="cell.isRangeStart"
+                        [class.range-end]="cell.isRangeEnd" [class.in-range]="cell.isInRange" (click)="selectCell(cell)"
+                        (mouseenter)="cellHover.emit(cell.date)">
+                        <span class="cell-label">{{ cell.label }}</span>
+                        @if (cell.events && cell.events.length > 0) {
+                        <div class="event-dots">
+                            @for (event of cell.events.slice(0, 3); track event.title) {
+                            <span class="event-dot"
+                                [style.background-color]="event.color || 'var(--cal-primary)'"></span>
+                            }
+                            @if (cell.events.length > 3) {
+                            <span class="event-more">+</span>
+                            }
+                        </div>
+                        }
+                    </button>
+                    }
+                </div>
+            </div>
+            }
+
+            <!-- Year View -->
+            @if (viewType() === 'year') {
+            <div class="year-view grid">
+                @for (cell of yearGrid(); track cell.label) {
+                <button class="cell year-cell" [class.today]="cell.isToday" [class.selected]="cell.isSelected"
+                    (click)="selectCell(cell)">
+                    {{ cell.label }}
                 </button>
                 }
             </div>
-        </div>
-        }
+            }
 
-        <!-- Year View -->
-        @if (viewType() === 'year') {
-        <div class="year-view grid">
-            @for (cell of yearGrid(); track cell.label) {
-            <button class="cell year-cell" [class.today]="cell.isToday" [class.selected]="cell.isSelected"
-                (click)="selectCell(cell)">
-                {{ cell.label }}
-            </button>
+            <!-- Decade View -->
+            @if (viewType() === 'decade') {
+            <div class="decade-view grid">
+                @for (cell of decadeGrid(); track cell.label) {
+                <button class="cell decade-cell" [class.other-view]="cell.isOtherView" [class.today]="cell.isToday"
+                    [class.selected]="cell.isSelected" (click)="selectCell(cell)">
+                    {{ cell.label }}
+                </button>
+                }
+            </div>
             }
         </div>
         }
 
-        <!-- Decade View -->
-        @if (viewType() === 'decade') {
-        <div class="decade-view grid">
-            @for (cell of decadeGrid(); track cell.label) {
-            <button class="cell decade-cell" [class.other-view]="cell.isOtherView" [class.today]="cell.isToday"
-                [class.selected]="cell.isSelected" (click)="selectCell(cell)">
-                {{ cell.label }}
-            </button>
-            }
+
+        <!-- Time Picker -->
+        @if (mode() === 'time' || mode() === 'datetime') {
+        <div class="time-picker-container" [class.only-time]="mode() === 'time'"
+            [class.datetime-time]="mode() === 'datetime'">
+            <div class="time-picker-header">
+                <span>Time</span>
+            </div>
+            <div class="time-wheel-wrapper">
+                <!-- Hours Column -->
+                <div class="time-column hours-column">
+                    <div class="time-scroll">
+                        <!-- Padding for centering -->
+                        <div class="spacer"></div>
+                        @for(h of hours; track h) {
+                        <div class="time-item" [class.selected]="h === currentHour" (click)="updateTime('hour', h)"
+                            [attr.data-value]="h">
+                            {{h | number:'2.0-0'}}
+                        </div>
+                        }
+                        <div class="spacer"></div>
+                    </div>
+                </div>
+
+                <div class="time-separator">:</div>
+
+                <!-- Minutes Column -->
+                <div class="time-column minutes-column">
+                    <div class="time-scroll">
+                        <!-- Padding for centering -->
+                        <div class="spacer"></div>
+                        @for(m of minutes; track m) {
+                        <div class="time-item" [class.selected]="m === currentMinute" (click)="updateTime('minute', m)"
+                            [attr.data-value]="m">
+                            {{m | number:'2.0-0'}}
+                        </div>
+                        }
+                        <div class="spacer"></div>
+                    </div>
+                </div>
+
+                <!-- Selection Highlight Overlay -->
+                <div class="selection-overlay"></div>
+            </div>
         </div>
         }
     </div>
+
 
     <!-- Footer (Optional: Today button) -->
     @if (showFooter()) {

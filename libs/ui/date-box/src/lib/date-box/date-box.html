@@ -4,7 +4,7 @@
     }
 
     <div class="input-group" [class.focused]="isOpen()" [class]="'size-' + size()">
-        <input type="text" [formControl]="inputControl" [placeholder]="placeholder()" appDateInput="dd/MM/yyyy"
+        <input type="text" [formControl]="inputControl" [placeholder]="activePlaceholder()" [appDateInput]="format()"
             (blur)="onInputBlur()" (focus)="isOpen.set(true)" class="date-input" [class]="'size-' + size()" />
 
 
@@ -15,14 +15,18 @@
         }
 
         <button class="picker-btn" (click)="toggleCalendar($event)" type="button">
+            @if (type() === 'time') {
+            <i-lucide [img]="ClockIcon" [size]="18"></i-lucide>
+            } @else {
             <i-lucide [img]="CalendarIcon" [size]="18"></i-lucide>
+            }
         </button>
     </div>
 
     <!-- Dropdown -->
     @if (isOpen()) {
     <div class="calendar-dropdown">
-        <app-calendar [value]="dateValue()" (valueChange)="onDateSelect($event)">
+        <app-calendar [value]="dateValue()" (valueChange)="onDateSelect($event)" [mode]="type()">
         </app-calendar>
     </div>
     }

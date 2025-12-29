@@ -125,11 +125,17 @@ export class CalendarUtil {
     /**
      * Formats a date to dd/MM/yyyy string.
      */
-    static formatDate(date: Date | null): string {
+    static formatDate(date: Date | null, includeTime = false): string {
         if (!date) return '';
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
+        
+        if (includeTime) {
+             const hours = date.getHours().toString().padStart(2, '0');
+             const minutes = date.getMinutes().toString().padStart(2, '0');
+             return `${day}/${month}/${year} ${hours}:${minutes}`;
+        }
         return `${day}/${month}/${year}`;
     }
 
@@ -139,15 +145,31 @@ export class CalendarUtil {
     static parseDate(value: string | null): Date | null {
         if (!value || value.includes('_')) return null;
 
-        const parts = value.split('/');
+        // Split date and time (if present)
+        const [datePart, timePart] = value.split(' ');
+        const parts = datePart ? datePart.split('/') : [];
+        
         if (parts.length === 3) {
             const day = parseInt(parts[0], 10);
             const month = parseInt(parts[1], 10) - 1;
             const year = parseInt(parts[2], 10);
             const date = new Date(year, month, day);
 
+            if (timePart) {
+                const [hours, minutes] = timePart.split(':').map(Number);
+                if (!isNaN(hours)) date.setHours(hours);
+                if (!isNaN(minutes)) date.setMinutes(minutes);
+            }
+
             return !isNaN(date.getTime()) ? date : null;
         }
         return null;
+    }
+
+    static formatTime(date: Date | null): string {
+        if (!date) return '';
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
     }
 }

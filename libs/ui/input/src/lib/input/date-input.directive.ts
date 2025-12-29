@@ -1,4 +1,4 @@
-import { Directive, HostListener, OnInit, forwardRef, input } from '@angular/core';
+import { Directive, HostListener, OnInit, forwardRef, input, effect } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputBaseDirective } from './input-base.directive';
 
@@ -25,10 +25,29 @@ export class AppDateInputDirective extends InputBaseDirective implements OnInit 
     ngOnInit(): void {
         this.updateMask();
     }
+    
+    constructor() {
+        super();
+        effect(() => {
+            // Re-calculate mask when format changes
+            this.updateMask();
+            // Also attempt to re-mask current value if it exists
+            const val = this.elementRef.nativeElement.value;
+            if (val) {
+                 const digits = val.replace(/[^\d]/g, '');
+                 if (digits.length > 0) {
+                     const newValue = this.formatDigitsToMask(digits);
+                     this.renderer.setProperty(this.elementRef.nativeElement, 'value', newValue);
+                 } else {
+                     this.renderer.setProperty(this.elementRef.nativeElement, 'value', this.mask);
+                 }
+            }
+        });
+    }
 
     private updateMask(): void {
         this.mask = this.format()
-            .replace(/[dMy]/g, this.maskChar());
+            .replace(/[dMyHm]/g, this.maskChar());
     }
 
     @HostListener('focus')
@@ -102,7 +121,7 @@ export class AppDateInputDirective extends InputBaseDirective implements OnInit 
         let formatted = this.mask.split('');
         let digitIdx = 0;
         for (let i = 0; i < this.mask.length && digitIdx < digits.length; i++) {
-            if (this.format()[i].match(/[dMy]/)) {
+            if (this.format()[i].match(/[dMyHm]/)) {
                 formatted[i] = digits[digitIdx++];
             }
         }
@@ -113,7 +132,7 @@ export class AppDateInputDirective extends InputBaseDirective implements OnInit 
         const input = this.elementRef.nativeElement;
         let currentPos = pos;
 
-        while (currentPos < this.mask.length && this.format()[currentPos].match(/[^dMy]/)) {
+        while (currentPos < this.mask.length && this.format()[currentPos].match(/[^dMyHm]/)) {
             currentPos++;
         }
 
@@ -126,7 +145,7 @@ export class AppDateInputDirective extends InputBaseDirective implements OnInit 
         this.renderer.setProperty(input, 'value', this.validateInput(newValue, currentPos));
 
         let nextPos = currentPos + 1;
-        while (nextPos < this.mask.length && this.format()[nextPos].match(/[^dMy]/)) {
+        while (nextPos < this.mask.length && this.format()[nextPos].match(/[^dMyHm]/)) {
             nextPos++;
         }
         this.setCursorPosition(nextPos);
@@ -138,7 +157,7 @@ export class AppDateInputDirective extends InputBaseDirective implements OnInit 
         const currentValue = input.value.split('');
 
         for (let i = start; i < end && i < this.mask.length; i++) {
-            if (this.format()[i].match(/[dMy]/)) {
+            if (this.format()[i].match(/[dMyHm]/)) {
                 currentValue[i] = this.maskChar();
             }
         }
@@ -165,6 +184,18 @@ export class AppDateInputDirective extends InputBaseDirective implements OnInit 
             const month = parseInt(parts.slice(mIdx, mIdx + 2).join(''), 10);
             if (month > 12) { parts[mIdx] = '1'; parts[mIdx + 1] = '2'; }
             else if (month === 0) { parts[mIdx] = '0'; parts[mIdx + 1] = '1'; }
+        }
+
+        const hIdx = format.indexOf('HH');
+        if (hIdx !== -1 && !parts.slice(hIdx, hIdx + 2).includes(chars)) {
+            const hour = parseInt(parts.slice(hIdx, hIdx + 2).join(''), 10);
+            if (hour > 23) { parts[hIdx] = '2'; parts[hIdx + 1] = '3'; }
+        }
+
+        const mnIdx = format.indexOf('mm');
+        if (mnIdx !== -1 && !parts.slice(mnIdx, mnIdx + 2).includes(chars)) {
+            const minute = parseInt(parts.slice(mnIdx, mnIdx + 2).join(''), 10);
+            if (minute > 59) { parts[mnIdx] = '5'; parts[mnIdx + 1] = '9'; }
         }
 
         return parts.join('');

@@ -21,12 +21,12 @@
                     <div class="preview-area"
                         style="border: none; background: transparent; max-width: 400px; margin: 0 auto; width: 100%;">
                         <app-date-box [formControl]="dateControl" [label]="config().label"
-                            [placeholder]="config().placeholder">
+                            [placeholder]="config().placeholder" [type]="config().type">
                         </app-date-box>
 
                         <div
                             style="margin-top: 2rem; padding: 1rem; background: #f1f5f9; border-radius: 0.5rem; font-family: monospace; font-size: 0.875rem;">
-                            <strong>Current Value:</strong> {{ dateControl.value | date:'dd/MM/yyyy' }}
+                            <strong>Current Value:</strong> {{ formattedValue() }}
                         </div>
                     </div>
 
@@ -52,6 +52,17 @@
                 <!-- Controls Panel -->
                 <div class="controls-panel">
                     <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
+
+                    <div class="control-group">
+                        <label>Type</label>
+                        <select class="app-input"
+                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
+                            [ngModel]="config().type" (ngModelChange)="updateConfig('type', $event)">
+                            <option value="date">Date Only</option>
+                            <option value="time">Time Only</option>
+                            <option value="datetime">Date & Time</option>
+                        </select>
+                    </div>
 
                     <div class="control-group">
                         <label>Label</label>
@@ -102,6 +113,12 @@
                         <td class="type-cell">string</td>
                         <td class="default-cell">'dd/mm/yyyy'</td>
                         <td>Placeholder text displayed in the input.</td>
+                    </tr>
+                    <tr>
+                        <td>type</td>
+                        <td class="type-cell">'date' | 'time' | 'datetime'</td>
+                        <td class="default-cell">'date'</td>
+                        <td>Specific mode for the picker.</td>
                     </tr>
                 </tbody>
             </table>

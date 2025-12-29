@@ -56,14 +56,39 @@ export class DateBoxDemoComponent implements OnDestroy {
   // Playground Config
   config = signal({
     label: 'Select Date',
-    placeholder: 'dd/mm/yyyy'
+    placeholder: '',
+    type: 'date' as 'date' | 'time' | 'datetime'
+  });
+
+  formattedValue = computed(() => {
+    const val = this.dateControl.value;
+    if (!val) return 'None';
+    const type = this.config().type;
+    if (type === 'time') {
+        const h = val.getHours().toString().padStart(2,'0');
+        const m = val.getMinutes().toString().padStart(2,'0');
+        return `${h}:${m}`;
+    }
+    if (type === 'datetime') {
+         const d = val.getDate().toString().padStart(2,'0');
+         const mo = (val.getMonth() + 1).toString().padStart(2,'0');
+         const y = val.getFullYear();
+         const h = val.getHours().toString().padStart(2,'0');
+         const m = val.getMinutes().toString().padStart(2,'0');
+         return `${d}/${mo}/${y} ${h}:${m}`;
+    }
+    const d = val.getDate().toString().padStart(2,'0');
+    const mo = (val.getMonth() + 1).toString().padStart(2,'0');
+    const y = val.getFullYear();
+    return `${d}/${mo}/${y}`;
   });
 
   generatedCode = computed(() => {
     const c = this.config();
     const props = [
       c.label ? `label="${c.label}"` : '',
-      c.placeholder !== 'dd/mm/yyyy' ? `placeholder="${c.placeholder}"` : '',
+      c.placeholder ? `placeholder="${c.placeholder}"` : '',
+      c.type !== 'date' ? `type="${c.type}"` : '',
       '[formControl]="control"'
     ].filter(Boolean).join('\n  ');
 
