@@ -23,6 +23,9 @@
       "@angular-starter/core/data-source": [
         "libs/core/data-source/src/index.ts"
       ],
+      "@angular-starter/core/forms": [
+        "libs/core/forms/src/index.ts"
+      ],
       "@angular-starter/ui/popup": [
         "libs/ui/popup/src/index.ts"
       ],
@@ -58,6 +61,39 @@
       ],
       "@angular-starter/tag-box": [
         "libs/ui/tag-box/src/index.ts"
+      ],
+      "@angular-starter/pagination": [
+        "libs/ui/pagination/src/index.ts"
+      ],
+      "@angular-starter/spinner": [
+        "libs/ui/spinner/src/index.ts"
+      ],
+      "@angular-starter/tab": [
+        "libs/ui/tab/src/index.ts"
+      ],
+      "@angular-starter/tooltip": [
+        "libs/ui/tooltip/src/index.ts"
+      ],
+      "@angular-starter/toast": [
+        "libs/ui/toast/src/index.ts"
+      ],
+      "@angular-starter/skeleton": [
+        "libs/ui/skeleton/src/index.ts"
+      ],
+      "@angular-starter/popover": [
+        "libs/ui/popover/src/index.ts"
+      ],
+      "@angular-starter/check-box": [
+        "libs/ui/check-box/src/index.ts"
+      ],
+      "@angular-starter/radio-group": [
+        "libs/ui/radio-group/src/index.ts"
+      ],
+      "@angular-starter/textarea": [
+        "libs/ui/textarea/src/index.ts"
+      ],
+      "@angular-starter/carousel": [
+        "libs/ui/carousel/src/index.ts"
       ]
     }
   },

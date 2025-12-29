@@ -1,0 +1,160 @@
+<div class="page-container">
+    <header class="page-header">
+        <h1>Tab Component</h1>
+        <p>A high-performance tab component with smooth animations, support for icons, and flexible orientations.</p>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
+    </nav>
+
+    <div class="tab-content">
+        @if (activeTab() === 'preview') {
+        <div class="demo-section">
+            <div class="playground-grid">
+                <div class="demo-card"
+                    style="min-height: 400px; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; padding: 24px;">
+
+                    <div class="preview-area"
+                        style="border: none; background: transparent; padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                        <app-tab #tabComp [items]="simpleItems" [(selectedIndex)]="selectedIndex"
+                            [orientation]="orientation()" (onSelectionChanged)="onSelectionChanged($event)">
+                        </app-tab>
+
+                        <div class="content-display"
+                            style="margin-top: 24px; padding: 24px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; flex: 1;">
+                            <h2 style="margin-top: 0;">{{ simpleItems[selectedIndex()].text }} Content</h2>
+                            <p>This is the content area for the <strong>{{ simpleItems[selectedIndex()].text }}</strong>
+                                tab. You can customize this content based on the selected index.</p>
+
+                            <div style="margin-top: 32px; display: flex; gap: 12px;">
+                                <app-button variant="outline" size="sm" (click)="goPrev()">
+                                    <i-lucide [img]="PrevIcon" [size]="16" style="margin-right: 8px;"></i-lucide>
+                                    Previous
+                                </app-button>
+                                <app-button variant="outline" size="sm" (click)="goNext()">
+                                    Next
+                                    <i-lucide [img]="NextIcon" [size]="16" style="margin-left: 8px;"></i-lucide>
+                                </app-button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section" style="margin-top: 24px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <app-button variant="ghost" size="sm" (click)="toggleCode()">
+                                <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
+                                    [size]="16"></i-lucide>
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
+                            </app-button>
+                        </div>
+                        @if (showCode()) {
+                        <div #codeEditor class="code-editor-container"
+                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
+
+                    <div class="control-group">
+                        <label>Orientation</label>
+                        <select class="app-input size-md" [ngModel]="orientation()"
+                            (ngModelChange)="orientation.set($event)">
+                            <option value="horizontal">Horizontal</option>
+                            <option value="vertical">Vertical</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group" style="margin-top: 16px;">
+                        <label>Selected Index</label>
+                        <input type="number" class="app-input size-md" [ngModel]="selectedIndex()"
+                            (ngModelChange)="selectedIndex.set($event)" min="0" [max]="simpleItems.length - 1">
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (activeTab() === 'api') {
+        <div class="api-section">
+            <h2>app-tab API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>items</td>
+                        <td class="type-cell">TabItem[]</td>
+                        <td class="default-cell">[]</td>
+                        <td>Array of tab items to display.</td>
+                    </tr>
+                    <tr>
+                        <td>selectedIndex</td>
+                        <td class="type-cell">number</td>
+                        <td class="default-cell">0</td>
+                        <td>The index of the currently selected tab. Supports two-way binding.</td>
+                    </tr>
+                    <tr>
+                        <td>orientation</td>
+                        <td class="type-cell">'horizontal' | 'vertical'</td>
+                        <td class="default-cell">'horizontal'</td>
+                        <td>Layout orientation of the tabs.</td>
+                    </tr>
+                    <tr>
+                        <td>onItemClick</td>
+                        <td class="type-cell">EventEmitter&lt;&#123; index: number, item: TabItem &#125;&gt;</td>
+                        <td class="default-cell">-</td>
+                        <td>Fired when a tab is clicked.</td>
+                    </tr>
+                    <tr>
+                        <td>onSelectionChanged</td>
+                        <td class="type-cell">EventEmitter&lt;&#123; index: number, item: TabItem &#125;&gt;</td>
+                        <td class="default-cell">-</td>
+                        <td>Fired when the selected tab changes.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 2rem;">Methods (Imperative Shell)</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>selectTab(index)</td>
+                        <td>index: number</td>
+                        <td>Selects the tab at the specified index.</td>
+                    </tr>
+                    <tr>
+                        <td>next()</td>
+                        <td>-</td>
+                        <td>Selects the next valid tab.</td>
+                    </tr>
+                    <tr>
+                        <td>prev()</td>
+                        <td>-</td>
+                        <td>Selects the previous valid tab.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="tabs-container" #container>
+    <div class="tabs-list" #list>
+        @for (item of items(); track $index) {
+        <div class="tab-item" [class.active]="selectedIndex() === $index" [class.disabled]="item.disabled"
+            (click)="onTabClick($index, item)" #tabItem>
+            @if (item.icon) {
+            <i-lucide [img]="$any(item.icon)" [size]="18"></i-lucide>
+            }
+            <span>{{ item.text }}</span>
+        </div>
+        }
+        <div class="active-bar" [style.left.px]="orientation() === 'horizontal' ? barLeft() : null"
+            [style.width.px]="orientation() === 'horizontal' ? barWidth() : null"
+            [style.top.px]="orientation() === 'vertical' ? barTop() : null"
+            [style.height.px]="orientation() === 'vertical' ? barHeight() : null"></div>
+    </div>
+</div>

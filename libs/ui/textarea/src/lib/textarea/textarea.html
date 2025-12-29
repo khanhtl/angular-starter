@@ -1,0 +1,27 @@
+<div class="app-textarea-wrapper" [class.has-error]="isInvalid">
+    @if (label) {
+    <label [for]="id" class="app-textarea-label">
+        {{ label }}
+        @if (required) {
+        <span class="required-star">*</span>
+        }
+    </label>
+    }
+
+    <div class="app-textarea-container" [class.disabled]="disabled || control.disabled" [class.readonly]="readonly"
+        [class.is-invalid]="isInvalid">
+        <textarea #textAreaElement [id]="id" [name]="name" [formControl]="control" [placeholder]="placeholder"
+            [readOnly]="readonly" [maxLength]="maxLength ?? 1000000" [spellcheck]="spellcheck"
+            [style.height]="autoResize ? 'auto' : formatSize(height)" [style.minHeight]="formatSize(minHeight)"
+            [style.maxHeight]="formatSize(maxHeight)" (blur)="handleBlur()" (focus)="handleFocus()"
+            (keydown)="handleKeyDown($event)" class="app-textarea-input"></textarea>
+    </div>
+
+    @if (hint) {
+    <p class="app-textarea-hint">{{ hint }}</p>
+    }
+
+    @if (errorText && isInvalid) {
+    <p class="app-textarea-error">{{ errorText }}</p>
+    }
+</div>

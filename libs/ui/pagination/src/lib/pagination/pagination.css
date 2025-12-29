@@ -1,0 +1,114 @@
+:host {
+  display: block;
+}
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+  color: var(--c-text);
+  font-size: 0.875rem;
+}
+
+.pagination-container.show-info {
+  justify-content: space-between;
+}
+
+.pagination-info {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 0.5rem;
+  border-radius: var(--w-radius-xs, 4px);
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: var(--c-text);
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  font-size: 0.875rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  border-color: var(--c-brand);
+  color: var(--c-brand);
+  background: rgba(66, 185, 131, 0.05);
+}
+
+.pagination-btn.active {
+  background: var(--c-brand);
+  border-color: var(--c-brand);
+  color: white;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.page-btn {
+  font-weight: 500;
+}
+
+.pagination-size-selector select {
+  height: 32px;
+  padding: 0 0.5rem;
+  border-radius: var(--w-radius-xs, 4px);
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: var(--c-text);
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.pagination-size-selector select:focus {
+  border-color: var(--c-brand);
+}
+
+.dark .pagination-btn {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+.dark .pagination-btn:hover:not(:disabled) {
+  background: rgba(66, 185, 131, 0.1);
+}
+
+.dark .pagination-btn:disabled {
+  background: #0f172a;
+  border-color: #1e293b;
+}
+
+.dark .pagination-size-selector select {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+.dark .pagination-info {
+  color: #94a3b8;
+}

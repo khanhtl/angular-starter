@@ -1,0 +1,48 @@
+<div class="pagination-container" [class.show-info]="showInfo()">
+    @if (showInfo()) {
+    <div class="pagination-info">
+        Showing {{ displayRange().start }} to {{ displayRange().end }} of {{ totalCount() }} items
+    </div>
+    }
+
+    <div class="pagination-controls">
+        @if (showNavigationButtons()) {
+        <button class="pagination-btn" [disabled]="!canGoPrev()" (click)="firstPage()" title="First Page">
+            <lucide-angular [img]="ChevronsLeftIcon" size="16"></lucide-angular>
+        </button>
+
+        <button class="pagination-btn" [disabled]="!canGoPrev()" (click)="prevPage()" title="Previous Page">
+            <lucide-angular [img]="ChevronLeftIcon" size="16"></lucide-angular>
+        </button>
+        }
+
+        <div class="pagination-pages">
+            @for (page of pages(); track $index) {
+            <button class="pagination-btn page-btn" [class.active]="page === pageIndex()" [disabled]="page === '...'"
+                (click)="goToPage(page)">
+                {{ page }}
+            </button>
+            }
+        </div>
+
+        @if (showNavigationButtons()) {
+        <button class="pagination-btn" [disabled]="!canGoNext()" (click)="nextPage()" title="Next Page">
+            <lucide-angular [img]="ChevronRightIcon" size="16"></lucide-angular>
+        </button>
+
+        <button class="pagination-btn" [disabled]="!canGoNext()" (click)="lastPage()" title="Last Page">
+            <lucide-angular [img]="ChevronsRightIcon" size="16"></lucide-angular>
+        </button>
+        }
+
+        @if (showPageSizeSelector()) {
+        <div class="pagination-size-selector">
+            <select [value]="pageSize()" (change)="onPageSizeChange($event)">
+                @for (size of pageSizes(); track size) {
+                <option [value]="size">{{ size }} per page</option>
+                }
+            </select>
+        </div>
+        }
+    </div>
+</div>

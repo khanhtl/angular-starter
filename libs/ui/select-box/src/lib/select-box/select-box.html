@@ -1,31 +1,51 @@
-<div class="select-box-container" [class.is-open]="isOpen()" [class.is-disabled]="disabled()"
-    [class.has-value]="!!selectedItem()" #trigger="cdkOverlayOrigin" #triggerContainer cdkOverlayOrigin
-    (click)="toggleDropdown()">
+<div class="app-select-box-container" [class.has-error]="isInvalid">
+    @if (label) {
+    <label [for]="id" class="app-select-box-label">
+        {{ label }}
+        @if (required) {
+        <span class="required-star">*</span>
+        }
+    </label>
+    }
 
-    <div class="select-box-input-wrapper">
-        <div class="select-box-content">
-            @if (selectedItem()) {
-            @if (fieldTemplate()) {
-            <ng-container *ngTemplateOutlet="fieldTemplate()!; context: { $implicit: selectedItem() }"></ng-container>
-            } @else {
-            <span class="selected-text">{{ getDisplayText(selectedItem()) }}</span>
-            }
-            } @else {
-            <span class="placeholder">{{ placeholder() }}</span>
-            }
-        </div>
+    <div class="select-box-container" [class.is-open]="isOpen()" [class.is-disabled]="disabled"
+        [class.has-value]="!!selectedItem()" #trigger="cdkOverlayOrigin" #triggerContainer cdkOverlayOrigin
+        (click)="toggleDropdown()">
 
-        <div class="select-box-actions">
-            @if (clearable() && selectedItem() && !disabled()) {
-            <div class="action-btn clear-btn" (click)="clearValue($event)">
-                <i-lucide [img]="XIcon" [size]="16"></i-lucide>
+        <div class="select-box-input-wrapper">
+            <div class="select-box-content">
+                @if (selectedItem()) {
+                @if (fieldTemplate()) {
+                <ng-container
+                    *ngTemplateOutlet="fieldTemplate()!; context: { $implicit: selectedItem() }"></ng-container>
+                } @else {
+                <span class="selected-text">{{ getDisplayText(selectedItem()) }}</span>
+                }
+                } @else {
+                <span class="placeholder">{{ placeholder() }}</span>
+                }
             </div>
-            }
-            <div class="action-btn dropdown-btn">
-                <i-lucide [img]="ChevronDownIcon" [size]="18" [class.rotated]="isOpen()"></i-lucide>
+
+            <div class="select-box-actions">
+                @if (clearableInput() && selectedItem() && !disabled) {
+                <div class="action-btn clear-btn" (click)="clearValue($event)">
+                    <i-lucide [img]="XIcon" [size]="16"></i-lucide>
+                </div>
+                }
+                <div class="action-btn dropdown-btn">
+                    <i-lucide [img]="ChevronDownIcon" [size]="18" [class.rotated]="isOpen()"></i-lucide>
+                </div>
             </div>
         </div>
     </div>
+
+    @if (hint) {
+    <p class="app-select-box-hint">{{ hint }}</p>
+    }
+
+    @if (errorText && isInvalid) {
+    <p class="app-select-box-error">{{ errorText }}</p>
+    }
 </div>
 
 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen()"
@@ -57,14 +77,32 @@
             <cdk-virtual-scroll-viewport [itemSize]="36" [minBufferPx]="200" [maxBufferPx]="400"
                 [style.height.px]="viewportHeight" class="viewport" (scrolledIndexChange)="onScrollIndexChange($event)">
 
-                <div *cdkVirtualFor="let item of items(); let i = index; trackBy: trackById" class="list-item"
-                    [class.is-selected]="isSelected(item)" [class.is-focused]="focusedIndex() === i"
-                    (click)="selectItem(item)">
-                    @if (itemTemplate()) {
-                    <ng-container
-                        *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item, index: i }"></ng-container>
+                <div *cdkVirtualFor="let item of flattenedItems(); let i = index; trackBy: trackById" class="list-item"
+                    [class.group-header]="isGroupHeader(item)" [class.is-selected]="isSelected(item)"
+                    [class.is-focused]="focusedIndex() === i"
+                    (click)="isGroupHeader(item) ? toggleGroup(item.__groupKey, $event) : selectItem(item)">
+
+                    @if (isGroupHeader(item)) {
+                    <div class="group-header-content">
+                        <div class="group-expand-icon" [class.expanded]="item.__expanded">
+                            <i-lucide [img]="ChevronDownIcon" [size]="14"></i-lucide>
+                        </div>
+                        @if (groupTemplate()) {
+                        <ng-container *ngTemplateOutlet="groupTemplate()!; context: { $implicit: item }"></ng-container>
+                        } @else {
+                        <span class="group-title">{{ item.__groupKey }}</span>
+                        <span class="group-count">({{ item.__count }})</span>
+                        }
+                    </div>
                     } @else {
-                    {{ getDisplayText(item) }}
+                    <div class="item-content" [class.in-group]="groupExpr()">
+                        @if (itemTemplate()) {
+                        <ng-container
+                            *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item, index: i }"></ng-container>
+                        } @else {
+                        {{ getDisplayText(item) }}
+                        }
+                    </div>
                     }
                 </div>
 

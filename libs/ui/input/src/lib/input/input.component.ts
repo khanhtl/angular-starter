@@ -1,3 +1,4 @@
+import { BaseControl } from '@angular-starter/core/forms';
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -7,8 +8,6 @@ import {
   signal
 } from '@angular/core';
 import {
-  ControlValueAccessor,
-  FormControl,
   FormsModule,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule
@@ -62,32 +61,32 @@ import { AppPasswordInputDirective } from './password-input.directive';
 
     @if (mask) {
       <input [id]="id" [type]="computedType" [formControl]="control" 
-             [appMaskedInput]="mask" [placeholder]="placeholder" (blur)="onBlur()" 
-             [disabled]="disabled" [readonly]="readonly"
+             [appMaskedInput]="mask" [placeholder]="placeholder" (blur)="handleBlur()" 
+             [disabled]="disabled || control.disabled" [readonly]="readonly"
              class="app-input" [class]="'size-' + size"
              [class.with-prefix]="prefixIcon" [class.with-suffix]="hasSuffix" />
     } @else if (format) {
       <input [id]="id" [type]="computedType" [formControl]="control" 
-             [appFormattedInput]="format" [placeholder]="placeholder" (blur)="onBlur()" 
-             [disabled]="disabled" [readonly]="readonly"
+             [appFormattedInput]="format" [placeholder]="placeholder" (blur)="handleBlur()" 
+             [disabled]="disabled || control.disabled" [readonly]="readonly"
              class="app-input" [class]="'size-' + size"
              [class.with-prefix]="prefixIcon" [class.with-suffix]="hasSuffix" />
     } @else if (datePattern) {
       <input [id]="id" [type]="computedType" [formControl]="control" 
-             [appDateInput]="datePattern" [placeholder]="placeholder" (blur)="onBlur()" 
-             [disabled]="disabled" [readonly]="readonly"
+             [appDateInput]="datePattern" [placeholder]="placeholder" (blur)="handleBlur()" 
+             [disabled]="disabled || control.disabled" [readonly]="readonly"
              class="app-input" [class]="'size-' + size"
              [class.with-prefix]="prefixIcon" [class.with-suffix]="hasSuffix" />
     } @else if (type === 'password') {
       <input [id]="id" [type]="computedType" [formControl]="control" 
-             appPasswordInput [placeholder]="placeholder" (blur)="onBlur()" 
-             [disabled]="disabled" [readonly]="readonly"
+             appPasswordInput [placeholder]="placeholder" (blur)="handleBlur()" 
+             [disabled]="disabled || control.disabled" [readonly]="readonly"
              class="app-input" [class]="'size-' + size"
              [class.with-prefix]="prefixIcon" [class.with-suffix]="hasSuffix" />
     } @else {
       <input [id]="id" [type]="computedType" [formControl]="control" 
-             appInput [placeholder]="placeholder" (blur)="onBlur()" 
-             [disabled]="disabled" [readonly]="readonly"
+             appInput [placeholder]="placeholder" (blur)="handleBlur()" 
+             [disabled]="disabled || control.disabled" [readonly]="readonly"
              class="app-input" [class]="'size-' + size"
              [class.with-prefix]="prefixIcon" [class.with-suffix]="hasSuffix" />
     }
@@ -122,30 +121,11 @@ import { AppPasswordInputDirective } from './password-input.directive';
 `,
   styleUrl: './input.scss'
 })
-export class AppInputComponent implements ControlValueAccessor {
-  @Input() label: string = '';
+export class AppInputComponent extends BaseControl<any> {
   @Input() placeholder: string = '';
   @Input() type: string = 'text';
-  @Input() hint: string = '';
-  @Input() errorText: string = '';
-  @Input({ transform: booleanAttribute }) required: boolean = false;
-  private _disabled = false;
-  @Input({ transform: booleanAttribute })
-  set disabled(value: boolean) {
-    this._disabled = value;
-    if (value) {
-      this.control.disable({ emitEvent: false });
-    } else {
-      this.control.enable({ emitEvent: false });
-    }
-  }
-  get disabled(): boolean {
-    return this._disabled;
-  }
-  @Input({ transform: booleanAttribute }) readonly: boolean = false;
   @Input({ transform: booleanAttribute }) clearable: boolean = false;
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
-
 
   @Input() prefixIcon: any;
   @Input() suffixIcon: any;
@@ -154,30 +134,22 @@ export class AppInputComponent implements ControlValueAccessor {
   @Input() format?: string;
   @Input() datePattern?: string;
 
-  @Input() set value(v: any) {
-    this.control.setValue(v, { emitEvent: false });
-  }
-
-  isTouched = signal(false);
   isPasswordVisible = signal(false);
-  control = new FormControl();
 
   readonly Eye = Eye;
   readonly EyeOff = EyeOff;
   readonly X = X;
 
-  static nextId = 0;
-  id = `app-input-${AppInputComponent.nextId++}`;
+  constructor() {
+    super();
+    this.id = `app-input-${AppInputComponent.nextId++}`;
+  }
 
   get computedType(): string {
     if (this.type === 'password') {
       return this.isPasswordVisible() ? 'text' : 'password';
     }
     return this.type;
-  }
-
-  get isInvalid(): boolean {
-    return this.isTouched() && this.required && !this.control.value;
   }
 
   get hasPrefix(): boolean {
@@ -188,47 +160,12 @@ export class AppInputComponent implements ControlValueAccessor {
     return !!this.suffixIcon || this.type === 'password' || this.clearable;
   }
 
-  onChange: any = () => { };
-  onTouched: any = () => { };
-
-  constructor() {
-    this.control.valueChanges.subscribe(val => {
-      this.onChange(val);
-    });
-  }
-
-  writeValue(value: any): void {
-    this.control.setValue(value, { emitEvent: false });
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.control.disable({ emitEvent: false });
-    } else {
-      this.control.enable({ emitEvent: false });
-    }
-  }
-
-  onBlur() {
-    this.isTouched.set(true);
-    this.onTouched();
-  }
-
   togglePasswordVisibility() {
     this.isPasswordVisible.update(v => !v);
   }
 
   clearValue(event: MouseEvent) {
     event.stopPropagation();
-    this.control.setValue('');
-    this.onChange('');
+    this.clear();
   }
 }

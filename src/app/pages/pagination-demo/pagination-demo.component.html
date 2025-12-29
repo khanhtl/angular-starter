@@ -1,0 +1,164 @@
+<div class="page-container">
+    <header class="page-header">
+        <h1>Pagination</h1>
+        <p>A control that allows users to navigate through large sets of data.</p>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
+    </nav>
+
+    <div class="tab-content">
+        @if (activeTab() === 'preview') {
+        <div class="demo-section">
+            <div class="playground-grid">
+                <div class="demo-card"
+                    style="min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div class="preview-area"
+                        style="border: none; background: transparent; padding: 40px; display: flex; flex-direction: column; gap: 2rem; width: 100%;">
+                        <app-pagination [totalCount]="totalCount()" [pageSize]="pageSize()" [pageIndex]="pageIndex()"
+                            [visiblePages]="visiblePages()" [showPageSizeSelector]="showPageSizeSelector()"
+                            [showInfo]="showInfo()" [showNavigationButtons]="showNavigationButtons()"
+                            (pageChange)="onPageChange($event)">
+                        </app-pagination>
+
+                        <div class="value-display"
+                            style="margin-top: 24px; text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                            Current State: <strong>pageIndex: {{ pageIndex() }}, pageSize: {{ pageSize() }}, totalCount:
+                                {{ totalCount() }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="code-section" style="margin-top: 48px; width: 100%;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <app-button variant="ghost" size="sm" (click)="toggleCode()">
+                                <lucide-angular [img]="showCode() ? EyeOffIcon : CodeIcon" size="16"
+                                    class="mr-2"></lucide-angular>
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
+                            </app-button>
+                        </div>
+
+                        @if (showCode()) {
+                        <div #codeEditor class="code-editor-container"
+                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
+
+                    <div class="control-group">
+                        <label>Total Count</label>
+                        <app-input type="number" [ngModel]="totalCount()"
+                            (ngModelChange)="totalCount.set($event)"></app-input>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Page Size</label>
+                        <app-input type="number" [ngModel]="pageSize()"
+                            (ngModelChange)="pageSize.set($event)"></app-input>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Visible Pages</label>
+                        <app-input type="number" [ngModel]="visiblePages()"
+                            (ngModelChange)="visiblePages.set($event)"></app-input>
+                    </div>
+
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                        <div class="control-row">
+                            <app-check-box text="Show Info" [ngModel]="showInfo()"
+                                (ngModelChange)="showInfo.set($event)"></app-check-box>
+                        </div>
+                        <div class="control-row">
+                            <app-check-box text="Size Selector" [ngModel]="showPageSizeSelector()"
+                                (ngModelChange)="showPageSizeSelector.set($event)"></app-check-box>
+                        </div>
+                        <div class="control-row">
+                            <app-check-box text="Nav Buttons" [ngModel]="showNavigationButtons()"
+                                (ngModelChange)="showNavigationButtons.set($event)"></app-check-box>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
+                        <app-button variant="outline" class="w-full" (click)="pageIndex.set(1)">
+                            Reset to Page 1
+                        </app-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (activeTab() === 'api') {
+        <div class="api-section">
+            <h2>app-pagination API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>totalCount</td>
+                        <td class="type-cell">number</td>
+                        <td class="default-cell">0</td>
+                        <td>Total number of items in the data set.</td>
+                    </tr>
+                    <tr>
+                        <td>pageSize</td>
+                        <td class="type-cell">number</td>
+                        <td class="default-cell">10</td>
+                        <td>Number of items per page.</td>
+                    </tr>
+                    <tr>
+                        <td>pageIndex</td>
+                        <td class="type-cell">number</td>
+                        <td class="default-cell">1</td>
+                        <td>The current page, starts from 1.</td>
+                    </tr>
+                    <tr>
+                        <td>pageSizes</td>
+                        <td class="type-cell">number[]</td>
+                        <td class="default-cell">[5, 10, 20, 50, 100]</td>
+                        <td>Configurable page size options.</td>
+                    </tr>
+                    <tr>
+                        <td>visiblePages</td>
+                        <td class="type-cell">number</td>
+                        <td class="default-cell">5</td>
+                        <td>Max number of page links to show in the list.</td>
+                    </tr>
+                    <tr>
+                        <td>showPageSizeSelector</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Whether to show the dropdown for page size.</td>
+                    </tr>
+                    <tr>
+                        <td>showInfo</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Whether to show the info about current range.</td>
+                    </tr>
+                    <tr>
+                        <td>showNavigationButtons</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">true</td>
+                        <td>Whether to show first/prev/next/last buttons.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>

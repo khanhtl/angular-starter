@@ -1,0 +1,102 @@
+:host {
+    display: block;
+    width: 100%;
+    --tab-height: 48px;
+    --tab-padding: 0 20px;
+    --tab-gap: 8px;
+    --tab-active-color: var(--c-brand);
+    --tab-inactive-color: #64748b;
+    --tab-hover-bg: rgba(0, 0, 0, 0.04);
+    --tab-underline-height: 2px;
+    --tab-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tabs-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #e2e8f0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+}
+
+.tabs-list {
+    display: flex;
+    gap: var(--tab-gap);
+    position: relative;
+}
+
+.tab-item {
+    height: var(--tab-height);
+    padding: var(--tab-padding);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--tab-inactive-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: var(--tab-transition);
+    user-select: none;
+    position: relative;
+    border-radius: 8px 8px 0 0;
+
+    &:hover:not(.disabled) {
+        color: var(--tab-active-color);
+        background-color: var(--tab-hover-bg);
+    }
+
+    &.active {
+        color: var(--tab-active-color);
+    }
+
+    &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.active-bar {
+    position: absolute;
+    bottom: 0;
+    height: var(--tab-underline-height);
+    background-color: var(--tab-active-color);
+    transition: var(--tab-transition);
+    border-radius: 2px 2px 0 0;
+}
+
+/* Vertical Orientation */
+:host(.vertical) {
+    .tabs-container {
+        flex-direction: column;
+        border-bottom: none;
+        border-right: 1px solid #e2e8f0;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .tabs-list {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .tab-item {
+        justify-content: flex-start;
+        border-radius: 8px 0 0 8px;
+        width: 100%;
+    }
+
+    .active-bar {
+        left: auto;
+        right: 0;
+        width: var(--tab-underline-height);
+        height: 0; /* Updated dynamically */
+    }
+}

@@ -1,0 +1,37 @@
+<div class="app-checkbox-wrapper" [class.has-error]="isInvalid">
+    @if (label) {
+    <label [for]="id" class="app-checkbox-outer-label">
+        {{ label }}
+        @if (required) {
+        <span class="required-star">*</span>
+        }
+    </label>
+    }
+
+    <div class="app-checkbox-container" [class.checked]="control.value === true"
+        [class.indeterminate]="control.value === null || control.value === undefined"
+        [class.disabled]="disabled || control.disabled" [class.read-only]="readonly" (click)="toggle()">
+        <div class="checkbox-box">
+            @if (control.value === true) {
+            <i-lucide [img]="CheckIcon" class="checkbox-icon"></i-lucide>
+            } @else if (control.value === null || control.value === undefined) {
+            <i-lucide [img]="MinusIcon" class="checkbox-icon"></i-lucide>
+            }
+            <input type="checkbox" [id]="id" class="checkbox-input-hidden" [checked]="control.value === true"
+                [disabled]="disabled || control.disabled" [name]="name" (click)="$event.stopPropagation()"
+                tabindex="-1" />
+        </div>
+
+        @if (text) {
+        <span class="checkbox-inner-label">{{ text }}</span>
+        }
+    </div>
+
+    @if (hint) {
+    <p class="app-checkbox-hint">{{ hint }}</p>
+    }
+
+    @if (errorText && isInvalid) {
+    <p class="app-checkbox-error">{{ errorText }}</p>
+    }
+</div>

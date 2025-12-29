@@ -1,1 +1,207 @@
-<p>TagBox works!</p>
+<div class="app-tag-box-container" [class.has-error]="isInvalid">
+    @if (label) {
+    <label [for]="id" class="app-tag-box-label">
+        {{ label }}
+        @if (required) {
+        <span class="required-star">*</span>
+        }
+    </label>
+    }
+
+    <div class="tag-box-container" [class.is-open]="isOpen()" [class.is-disabled]="disabled"
+        [class.has-value]="selectedItems().length > 0" #trigger="cdkOverlayOrigin" #triggerContainer cdkOverlayOrigin
+        (click)="toggleDropdown()">
+
+        <div class="tag-box-input-wrapper">
+            <div class="tag-box-content">
+                @if (selectedItems().length > 0) {
+                <div class="tags-container">
+                    @for (item of displayedTags(); track trackById($index, item)) {
+                    <div class="tag">
+                        @if (tagTemplate()) {
+                        <ng-container *ngTemplateOutlet="tagTemplate()!; context: { $implicit: item }"></ng-container>
+                        } @else {
+                        <span class="tag-text">{{ getDisplayText(item) }}</span>
+                        }
+                        @if (!disabled) {
+                        <div class="tag-remove" (click)="removeTag(item, $event)">
+                            <i-lucide [img]="XIcon" [size]="12"></i-lucide>
+                        </div>
+                        }
+                    </div>
+                    }
+                    @if (remainingCount() > 0) {
+                    <div class="tag tag-count" #remainingTagsBtn #remainingTrigger="cdkOverlayOrigin" cdkOverlayOrigin
+                        (click)="toggleRemainingPopup($event)">
+                        <span class="tag-text">+{{ remainingCount() }}</span>
+                    </div>
+                    }
+                </div>
+                } @else {
+                <span class="placeholder">{{ placeholder() }}</span>
+                }
+            </div>
+
+            <div class="tag-box-actions">
+                @if (clearableInput() && selectedItems().length > 0 && !disabled) {
+                <div class="action-btn clear-btn" (click)="clearAll($event)">
+                    <i-lucide [img]="XIcon" [size]="16"></i-lucide>
+                </div>
+                }
+                <div class="action-btn dropdown-btn">
+                    <i-lucide [img]="ChevronDownIcon" [size]="18" [class.rotated]="isOpen()"></i-lucide>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (hint) {
+    <p class="app-tag-box-hint">{{ hint }}</p>
+    }
+
+    @if (errorText && isInvalid) {
+    <p class="app-tag-box-error">{{ errorText }}</p>
+    }
+</div>
+
+<!-- Remaining Tags Popup -->
+@if (remainingCount() > 0) {
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="remainingTrigger()!"
+    [cdkConnectedOverlayOpen]="showRemainingPopup()" [cdkConnectedOverlayPositions]="remainingPopupPositions"
+    (overlayOutsideClick)="closeRemainingPopup()" (detach)="closeRemainingPopup()">
+
+    <div class="remaining-popup" (click)="$event.stopPropagation()">
+        <div class="remaining-popup-header">
+            <span>{{ remainingCount() }} more selected</span>
+        </div>
+        <div class="remaining-popup-content">
+            @for (item of remainingTags(); track trackById($index, item)) {
+            <div class="remaining-item">
+                @if (tagTemplate()) {
+                <ng-container *ngTemplateOutlet="tagTemplate()!; context: { $implicit: item }"></ng-container>
+                } @else {
+                <span class="remaining-item-text">{{ getDisplayText(item) }}</span>
+                }
+                @if (!disabled) {
+                <div class="remaining-item-remove" (click)="removeTag(item, $event)">
+                    <i-lucide [img]="XIcon" [size]="12"></i-lucide>
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</ng-template>
+}
+
+<!-- Main Dropdown -->
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayPositions]="overlayPositions" [cdkConnectedOverlayWidth]="overlayWidth"
+    [cdkConnectedOverlayScrollStrategy]="scrollStrategy()" (overlayOutsideClick)="closeDropdown()"
+    (detach)="closeDropdown()">
+
+    <div class="tag-box-dropdown" (keydown)="handleKeydown($event)">
+        @if (searchEnabled()) {
+        <div class="search-container">
+            <i-lucide [img]="SearchIcon" [size]="16" class="search-icon"></i-lucide>
+            <input #searchInput type="text" class="search-input" [placeholder]="searchPlaceholder()"
+                (input)="handleSearch($event)" (keydown)="handleSearchKeydown($event)" />
+        </div>
+        }
+
+        @if (showSelectAll() && items().length > 0) {
+        <div class="select-all-container">
+            <label class="select-all-checkbox">
+                <input type="checkbox" [checked]="allSelected()" (change)="toggleSelectAll()" />
+                <span>{{ allSelected() ? 'Deselect All' : 'Select All' }}</span>
+            </label>
+        </div>
+        }
+
+        <div class="list-container">
+            @if (loading() && items().length === 0) {
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <span>Loading...</span>
+            </div>
+            } @else if (items().length === 0 && !loading()) {
+            <div class="no-data-state">
+                <span>No data found</span>
+            </div>
+            }
+
+            <!-- Grouped Items -->
+            @if (groupedItems()) {
+            <div class="grouped-list">
+                @for (group of groupedItems(); track group.key) {
+                <div class="group-section">
+                    <div class="group-header" (click)="toggleGroup(group.key, $event)">
+                        <div class="group-expand-icon" [class.expanded]="group.expanded">
+                            <i-lucide [img]="ChevronDownIcon" [size]="14"></i-lucide>
+                        </div>
+                        <div class="group-checkbox" (click)="selectGroup(group.key, $event)">
+                            <input type="checkbox" [checked]="isGroupFullySelected(group.key)"
+                                [indeterminate]="isGroupPartiallySelected(group.key)"
+                                (click)="selectGroup(group.key, $event)" />
+                        </div>
+                        <span class="group-title">{{ group.key }}</span>
+                        <span class="group-count">({{ group.items.length }})</span>
+                    </div>
+                    @if (group.expanded) {
+                    <div class="group-items">
+                        @for (item of group.items; track trackById($index, item); let i = $index) {
+                        <div class="list-item" [class.is-selected]="isSelected(item)"
+                            (click)="toggleItem(item, $event)">
+                            <div class="item-checkbox">
+                                <input type="checkbox" [checked]="isSelected(item)"
+                                    (click)="toggleItem(item, $event)" />
+                            </div>
+                            <div class="item-content">
+                                @if (itemTemplate()) {
+                                <ng-container
+                                    *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item, index: i }"></ng-container>
+                                } @else {
+                                {{ getDisplayText(item) }}
+                                }
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    }
+                </div>
+                }
+            </div>
+            } @else {
+            <!-- Non-grouped Items with Virtual Scroll -->
+            <cdk-virtual-scroll-viewport [itemSize]="36" [minBufferPx]="200" [maxBufferPx]="400"
+                [style.height.px]="viewportHeight" class="viewport" (scrolledIndexChange)="onScrollIndexChange($event)">
+
+                <div *cdkVirtualFor="let item of items(); let i = index; trackBy: trackById" class="list-item"
+                    [class.is-selected]="isSelected(item)" [class.is-focused]="focusedIndex() === i"
+                    (click)="toggleItem(item, $event)">
+
+                    <div class="item-checkbox">
+                        <input type="checkbox" [checked]="isSelected(item)" (click)="toggleItem(item, $event)" />
+                    </div>
+
+                    <div class="item-content">
+                        @if (itemTemplate()) {
+                        <ng-container
+                            *ngTemplateOutlet="itemTemplate()!; context: { $implicit: item, index: i }"></ng-container>
+                        } @else {
+                        {{ getDisplayText(item) }}
+                        }
+                    </div>
+                </div>
+
+                @if (loading() && items().length > 0) {
+                <div class="loading-more">
+                    <div class="spinner small"></div>
+                    <span>Loading more...</span>
+                </div>
+                }
+            </cdk-virtual-scroll-viewport>
+            }
+        </div>
+    </div>
+</ng-template>

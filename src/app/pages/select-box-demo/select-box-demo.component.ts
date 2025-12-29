@@ -1,25 +1,26 @@
-import { Component, signal, computed, ViewChild, ElementRef, OnDestroy, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { SelectBoxComponent, ItemTemplateDirective, FieldTemplateDirective } from '@angular-starter/select-box';
-import { CustomStore, DataSource } from '@angular-starter/core/data-source';
-import { AppInputComponent } from '@angular-starter/ui/input';
+import { CustomStore } from '@angular-starter/core/data-source';
+import { FieldTemplateDirective, GroupTemplateDirective, ItemTemplateDirective, SelectBoxComponent } from '@angular-starter/select-box';
 import { ButtonComponent } from '@angular-starter/ui/button';
-import { LucideAngularModule, Info, SquareChevronDown, User, Code, Eye, EyeOff } from 'lucide-angular';
-import { basicSetup, EditorView } from 'codemirror';
+import { AppInputComponent } from '@angular-starter/ui/input';
+import { CommonModule } from '@angular/common';
+import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { html } from '@codemirror/lang-html';
+import { basicSetup, EditorView } from 'codemirror';
+import { ChevronDown, Code, Eye, EyeOff, Info, LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-select-box-demo',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    SelectBoxComponent, 
-    AppInputComponent, 
+    CommonModule,
+    FormsModule,
+    SelectBoxComponent,
+    AppInputComponent,
     ButtonComponent,
-    ItemTemplateDirective, 
-    FieldTemplateDirective, 
+    ItemTemplateDirective,
+    FieldTemplateDirective,
+    GroupTemplateDirective,
     LucideAngularModule
   ],
   templateUrl: './select-box-demo.component.html',
@@ -64,6 +65,14 @@ import { html } from '@codemirror/lang-html';
     .custom-field { display: flex; align-items: center; gap: 8px; font-weight: 600; }
     .avatar-small { width: 20px; height: 20px; border-radius: 50%; }
     .flag { font-size: 1.2rem; }
+    
+    .demo-group-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--c-brand);
+      font-weight: bold;
+    }
   `]
 })
 export class SelectBoxDemoComponent implements OnDestroy {
@@ -71,12 +80,15 @@ export class SelectBoxDemoComponent implements OnDestroy {
   readonly EyeOffIcon = EyeOff;
   readonly CodeIcon = Code;
   readonly InfoIcon = Info;
+  readonly ChevronDownIcon = ChevronDown;
 
   activeTab = signal<'preview' | 'api'>('preview');
   showCode = signal(false);
-  
+
   // Playground Config
-  dsType = signal<'local' | 'users' | 'countries' | 'remote' | 'large'>('local');
+  dsType = signal<'local' | 'users' | 'countries' | 'fruits' | 'remote' | 'large'>('local');
+  groupExpr = signal('');
+  groupsCollapsed = signal(false);
   searchEnabled = signal(true);
   clearable = signal(true);
   closeOnScroll = signal(false);
@@ -86,7 +98,14 @@ export class SelectBoxDemoComponent implements OnDestroy {
   dropDownWidth = signal<string | number>('auto');
   selectedValue = signal<any>(null);
 
-  // Sample Data (Labels in English for Demo Professionalism)
+  // Form control properties (for custom form control demo)
+  label = signal('Select an option');
+  hint = signal('Choose one from the list');
+  errorText = signal('This field is required');
+  required = signal(false);
+  disabled = signal(false);
+
+  // Sample Data
   users = [
     { id: 1, name: 'John Doe', email: 'john@example.com' },
     { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
@@ -103,14 +122,24 @@ export class SelectBoxDemoComponent implements OnDestroy {
     { id: 5, name: 'Germany', code: 'DE', flag: '🇩🇪' },
   ];
 
+  fruits = [
+    { id: 1, name: 'Apple', category: 'Fruits' },
+    { id: 2, name: 'Banana', category: 'Fruits' },
+    { id: 3, name: 'Cherry', category: 'Fruits' },
+    { id: 4, name: 'Carrot', category: 'Vegetables' },
+    { id: 5, name: 'Broccoli', category: 'Vegetables' },
+    { id: 6, name: 'Eggplant', category: 'Vegetables' },
+    { id: 7, name: 'Diamond', category: 'Other' },
+  ];
+
   remoteStore = new CustomStore({
     load: async (options) => {
       const q = options.searchValue || '';
       const response = await fetch(`https://jsonplaceholder.typicode.com/posts?q=${q}`);
       const data = await response.json();
-      return { 
-        data: data.slice(options.skip || 0, (options.skip || 0) + (options.take || 20)), 
-        totalCount: data.length 
+      return {
+        data: data.slice(options.skip || 0, (options.skip || 0) + (options.take || 20)),
+        totalCount: data.length
       };
     }
   });
@@ -119,18 +148,19 @@ export class SelectBoxDemoComponent implements OnDestroy {
     switch (this.dsType()) {
       case 'users': return this.users;
       case 'countries': return this.countries;
+      case 'fruits': return this.fruits;
       case 'remote': return this.remoteStore;
-      case 'large': 
-        return { 
-          store: Array.from({ length: 10000 }, (_, i) => ({ id: i, name: `Item ${i}` })), 
-          paginate: true, 
-          pageSize: 50 
+      case 'large':
+        return {
+          store: Array.from({ length: 10000 }, (_, i) => ({ id: i, name: `Item ${i}` })),
+          paginate: true,
+          pageSize: 50
         };
-      default: 
-        return [ 
-          { id: 1, name: 'Option 1' }, 
-          { id: 2, name: 'Option 2' }, 
-          { id: 3, name: 'Option 3' } 
+      default:
+        return [
+          { id: 1, name: 'Option 1' },
+          { id: 2, name: 'Option 2' },
+          { id: 3, name: 'Option 3' }
         ];
     }
   });
@@ -139,28 +169,31 @@ export class SelectBoxDemoComponent implements OnDestroy {
   editorView?: EditorView;
 
   generatedCode = computed(() => {
-     const t = this.dsType();
-     let templates = '';
-     if (t === 'users') {
-       templates = `
+    const t = this.dsType();
+    let templates = '';
+    if (t === 'users') {
+      templates = `
   <ng-template itemTemplate let-item>
     <div class="custom-item">
-      <img [src]="item.avatar" class="avatar" />
       <div class="info">
         <div class="name">{{ item.name }}</div>
         <div class="email">{{ item.email }}</div>
       </div>
     </div>
   </ng-template>`;
-     }
+    }
 
-     return `<app-select-box
+    return `<app-select-box
   [dataSource]="dataSource"
   displayExpr="${this.displayExpr()}"
+  label="${this.label()}"
+  hint="${this.hint()}"
+  errorText="${this.errorText()}"
+  [required]="${this.required()}"
+  [disabled]="${this.disabled()}"
+  [groupExpr]="${this.groupExpr()}"
   [searchEnabled]="${this.searchEnabled()}"
   [clearable]="${this.clearable()}"
-  [closeOnScroll]="${this.closeOnScroll()}"
-  [dropDownWidth]="${this.dropDownWidth()}"
   [(ngModel)]="value">${templates}
 </app-select-box>`;
   });
@@ -169,8 +202,8 @@ export class SelectBoxDemoComponent implements OnDestroy {
     effect(() => {
       const code = this.generatedCode();
       if (this.editorView) {
-        this.editorView.dispatch({ 
-          changes: { from: 0, to: this.editorView.state.doc.length, insert: code } 
+        this.editorView.dispatch({
+          changes: { from: 0, to: this.editorView.state.doc.length, insert: code }
         });
       }
     });
@@ -181,8 +214,13 @@ export class SelectBoxDemoComponent implements OnDestroy {
     const t = this.dsType();
     if (t === 'remote') {
       this.displayExpr.set('title');
+      this.groupExpr.set('');
+    } else if (t === 'fruits') {
+      this.displayExpr.set('name');
+      this.groupExpr.set('category');
     } else {
       this.displayExpr.set('name');
+      this.groupExpr.set('');
     }
   }
 
@@ -201,10 +239,10 @@ export class SelectBoxDemoComponent implements OnDestroy {
     this.editorView = new EditorView({
       doc: this.generatedCode(),
       extensions: [
-        basicSetup, 
-        html(), 
-        EditorView.editable.of(false), 
-        EditorView.theme({ 
+        basicSetup,
+        html(),
+        EditorView.editable.of(false),
+        EditorView.theme({
           "&": { height: "auto", maxHeight: "400px", fontSize: "14px", backgroundColor: "#f8fafc" },
           ".cm-scroller": { overflow: "auto" },
           ".cm-gutters": { backgroundColor: "#f1f5f9", borderRight: "1px solid #e2e8f0" }

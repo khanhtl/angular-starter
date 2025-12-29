@@ -1,0 +1,218 @@
+<div class="page-container">
+    <header class="page-header">
+        <h1>Textarea</h1>
+        <p>A high-performance textarea component with support for auto-resizing, validation, and modern styling.</p>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
+    </nav>
+
+    <div class="tab-content">
+        @if (activeTab() === 'preview') {
+        <div class="demo-section">
+            <div class="playground-grid">
+                <div class="demo-card"
+                    style="min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 2rem;">
+
+                    <div class="preview-area"
+                        style="width: 100%; max-width: 600px; border: none; background: transparent;">
+                        <app-textarea [label]="config().label" [placeholder]="config().placeholder"
+                            [hint]="config().hint" [errorText]="config().errorText" [required]="config().required"
+                            [disabled]="config().disabled" [readonly]="config().readonly"
+                            [autoResize]="config().autoResize" [spellcheck]="config().spellcheck"
+                            [maxLength]="config().maxLength" [height]="config().height" [(ngModel)]="config().value">
+                        </app-textarea>
+
+                        <div class="value-display" style="margin-top: 24px;">
+                            <label
+                                style="font-size: 0.8rem; color: #64748b; display: block; margin-bottom: 4px;">Current
+                                Value:</label>
+                            <div
+                                style="background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0; font-family: monospace; font-size: 0.9rem; white-space: pre-wrap;">
+                                {{ config().value }}</div>
+                        </div>
+                    </div>
+
+                    <div class="code-section" style="margin-top: 48px; width: 100%;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <app-button variant="ghost" size="sm" (click)="toggleCode()">
+                                <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
+                                    [size]="16"></i-lucide>
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
+                            </app-button>
+                        </div>
+
+                        @if (showCode()) {
+                        <div #codeEditor class="code-editor-container"
+                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
+
+                    <div class="control-group">
+                        <label>Label</label>
+                        <input type="text" class="app-input size-md" [ngModel]="config().label"
+                            (ngModelChange)="updateConfig('label', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Placeholder</label>
+                        <input type="text" class="app-input size-md" [ngModel]="config().placeholder"
+                            (ngModelChange)="updateConfig('placeholder', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Hint</label>
+                        <input type="text" class="app-input size-md" [ngModel]="config().hint"
+                            (ngModelChange)="updateConfig('hint', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Error Text</label>
+                        <input type="text" class="app-input size-md" [ngModel]="config().errorText"
+                            (ngModelChange)="updateConfig('errorText', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Max Length</label>
+                        <input type="number" class="app-input size-md" [ngModel]="config().maxLength"
+                            (ngModelChange)="updateConfig('maxLength', $event)">
+                    </div>
+
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                        <div class="control-row"
+                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                            <app-check-box text="Required" [ngModel]="config().required"
+                                (ngModelChange)="updateConfig('required', $event)"></app-check-box>
+                        </div>
+                        <div class="control-row"
+                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                            <app-check-box text="Auto Resize" [ngModel]="config().autoResize"
+                                (ngModelChange)="updateConfig('autoResize', $event)"></app-check-box>
+                        </div>
+                        <div class="control-row"
+                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                            <app-check-box text="Disabled" [ngModel]="config().disabled"
+                                (ngModelChange)="updateConfig('disabled', $event)"></app-check-box>
+                        </div>
+                        <div class="control-row"
+                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                            <app-check-box text="Read Only" [ngModel]="config().readonly"
+                                (ngModelChange)="updateConfig('readonly', $event)"></app-check-box>
+                        </div>
+                        <div class="control-row" style="display: flex; align-items: center; gap: 8px;">
+                            <app-check-box text="Spellcheck" [ngModel]="config().spellcheck"
+                                (ngModelChange)="updateConfig('spellcheck', $event)"></app-check-box>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Common Examples</h2>
+            <div class="card-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
+                <div class="preview-card"
+                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">States</h3>
+                    <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 1rem;">
+                        <div>
+                            <label style="font-size: 0.8rem; display: block; margin-bottom: 8px;">Disabled</label>
+                            <app-textarea [disabled]="true" value="Disabled textarea content"></app-textarea>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.8rem; display: block; margin-bottom: 8px;">Read Only</label>
+                            <app-textarea [readonly]="true" value="Read only textarea content"></app-textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-card"
+                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Auto Resize</h3>
+                    <div style="margin-top: 1rem;">
+                        <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">This textarea grows
+                            automatically as you type more content.</p>
+                        <app-textarea [autoResize]="true" placeholder="Type many lines here..."></app-textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (activeTab() === 'api') {
+        <div class="api-section">
+            <h2>app-textarea API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>value</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>The current text value of the textarea.</td>
+                    </tr>
+                    <tr>
+                        <td>placeholder</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>Instructional text that appears when the textarea is empty.</td>
+                    </tr>
+                    <tr>
+                        <td>autoResize</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Enables automatic height adjustment based on content.</td>
+                    </tr>
+                    <tr>
+                        <td>disabled</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Prevents user interaction and applies disabled styling.</td>
+                    </tr>
+                    <tr>
+                        <td>readonly</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Prevents user interaction but maintains interactive focus.</td>
+                    </tr>
+                    <tr>
+                        <td>maxLength</td>
+                        <td class="type-cell">number</td>
+                        <td class="default-cell">null</td>
+                        <td>Specifies the maximum number of characters allowed.</td>
+                    </tr>
+                    <tr>
+                        <td>onValueChanged</td>
+                        <td class="type-cell">EventEmitter&lt;string&gt;</td>
+                        <td class="default-cell">-</td>
+                        <td>Event fired when the value changes.</td>
+                    </tr>
+                    <tr>
+                        <td>onEnterKey</td>
+                        <td class="type-cell">EventEmitter&lt;KeyboardEvent&gt;</td>
+                        <td class="default-cell">-</td>
+                        <td>Event fired when Ctrl+Enter or Cmd+Enter is pressed.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>

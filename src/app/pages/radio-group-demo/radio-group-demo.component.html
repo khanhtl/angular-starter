@@ -1,0 +1,256 @@
+<div class="page-container">
+    <header class="page-header">
+        <h1>Radio Group</h1>
+        <p>A flexible radio group component for selecting a single option from a list, supporting custom templates and
+            premium animations.</p>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
+    </nav>
+
+    <div class="tab-content">
+        @if (activeTab() === 'preview') {
+        <div class="demo-section">
+            <div class="playground-grid">
+                <div class="demo-card"
+                    style="min-height: 480px; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; padding: 2.5rem;">
+                    <div class="preview-area" style="border: none; background: transparent; padding: 0;">
+                        <app-radio-group [label]="config().label" [hint]="config().hint"
+                            [errorText]="config().errorText" [required]="config().required" [items]="items"
+                            [layout]="config().layout" [displayExpr]="config().displayExpr"
+                            [valueExpr]="config().valueExpr" [disabled]="config().disabled"
+                            [readonly]="config().readonly" [(ngModel)]="selectedValue">
+                            <ng-template itemTemplate let-item>
+                                <div style="display: flex; flex-direction: column;">
+                                    <span style="font-weight: 600;">{{ item.name }}</span>
+                                    <span style="font-size: 0.75rem; color: #64748b;">{{ item.description }}</span>
+                                    @if (item.price > 0) {
+                                    <span
+                                        style="font-size: 0.75rem; color: #10b981; font-weight: 600; margin-top: 2px;">+${{
+                                        item.price }}</span>
+                                    }
+                                </div>
+                            </ng-template>
+                        </app-radio-group>
+
+                        <div class="value-display" style="margin-top: 32px;">
+                            <label
+                                style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 8px; display: block;">Selected
+                                Value</label>
+                            <div class="value-card">
+                                <strong>{{ selectedValue() || 'null' }}</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section" style="margin-top: auto; padding-top: 40px; width: 100%;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0;">
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <app-button variant="ghost" size="sm" (click)="toggleCode()">
+                                <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
+                                    [size]="16"></i-lucide>
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
+                            </app-button>
+                        </div>
+
+                        @if (showCode()) {
+                        <div #codeEditor class="code-editor-container"
+                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <h3 style="margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem; font-weight: 700;">Configuration
+                    </h3>
+
+                    <div class="control-group">
+                        <label>Label</label>
+                        <input type="text" class="custom-input" [ngModel]="config().label"
+                            (ngModelChange)="updateConfig('label', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Hint</label>
+                        <input type="text" class="custom-input" [ngModel]="config().hint"
+                            (ngModelChange)="updateConfig('hint', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Error Text</label>
+                        <input type="text" class="custom-input" [ngModel]="config().errorText"
+                            (ngModelChange)="updateConfig('errorText', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label
+                            style="display: block; font-size: 0.875rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">Layout</label>
+                        <select [ngModel]="config().layout" (ngModelChange)="updateConfig('layout', $event)"
+                            class="app-input size-md" style="width: 100%;">
+                            <option value="vertical">Vertical</option>
+                            <option value="horizontal">Horizontal</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                        <label
+                            style="display: block; font-size: 0.875rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">States</label>
+                        <div class="control-row"
+                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <input type="checkbox" id="chk-disabled" [ngModel]="config().disabled"
+                                (ngModelChange)="updateConfig('disabled', $event)">
+                            <label for="chk-disabled"
+                                style="margin:0; cursor:pointer; font-size: 0.875rem;">Disabled</label>
+                        </div>
+                        <div class="control-row" style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="chk-readonly" [ngModel]="config().readonly"
+                                (ngModelChange)="updateConfig('readonly', $event)">
+                            <label for="chk-readonly" style="margin:0; cursor:pointer; font-size: 0.875rem;">Read
+                                Only</label>
+                        </div>
+                    </div>
+
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                        <label
+                            style="display: block; font-size: 0.875rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">Display
+                            Expression</label>
+                        <input type="text" class="app-input size-md" style="width: 100%;"
+                            [ngModel]="config().displayExpr" (ngModelChange)="updateConfig('displayExpr', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label
+                            style="display: block; font-size: 0.875rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">Value
+                            Expression</label>
+                        <input type="text" class="app-input size-md" style="width: 100%;" [ngModel]="config().valueExpr"
+                            (ngModelChange)="updateConfig('valueExpr', $event)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Common Examples</h2>
+            <div class="card-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
+                <!-- Basic Group -->
+                <div class="preview-card"
+                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Basic Usage</h3>
+                    <div style="margin-top: 1rem;">
+                        <app-radio-group [items]="['Small', 'Medium', 'Large']" [ngModel]="'Medium'"></app-radio-group>
+                    </div>
+                </div>
+
+                <!-- Horizontal Layout -->
+                <div class="preview-card"
+                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Horizontal Layout</h3>
+                    <div style="margin-top: 1rem;">
+                        <app-radio-group layout="horizontal" [items]="['Option A', 'Option B', 'Option C']"
+                            [ngModel]="'Option A'"></app-radio-group>
+                    </div>
+                </div>
+
+                <!-- Custom Template (Status) -->
+                <div class="preview-card"
+                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Custom Template</h3>
+                    <div style="margin-top: 1rem;">
+                        <app-radio-group [items]="[
+                            { status: 'Online', color: '#10b981', desc: 'User is active' },
+                            { status: 'Away', color: '#f59e0b', desc: 'User is idle' },
+                            { status: 'Offline', color: '#64748b', desc: 'User is disconnected' }
+                        ]" displayExpr="status">
+                            <ng-template itemTemplate let-item>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 rounded-full" [style.backgroundColor]="item.color"></div>
+                                    <div class="flex flex-col">
+                                        <span class="text-sm font-bold">{{ item.status }}</span>
+                                        <span class="text-xs text-slate-400">{{ item.desc }}</span>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </app-radio-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (activeTab() === 'api') {
+        <div class="api-section">
+            <h2>app-radio-group API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>items</td>
+                        <td class="type-cell">any[]</td>
+                        <td class="default-cell">[]</td>
+                        <td>An array of items to display. Can be strings, numbers, or objects.</td>
+                    </tr>
+                    <tr>
+                        <td>layout</td>
+                        <td class="type-cell">'vertical' | 'horizontal'</td>
+                        <td class="default-cell">'vertical'</td>
+                        <td>The orientation of the group.</td>
+                    </tr>
+                    <tr>
+                        <td>displayExpr</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>The field to use for display text (if items are objects).</td>
+                    </tr>
+                    <tr>
+                        <td>valueExpr</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>The field to use for the value (if items are objects).</td>
+                    </tr>
+                    <tr>
+                        <td>disabled</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Prevents interaction and applies disabled styling.</td>
+                    </tr>
+                    <tr>
+                        <td>readonly</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Prevents interaction but maintains normal appearance.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 24px;">Templates</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Directive</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>itemTemplate</td>
+                        <td>Customize the content of each radio item. Context: <code>$implicit</code> (item object).
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>

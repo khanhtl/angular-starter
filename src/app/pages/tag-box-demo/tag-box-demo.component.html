@@ -1,0 +1,502 @@
+<div class="page-container">
+    <header class="page-header">
+        <h1>Tag Box</h1>
+        <p>A multi-select component with tags display, virtual scroll, remote data support, and custom templates.</p>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Documentation</button>
+    </nav>
+
+    <div class="tab-content">
+        @if (activeTab() === 'preview') {
+        <!-- Interactive Playground -->
+        <div class="demo-section">
+            <div class="playground-grid">
+                <div class="demo-card"
+                    style="min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div class="preview-area"
+                        style="border: none; background: transparent; padding: 40px; width: 100%; max-width: 400px;">
+                        <app-tag-box #tagBox [dataSource]="currentDataSource()" [displayExpr]="displayExpr()"
+                            [valueExpr]="valueExpr()" [searchEnabled]="searchEnabled()" [clearable]="clearable()"
+                            [closeOnScroll]="closeOnScroll()" [showSelectAll]="showSelectAll()"
+                            [placeholder]="placeholder()" [dropDownWidth]="dropDownWidth()"
+                            [maxDisplayedTags]="maxDisplayedTags()" [groupExpr]="currentGroupExpr()"
+                            [label]="demoLabel()" [hint]="demoHint()" [errorText]="demoError()"
+                            [required]="demoRequired()" [(ngModel)]="selectedValues"
+                            (selectionChanged)="onSelectionChanged($event)">
+
+                            <!-- Custom Item Template for 'Users' type -->
+                            @if (dsType() === 'users') {
+                            <ng-template itemTemplate let-item>
+                                <div class="custom-item">
+                                    <img [src]="'https://i.pravatar.cc/150?u=' + item.id" class="avatar" />
+                                    <div class="info">
+                                        <div class="name">{{ item.name }}</div>
+                                        <div class="email">{{ item.email }}</div>
+                                    </div>
+                                </div>
+                            </ng-template>
+
+                            <ng-template tagTemplate let-item>
+                                <div class="custom-tag">
+                                    <img [src]="'https://i.pravatar.cc/150?u=' + item.id" class="avatar-small" />
+                                    <span>{{ item.name }}</span>
+                                </div>
+                            </ng-template>
+                            }
+
+                            <!-- Custom Item Template for 'Countries' type -->
+                            @if (dsType() === 'countries') {
+                            <ng-template itemTemplate let-item>
+                                <div class="custom-item">
+                                    <span class="flag">{{ item.flag }}</span>
+                                    <span>{{ item.name }} ({{ item.code }})</span>
+                                </div>
+                            </ng-template>
+
+                            <ng-template tagTemplate let-item>
+                                <span class="flag">{{ item.flag }}</span>
+                                <span>{{ item.name }}</span>
+                            </ng-template>
+                            }
+                        </app-tag-box>
+
+                        @if (selectedValues().length > 0) {
+                        <div class="value-display"
+                            style="margin-top: 24px; padding: 12px; background: #f1f5f9; border-radius: 6px; font-size: 0.85rem;">
+                            <strong>Selected Values:</strong> <code>{{ selectedValues() | json }}</code>
+                            <div style="margin-top: 8px;">
+                                <app-button variant="outline" size="sm" (click)="getSelectionInfo()">
+                                    Get Selection Info (API)
+                                </app-button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <div class="code-section" style="margin-top: 48px; width: 100%;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <app-button variant="ghost" size="sm" (click)="toggleCode()">
+                                <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
+                                    [size]="16"></i-lucide>
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
+                            </app-button>
+                        </div>
+
+                        @if (showCode()) {
+                        <div #codeEditor class="code-editor-container"
+                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Controls Panel -->
+                <div class="controls-panel">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
+
+                    <div class="control-group">
+                        <label>Scenario</label>
+                        <select class="app-input"
+                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
+                            [(ngModel)]="dsType" (change)="onScenarioChange()">
+                            <option value="local">Basic Array</option>
+                            <option value="users">Users (Custom Template)</option>
+                            <option value="countries">Countries (Custom Template)</option>
+                            <option value="skills">Skills by Category</option>
+                            <option value="remote">Remote API (JSONPlaceholder)</option>
+                            <option value="large">Large Data (Virtual Scroll)</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Max Displayed Tags</label>
+                        <input type="number" class="app-input"
+                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
+                            [(ngModel)]="maxDisplayedTags" min="1" max="10">
+                        <small style="color: #64748b; font-size: 0.75rem;">Maximum tags shown before "+N more"</small>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Drop Down Width</label>
+                        <input type="text" class="app-input"
+                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
+                            [(ngModel)]="dropDownWidth" placeholder="Default (Input width)">
+                        <small style="color: #64748b; font-size: 0.75rem;">CSS value (e.g., 400px, 150%)</small>
+                    </div>
+
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                        <div class="control-row"
+                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <input type="checkbox" id="chk-search" [(ngModel)]="searchEnabled">
+                            <label for="chk-search" style="margin:0; cursor:pointer;">Enable Search</label>
+                        </div>
+                        <div class="control-row"
+                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <input type="checkbox" id="chk-select-all" [(ngModel)]="showSelectAll">
+                            <label for="chk-select-all" style="margin:0; cursor:pointer;">Show Select All</label>
+                        </div>
+                        <div class="control-row"
+                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <input type="checkbox" id="chk-clear" [(ngModel)]="clearable">
+                            <label for="chk-clear" style="margin:0; cursor:pointer;">Clearable</label>
+                        </div>
+                        <div class="control-row"
+                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <input type="checkbox" id="chk-close-on-scroll" [(ngModel)]="closeOnScroll">
+                            <label for="chk-close-on-scroll" style="margin:0; cursor:pointer;">Close on Scroll</label>
+                        </div>
+                    </div>
+
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                        <app-input label="Placeholder" [(ngModel)]="placeholder" size="sm"></app-input>
+                        <div style="margin-top: 8px;">
+                            <app-input label="Display Expression" [(ngModel)]="displayExpr" size="sm"></app-input>
+                        </div>
+                        <div style="margin-top: 8px;">
+                            <app-input label="Value Expression" [(ngModel)]="valueExpr" size="sm"></app-input>
+                        </div>
+                        <div style="margin-top: 8px;">
+                            <app-input label="Group Expression" [(ngModel)]="groupExpr" size="sm"
+                                placeholder="e.g. category"></app-input>
+                            <small style="color: #64748b; font-size: 0.75rem;">Property name to group items by</small>
+                        </div>
+                    </div>
+
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                        <h4 style="margin: 0 0 12px 0; font-size: 0.9rem; color: #64748b;">Form Control</h4>
+                        <app-input label="Label" [(ngModel)]="demoLabel" size="sm"></app-input>
+                        <div style="margin-top: 8px;">
+                            <app-input label="Hint" [(ngModel)]="demoHint" size="sm"></app-input>
+                        </div>
+                        <div style="margin-top: 8px;">
+                            <app-input label="Error Text" [(ngModel)]="demoError" size="sm"></app-input>
+                        </div>
+                        <div class="control-row" style="margin-top: 12px;">
+                            <input type="checkbox" id="chk-required" [(ngModel)]="demoRequired">
+                            <label for="chk-required" style="margin:0; cursor:pointer;">Required</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Examples -->
+        <div class="demo-section">
+            <h2>Common Examples</h2>
+            <div class="card-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
+
+                <div class="preview-card"
+                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Multi-Select with Tags</h3>
+                    <div style="margin-top: 1rem;">
+                        <app-tag-box [dataSource]="users" displayExpr="name"
+                            placeholder="Choose team members..."></app-tag-box>
+                    </div>
+                </div>
+
+                <div class="preview-card"
+                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Custom Rendering with Flags</h3>
+                    <div style="margin-top: 1rem;">
+                        <app-tag-box [dataSource]="countries" displayExpr="name" [clearable]="true"
+                            [showSelectAll]="true">
+                            <ng-template itemTemplate let-item>
+                                <span class="flag">{{ item.flag }}</span>
+                                <span>{{ item.name }}</span>
+                            </ng-template>
+                            <ng-template tagTemplate let-item>
+                                <span class="flag">{{ item.flag }}</span>
+                                <span>{{ item.name }}</span>
+                            </ng-template>
+                        </app-tag-box>
+                    </div>
+                </div>
+
+                <div class="preview-card"
+                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Grouped Selection (Skills by Category)
+                    </h3>
+                    <div style="margin-top: 1rem;">
+                        <app-tag-box [dataSource]="skills" displayExpr="name" groupExpr="category"
+                            [searchEnabled]="true" [showSelectAll]="true"
+                            placeholder="Select your skills..."></app-tag-box>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (activeTab() === 'api') {
+        <div class="api-section">
+            <h2>app-tag-box API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>label</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>The label text for the component.</td>
+                    </tr>
+                    <tr>
+                        <td>hint</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>Helper text displayed below the component.</td>
+                    </tr>
+                    <tr>
+                        <td>errorText</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>Error message displayed when the component is invalid and touched.</td>
+                    </tr>
+                    <tr>
+                        <td>required</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Whether the field is required.</td>
+                    </tr>
+                    <tr>
+                        <td>disabled</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Whether the component is disabled.</td>
+                    </tr>
+                    <tr>
+                        <td>readonly</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Whether the component is in read-only mode.</td>
+                    </tr>
+                    <tr>
+                        <td>dataSourceInput</td>
+                        <td class="type-cell">T[] | Store | DataSourceOptions</td>
+                        <td class="default-cell">[]</td>
+                        <td>Data source configuration. Supports arrays, CustomStore, or local data.</td>
+                    </tr>
+                    <tr>
+                        <td>displayExpr</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>The property used to display item text.</td>
+                    </tr>
+                    <tr>
+                        <td>valueExpr</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">'id'</td>
+                        <td>The property used as the actual value.</td>
+                    </tr>
+                    <tr>
+                        <td>dropDownWidth</td>
+                        <td class="type-cell">string | number</td>
+                        <td class="default-cell">'auto'</td>
+                        <td>Width of the dropdown list. If 'auto', it matches the input width.</td>
+                    </tr>
+                    <tr>
+                        <td>searchEnabled</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Whether to show the search input in the dropdown.</td>
+                    </tr>
+                    <tr>
+                        <td>clearable</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Shows a clear all button when items are selected.</td>
+                    </tr>
+                    <tr>
+                        <td>showSelectAll</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Shows a "Select All / Deselect All" option in the dropdown.</td>
+                    </tr>
+                    <tr>
+                        <td>maxDisplayedTags</td>
+                        <td class="type-cell">number</td>
+                        <td class="default-cell">3</td>
+                        <td>Maximum number of tags to display before showing "+N more".</td>
+                    </tr>
+                    <tr>
+                        <td>closeOnScroll</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Whether to close the dropdown when the page is scrolled.</td>
+                    </tr>
+                    <tr>
+                        <td>groupExpr</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>Property name used to group items in the dropdown.</td>
+                    </tr>
+                    <tr>
+                        <td>groupsCollapsed</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Whether groups are collapsed by default.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 24px;">Outputs</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>selectionChanged</td>
+                        <td class="type-cell">EventEmitter&lt;SelectedItemInfo[]&gt;</td>
+                        <td>Emitted when selection changes. Provides detailed info about all selected items.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 24px;">Methods</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Returns</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>getSelectedItemsInfo()</td>
+                        <td class="type-cell">SelectedItemInfo[]</td>
+                        <td>Returns an array of objects containing the raw item, its value, and its display text.</td>
+                    </tr>
+                    <tr>
+                        <td>getSelectedValues()</td>
+                        <td class="type-cell">any[]</td>
+                        <td>Returns an array of the current selected values.</td>
+                    </tr>
+                    <tr>
+                        <td>getSelectedDisplayTexts()</td>
+                        <td class="type-cell">string[]</td>
+                        <td>Returns an array of the display texts of all selected items.</td>
+                    </tr>
+                    <tr>
+                        <td>getSelectedItems()</td>
+                        <td class="type-cell">any[]</td>
+                        <td>Returns the raw objects of all selected items.</td>
+                    </tr>
+                    <tr>
+                        <td>selectByValues(values: any[])</td>
+                        <td class="type-cell">void</td>
+                        <td>Programmatically sets the selection by providing an array of values.</td>
+                    </tr>
+                    <tr>
+                        <td>clearSelection()</td>
+                        <td class="type-cell">void</td>
+                        <td>Clears all selected items.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 24px;">Templates</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Directive</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>itemTemplate</td>
+                        <td>Customize each row in the dropdown list. Context: <code>item</code>, <code>index</code>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>tagTemplate</td>
+                        <td>Customize the display of selected items as tags. Context: <code>item</code>.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 24px;">Usage Example</h3>
+            <div class="code-example"
+                style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-top: 12px;">
+                <pre ngNonBindable style="margin: 0; font-size: 14px; overflow-x: auto;"><code>&lt;app-tag-box
+  [dataSourceInput]="items"
+  displayExpr="name"
+  valueExpr="id"
+  [searchEnabled]="true"
+  [showSelectAll]="true"
+  [clearable]="true"
+  [maxDisplayedTags]="5"
+  [(ngModel)]="selectedValues"&gt;
+
+  &lt;ng-template itemTemplate let-item&gt;
+    &lt;div class="custom-item"&gt;
+      {{ item.name }}
+    &lt;/div&gt;
+  &lt;/ng-template&gt;
+
+  &lt;ng-template tagTemplate let-item&gt;
+    &lt;span&gt;{{ item.name }}&lt;/span&gt;
+  &lt;/ng-template&gt;
+
+&lt;/app-tag-box&gt;</code></pre>
+            </div>
+
+            <h3 style="margin-top: 24px;">Key Differences from Select Box</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Select Box</th>
+                        <th>Tag Box</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Selection Mode</td>
+                        <td>Single</td>
+                        <td>Multiple</td>
+                    </tr>
+                    <tr>
+                        <td>Value Type</td>
+                        <td>Single value</td>
+                        <td>Array of values</td>
+                    </tr>
+                    <tr>
+                        <td>Display</td>
+                        <td>Text / fieldTemplate</td>
+                        <td>Tags with remove buttons</td>
+                    </tr>
+                    <tr>
+                        <td>Select All</td>
+                        <td>Not available</td>
+                        <td>Optional showSelectAll</td>
+                    </tr>
+                    <tr>
+                        <td>Tag Limit</td>
+                        <td>N/A</td>
+                        <td>maxDisplayedTags with overflow count</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>

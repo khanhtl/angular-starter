@@ -6,7 +6,7 @@ import { Directive, Input, TemplateRef } from '@angular/core';
 })
 export class ItemTemplateDirective {
   @Input('itemTemplate') name: string = '';
-  constructor(public template: TemplateRef<any>) {}
+  constructor(public template: TemplateRef<any>) { }
 }
 
 @Directive({
@@ -15,5 +15,14 @@ export class ItemTemplateDirective {
 })
 export class FieldTemplateDirective {
   @Input('fieldTemplate') name: string = '';
-  constructor(public template: TemplateRef<any>) {}
+  constructor(public template: TemplateRef<any>) { }
+}
+
+@Directive({
+  selector: 'ng-template[groupTemplate]',
+  standalone: true
+})
+export class GroupTemplateDirective {
+  @Input('groupTemplate') name: string = '';
+  constructor(public template: TemplateRef<any>) { }
 }

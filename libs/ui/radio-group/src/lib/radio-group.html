@@ -1,0 +1,44 @@
+<div class="app-radiogroup-wrapper" [class.has-error]="isInvalid">
+    @if (label) {
+    <label [for]="id" class="app-radiogroup-outer-label">
+        {{ label }}
+        @if (required) {
+        <span class="required-star">*</span>
+        }
+    </label>
+    }
+
+    <div class="radio-group-container" [class.horizontal]="layout === 'horizontal'"
+        [class.disabled]="disabled || control.disabled" [class.readonly]="readonly">
+        @for (item of items; track $index) {
+        <div class="radio-item" [class.selected]="isSelected(item)" [class.item-disabled]="item.disabled"
+            (click)="!item.disabled && selectItem(item)">
+
+            <input type="radio" class="radio-input-hidden" [name]="name" [value]="getItemValue(item)"
+                [checked]="isSelected(item)" [disabled]="disabled || control.disabled || item.disabled"
+                (change)="selectItem(item)" tabindex="-1">
+
+            <div class="radio-circle">
+                <div class="radio-inner"></div>
+            </div>
+
+            <div class="radio-content">
+                @if (itemTemplate()) {
+                <ng-container [ngTemplateOutlet]="itemTemplate()!" [ngTemplateOutletContext]="{ $implicit: item }">
+                </ng-container>
+                } @else {
+                <span class="radio-text">{{ getItemDisplay(item) }}</span>
+                }
+            </div>
+        </div>
+        }
+    </div>
+
+    @if (hint) {
+    <p class="app-radiogroup-hint">{{ hint }}</p>
+    }
+
+    @if (errorText && isInvalid) {
+    <p class="app-radiogroup-error">{{ errorText }}</p>
+    }
+</div>

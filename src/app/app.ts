@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Calendar, CalendarDays, CalendarRange, LucideAngularModule, MousePointer2, Table2, TextCursorInput, SquareChevronDown } from 'lucide-angular';
+import { Calendar, CalendarDays, CalendarRange, CircleDot, FileText, Images, LucideAngularModule, MousePointer2, Square, SquareChevronDown, Table2, TableProperties, Tags, TextCursorInput, ChevronsRight } from 'lucide-angular';
 
 @Component({
   selector: 'app-root',
@@ -17,4 +17,11 @@ export class App {
   readonly CalendarDays = CalendarDays;
   readonly CalendarRange = CalendarRange;
   readonly SquareChevronDown = SquareChevronDown;
+  readonly Tags = Tags;
+  readonly CheckSquare = Square;
+  readonly CircleDot = CircleDot;
+  readonly TableProperties = TableProperties;
+  readonly FileText = FileText;
+  readonly Images = Images;
+  readonly PaginationIcon = ChevronsRight;
 }

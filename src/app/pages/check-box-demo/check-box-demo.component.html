@@ -1,0 +1,170 @@
+<div class="page-container">
+    <header class="page-header">
+        <h1>Check Box</h1>
+        <p>A modern checkbox component with support for indeterminate state, custom labels, and premium animations.</p>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
+    </nav>
+
+    <div class="tab-content">
+        @if (activeTab() === 'preview') {
+        <div class="demo-section">
+            <div class="playground-grid">
+                <div class="demo-card"
+                    style="min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div class="preview-area" style="border: none; background: transparent; padding: 40px;">
+                        <app-check-box [label]="config().label" [text]="config().text" [hint]="config().hint"
+                            [errorText]="config().errorText" [required]="config().required"
+                            [disabled]="config().disabled" [readonly]="config().readonly"
+                            [allowIndeterminate]="config().allowIndeterminate" [(ngModel)]="config().value">
+                        </app-check-box>
+
+                        <div class="value-display" style="margin-top: 24px;">
+                            Current Value: <strong>{{ config().value === null ? 'null (Indeterminate)' : config().value
+                                }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="code-section" style="margin-top: 48px; width: 100%;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <app-button variant="ghost" size="sm" (click)="toggleCode()">
+                                <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
+                                    [size]="16"></i-lucide>
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
+                            </app-button>
+                        </div>
+
+                        @if (showCode()) {
+                        <div #codeEditor class="code-editor-container"
+                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
+
+                    <div class="control-group">
+                        <label>Label</label>
+                        <input type="text" class="app-input size-md" [ngModel]="config().label"
+                            (ngModelChange)="updateConfig('label', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Inner Text</label>
+                        <input type="text" class="app-input size-md" [ngModel]="config().text"
+                            (ngModelChange)="updateConfig('text', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Hint</label>
+                        <input type="text" class="app-input size-md" [ngModel]="config().hint"
+                            (ngModelChange)="updateConfig('hint', $event)">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Error Text</label>
+                        <input type="text" class="app-input size-md" [ngModel]="config().errorText"
+                            (ngModelChange)="updateConfig('errorText', $event)">
+                    </div>
+
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                        <div class="control-row">
+                            <input type="checkbox" id="chk-required" [ngModel]="config().required"
+                                (ngModelChange)="updateConfig('required', $event)">
+                            <label for="chk-required" style="margin:0; cursor:pointer;">Required</label>
+                        </div>
+                        <div class="control-row">
+                            <input type="checkbox" id="chk-disabled" [ngModel]="config().disabled"
+                                (ngModelChange)="updateConfig('disabled', $event)">
+                            <label for="chk-disabled" style="margin:0; cursor:pointer;">Disabled</label>
+                        </div>
+                        <div class="control-row">
+                            <input type="checkbox" id="chk-readonly" [ngModel]="config().readonly"
+                                (ngModelChange)="updateConfig('readonly', $event)">
+                            <label for="chk-readonly" style="margin:0; cursor:pointer;">Read Only</label>
+                        </div>
+                        <div class="control-row">
+                            <input type="checkbox" id="chk-indeterminate" [ngModel]="config().allowIndeterminate"
+                                (ngModelChange)="updateConfig('allowIndeterminate', $event)">
+                            <label for="chk-indeterminate" style="margin:0; cursor:pointer;">Allow Indeterminate</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Common Examples</h2>
+            <div class="card-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
+                <div class="preview-card"
+                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">States</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 1rem;">
+                        <app-check-box text="Default Checked" [ngModel]="true"></app-check-box>
+                        <app-check-box text="Initially Indeterminate" [allowIndeterminate]="true" [ngModel]="null">
+                        </app-check-box>
+                        <app-check-box text="Disabled Checked" [disabled]="true" [ngModel]="true"></app-check-box>
+                        <app-check-box text="Read Only" [readonly]="true" [ngModel]="true"></app-check-box>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (activeTab() === 'api') {
+        <div class="api-section">
+            <h2>app-check-box API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>text</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>The label text to display next to the checkbox.</td>
+                    </tr>
+                    <tr>
+                        <td>allowIndeterminate</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Enables the third state (null/undefined) in the toggle cycle.</td>
+                    </tr>
+                    <tr>
+                        <td>disabled</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Prevents user interaction and applies disabled styling.</td>
+                    </tr>
+                    <tr>
+                        <td>readonly</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Prevents user interaction but maintains normal styling.</td>
+                    </tr>
+                    <tr>
+                        <td>onValueChanged</td>
+                        <td class="type-cell">EventEmitter&lt;CheckBoxValue&gt;</td>
+                        <td class="default-cell">-</td>
+                        <td>Event fired when the value changes.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>
