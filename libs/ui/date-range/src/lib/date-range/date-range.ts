@@ -1,4 +1,4 @@
-import { CalendarComponent, CalendarUtil } from '@angular-starter/calendar';
+import { CalendarComponent, CalendarUtil } from '@angular-starter/ui/calendar';
 import { AppDateInputDirective } from '@angular-starter/ui/input';
 import { CommonModule } from '@angular/common';
 import {

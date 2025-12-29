@@ -1,6 +1,6 @@
 
-import { CarouselComponent } from '@angular-starter/carousel';
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { CarouselComponent } from '@angular-starter/ui/carousel';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';

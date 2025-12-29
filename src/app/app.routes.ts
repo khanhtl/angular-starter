@@ -63,6 +63,10 @@ export const appRoutes: Route[] = [
         path: 'pagination',
         loadComponent: () => import('./pages/pagination-demo/pagination-demo.component').then(m => m.PaginationDemoComponent)
     },
+    {
+        path: 'popover',
+        loadComponent: () => import('./pages/popover-demo/popover-demo.component').then(m => m.PopoverDemoComponent)
+    },
 
     { path: '', redirectTo: 'button', pathMatch: 'full' },
 ];

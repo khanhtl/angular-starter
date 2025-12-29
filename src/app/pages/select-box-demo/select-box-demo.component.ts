@@ -1,7 +1,7 @@
 import { CustomStore } from '@angular-starter/core/data-source';
-import { FieldTemplateDirective, GroupTemplateDirective, ItemTemplateDirective, SelectBoxComponent } from '@angular-starter/select-box';
 import { ButtonComponent } from '@angular-starter/ui/button';
 import { AppInputComponent } from '@angular-starter/ui/input';
+import { FieldTemplateDirective, GroupTemplateDirective, ItemTemplateDirective, SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';

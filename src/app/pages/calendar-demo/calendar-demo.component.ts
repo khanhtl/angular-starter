@@ -1,5 +1,5 @@
-import { CalendarComponent, CalendarEvent } from '@angular-starter/calendar';
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { CalendarComponent, CalendarEvent } from '@angular-starter/ui/calendar';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';

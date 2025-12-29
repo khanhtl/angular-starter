@@ -1,7 +1,7 @@
 import { CustomStore } from '@angular-starter/core/data-source';
-import { ItemTemplateDirective, SelectedItemInfo, TagBoxComponent, TagTemplateDirective } from '@angular-starter/tag-box';
 import { ButtonComponent } from '@angular-starter/ui/button';
 import { AppInputComponent } from '@angular-starter/ui/input';
+import { ItemTemplateDirective, SelectedItemInfo, TagBoxComponent, TagTemplateDirective } from '@angular-starter/ui/tag-box';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';

@@ -1,7 +1,7 @@
-import { CheckBoxComponent } from '@angular-starter/check-box';
-import { PaginationComponent } from '@angular-starter/pagination';
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { CheckBoxComponent } from '@angular-starter/ui/check-box';
 import { AppInputComponent } from '@angular-starter/ui/input';
+import { PaginationComponent } from '@angular-starter/ui/pagination';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';

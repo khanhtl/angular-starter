@@ -1,5 +1,5 @@
-import { CheckBoxComponent, CheckBoxValue } from '@angular-starter/check-box';
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { CheckBoxComponent, CheckBoxValue } from '@angular-starter/ui/check-box';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';

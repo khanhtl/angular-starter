@@ -1,1 +1,2 @@
-export * from './lib/popoverẻ/popoverẻ';
+export * from './lib/popover/popover.component';
+

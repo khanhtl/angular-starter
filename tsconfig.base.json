@@ -47,52 +47,52 @@
       "@angular-starter/ui/input": [
         "libs/ui/input/src/index.ts"
       ],
-      "@angular-starter/calendar": [
+      "@angular-starter/ui/calendar": [
         "libs/ui/calendar/src/index.ts"
       ],
-      "@angular-starter/date-box": [
+      "@angular-starter/ui/date-box": [
         "libs/ui/date-box/src/index.ts"
       ],
-      "@angular-starter/date-range": [
+      "@angular-starter/ui/date-range": [
         "libs/ui/date-range/src/index.ts"
       ],
-      "@angular-starter/select-box": [
+      "@angular-starter/ui/select-box": [
         "libs/ui/select-box/src/index.ts"
       ],
-      "@angular-starter/tag-box": [
+      "@angular-starter/ui/tag-box": [
         "libs/ui/tag-box/src/index.ts"
       ],
-      "@angular-starter/pagination": [
+      "@angular-starter/ui/pagination": [
         "libs/ui/pagination/src/index.ts"
       ],
-      "@angular-starter/spinner": [
+      "@angular-starter/ui/spinner": [
         "libs/ui/spinner/src/index.ts"
       ],
-      "@angular-starter/tab": [
+      "@angular-starter/ui/tab": [
         "libs/ui/tab/src/index.ts"
       ],
-      "@angular-starter/tooltip": [
+      "@angular-starter/ui/tooltip": [
         "libs/ui/tooltip/src/index.ts"
       ],
-      "@angular-starter/toast": [
+      "@angular-starter/ui/toast": [
         "libs/ui/toast/src/index.ts"
       ],
-      "@angular-starter/skeleton": [
+      "@angular-starter/ui/skeleton": [
         "libs/ui/skeleton/src/index.ts"
       ],
-      "@angular-starter/popover": [
+      "@angular-starter/ui/popover": [
         "libs/ui/popover/src/index.ts"
       ],
-      "@angular-starter/check-box": [
+      "@angular-starter/ui/check-box": [
         "libs/ui/check-box/src/index.ts"
       ],
-      "@angular-starter/radio-group": [
+      "@angular-starter/ui/radio-group": [
         "libs/ui/radio-group/src/index.ts"
       ],
-      "@angular-starter/textarea": [
+      "@angular-starter/ui/textarea": [
         "libs/ui/textarea/src/index.ts"
       ],
-      "@angular-starter/carousel": [
+      "@angular-starter/ui/carousel": [
         "libs/ui/carousel/src/index.ts"
       ]
     }

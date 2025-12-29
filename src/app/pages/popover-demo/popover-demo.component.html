@@ -1,0 +1,173 @@
+<div class="page-container">
+    <header class="page-header">
+        <h1>Popover</h1>
+        <p>A popover component displaying content over other elements, positioned relative to a target.</p>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Documentation</button>
+    </nav>
+
+    <div class="tab-content">
+        @if (activeTab() === 'preview') {
+        <div class="demo-section">
+            <div class="playground-grid">
+                <div class="demo-card">
+                    <div class="demo-area">
+                        <app-button #popoverTrigger (click)="togglePopover()">
+                            <span style="font-size: 1.2rem; margin-right: 8px;">👉</span>
+                            Click Me to Show Popover
+                        </app-button>
+
+                        <app-popover [target]="targetEl()" [(visible)]="popoverVisible" [position]="position()"
+                            [shading]="shading()" [showCloseButton]="showCloseButton()" [title]="title()"
+                            [closeOnOutsideClick]="closeOnOutsideClick()" [width]="width()">
+
+                            <div style="line-height: 1.5;">
+                                <p style="margin-top:0;">
+                                    This is a <strong>Popover</strong> control.
+                                </p>
+                                <p>
+                                    You can place any content here, including text, images, or other components.
+                                </p>
+                                <div style="margin-top: 12px; display: flex; gap: 8px;">
+                                    <app-button size="sm" variant="outline"
+                                        (click)="popoverVisible.set(false)">Close</app-button>
+                                    <app-button size="sm" variant="solid" color="primary">Action</app-button>
+                                </div>
+                            </div>
+
+                        </app-popover>
+                    </div>
+
+                    <div class="code-section" style="margin-top: 24px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <app-button variant="ghost" size="sm" (click)="toggleCode()">
+                                <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
+                                    [size]="16"></i-lucide>
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
+                            </app-button>
+                        </div>
+                        @if (showCode()) {
+                        <div #codeEditor class="code-editor-container"
+                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;"></div>
+                        }
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <h3
+                        style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                        <i-lucide [img]="SettingsIcon" [size]="18"></i-lucide> Options
+                    </h3>
+
+                    <div class="control-group">
+                        <label>Position</label>
+                        <select class="app-input"
+                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
+                            [(ngModel)]="position">
+                            <option value="top">Top</option>
+                            <option value="bottom">Bottom</option>
+                            <option value="left">Left</option>
+                            <option value="right">Right</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <app-input label="Title" [(ngModel)]="title" size="sm"></app-input>
+                    </div>
+
+                    <div class="control-group">
+                        <app-input label="Width" [(ngModel)]="width" size="sm"></app-input>
+                    </div>
+
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                        <div class="control-row">
+                            <input type="checkbox" id="chk-shading" [(ngModel)]="shading">
+                            <label for="chk-shading" style="margin:0; cursor:pointer;">Shading (Backdrop)</label>
+                        </div>
+                        <div class="control-row">
+                            <input type="checkbox" id="chk-close-btn" [(ngModel)]="showCloseButton">
+                            <label for="chk-close-btn" style="margin:0; cursor:pointer;">Show Close Button</label>
+                        </div>
+                        <div class="control-row">
+                            <input type="checkbox" id="chk-outside" [(ngModel)]="closeOnOutsideClick">
+                            <label for="chk-outside" style="margin:0; cursor:pointer;">Close on Outside Click</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (activeTab() === 'api') {
+        <div class="api-section">
+            <h2>app-popover API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>target</td>
+                        <td class="type-cell">HTMLElement | string</td>
+                        <td class="default-cell">undefined</td>
+                        <td>The target element relative to which the popover is positioned.</td>
+                    </tr>
+                    <tr>
+                        <td>visible</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Whether the popover is currently visible. Supports 2-way binding.</td>
+                    </tr>
+                    <tr>
+                        <td>position</td>
+                        <td class="type-cell">'top' | 'bottom' | 'left' | 'right'</td>
+                        <td class="default-cell">'bottom'</td>
+                        <td>The preferred position of the popover relative to the target.</td>
+                    </tr>
+                    <tr>
+                        <td>width / height</td>
+                        <td class="type-cell">string | number</td>
+                        <td class="default-cell">'auto' / 'auto'</td>
+                        <td>Dimensions of the popover container.</td>
+                    </tr>
+                    <tr>
+                        <td>shading</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>If true, dims the background behind the popover.</td>
+                    </tr>
+                    <tr>
+                        <td>showCloseButton</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">true</td>
+                        <td>Whether to display the close button in the header.</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">''</td>
+                        <td>The text displayed in the popover header.</td>
+                    </tr>
+                    <tr>
+                        <td>closeOnOutsideClick</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">true</td>
+                        <td>Specifies if the popover closes when the user clicks outside.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>

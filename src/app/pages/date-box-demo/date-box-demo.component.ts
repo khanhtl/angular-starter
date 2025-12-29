@@ -1,5 +1,5 @@
-import { DateBoxComponent } from '@angular-starter/date-box';
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { DateBoxComponent } from '@angular-starter/ui/date-box';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -65,20 +65,20 @@ export class DateBoxDemoComponent implements OnDestroy {
     if (!val) return 'None';
     const type = this.config().type;
     if (type === 'time') {
-        const h = val.getHours().toString().padStart(2,'0');
-        const m = val.getMinutes().toString().padStart(2,'0');
-        return `${h}:${m}`;
+      const h = val.getHours().toString().padStart(2, '0');
+      const m = val.getMinutes().toString().padStart(2, '0');
+      return `${h}:${m}`;
     }
     if (type === 'datetime') {
-         const d = val.getDate().toString().padStart(2,'0');
-         const mo = (val.getMonth() + 1).toString().padStart(2,'0');
-         const y = val.getFullYear();
-         const h = val.getHours().toString().padStart(2,'0');
-         const m = val.getMinutes().toString().padStart(2,'0');
-         return `${d}/${mo}/${y} ${h}:${m}`;
+      const d = val.getDate().toString().padStart(2, '0');
+      const mo = (val.getMonth() + 1).toString().padStart(2, '0');
+      const y = val.getFullYear();
+      const h = val.getHours().toString().padStart(2, '0');
+      const m = val.getMinutes().toString().padStart(2, '0');
+      return `${d}/${mo}/${y} ${h}:${m}`;
     }
-    const d = val.getDate().toString().padStart(2,'0');
-    const mo = (val.getMonth() + 1).toString().padStart(2,'0');
+    const d = val.getDate().toString().padStart(2, '0');
+    const mo = (val.getMonth() + 1).toString().padStart(2, '0');
     const y = val.getFullYear();
     return `${d}/${mo}/${y}`;
   });

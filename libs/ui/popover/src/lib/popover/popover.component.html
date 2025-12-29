@@ -1,0 +1,17 @@
+<ng-template #contentTemplate>
+    <div class="popover-container" [style.width]="width()" [style.height]="height()">
+        @if (title() || showCloseButton()) {
+        <div class="popover-header">
+            <div class="popover-title">{{ title() }}</div>
+            @if (showCloseButton()) {
+            <button class="close-btn" (click)="close()">
+                <i-lucide [img]="XIcon" [size]="18"></i-lucide>
+            </button>
+            }
+        </div>
+        }
+        <div class="popover-content">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</ng-template>

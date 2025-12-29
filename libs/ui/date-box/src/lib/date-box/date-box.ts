@@ -1,16 +1,16 @@
-import { CalendarComponent, CalendarUtil } from '@angular-starter/calendar';
+import { CalendarComponent, CalendarUtil } from '@angular-starter/ui/calendar';
 import { AppDateInputDirective } from '@angular-starter/ui/input';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
+  effect,
   ElementRef,
   forwardRef,
   HostListener,
   input,
-  computed,
   signal,
-  effect,
   ViewChild
 } from '@angular/core';
 import {
@@ -68,8 +68,8 @@ export class DateBoxComponent implements ControlValueAccessor {
 
   /** Computed placeholder to use */
   activePlaceholder = computed(() => {
-     if (this.placeholder()) return this.placeholder();
-     return this.format();
+    if (this.placeholder()) return this.placeholder();
+    return this.format();
   });
 
   /** Whether the popover is open */
@@ -93,12 +93,12 @@ export class DateBoxComponent implements ControlValueAccessor {
 
   constructor() {
     effect(() => {
-        // Trigger re-format when type changes
-        const t = this.type(); // dependency
-        const date = this.dateValue();
-        if (date) {
-            this.updateInputFormat(date);
-        }
+      // Trigger re-format when type changes
+      const t = this.type(); // dependency
+      const date = this.dateValue();
+      if (date) {
+        this.updateInputFormat(date);
+      }
     });
   }
 
@@ -117,18 +117,18 @@ export class DateBoxComponent implements ControlValueAccessor {
   onDateSelect(date: Date | null) {
     this.dateValue.set(date);
     const includeTime = this.type() !== 'date';
-    
+
     if (this.type() === 'time') {
-       this.inputControl.setValue(CalendarUtil.formatTime(date));
+      this.inputControl.setValue(CalendarUtil.formatTime(date));
     } else {
-       this.inputControl.setValue(CalendarUtil.formatDate(date, includeTime));
+      this.inputControl.setValue(CalendarUtil.formatDate(date, includeTime));
     }
-    
+
     this.onChange(date);
     // Only auto-close if in simple date mode. 
     // For time/datetime, keep open to allow scrolling/adjusting.
-    if (this.type() === 'date') { 
-        this.isOpen.set(false);
+    if (this.type() === 'date') {
+      this.isOpen.set(false);
     }
   }
 
@@ -156,16 +156,16 @@ export class DateBoxComponent implements ControlValueAccessor {
   }
 
   private updateInputFormat(date: Date | null) {
-      const includeTime = this.type() !== 'date';
-      let val = '';
-      if (this.type() === 'time') {
-          val = CalendarUtil.formatTime(date);
-      } else {
-          val = CalendarUtil.formatDate(date, includeTime);
-      }
-      // Only update if value matches mask format to avoid overwriting partial inputs during typing?
-      // Actually here we are setting the FULL value from the DATE object, so it's the source of truth.
-      this.inputControl.setValue(val, { emitEvent: false });
+    const includeTime = this.type() !== 'date';
+    let val = '';
+    if (this.type() === 'time') {
+      val = CalendarUtil.formatTime(date);
+    } else {
+      val = CalendarUtil.formatDate(date, includeTime);
+    }
+    // Only update if value matches mask format to avoid overwriting partial inputs during typing?
+    // Actually here we are setting the FULL value from the DATE object, so it's the source of truth.
+    this.inputControl.setValue(val, { emitEvent: false });
   }
 
   registerOnChange(fn: any): void {

@@ -1,5 +1,5 @@
-import { DateRangeComponent } from '@angular-starter/date-range';
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { DateRangeComponent } from '@angular-starter/ui/date-range';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';

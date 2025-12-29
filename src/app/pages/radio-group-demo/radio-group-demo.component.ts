@@ -1,5 +1,5 @@
-import { RadioGroupComponent, RadioGroupLayout } from '@angular-starter/radio-group';
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { RadioGroupComponent, RadioGroupLayout } from '@angular-starter/ui/radio-group';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';

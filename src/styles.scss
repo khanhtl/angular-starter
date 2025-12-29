@@ -1,5 +1,6 @@
 @use '../libs/ui/input/src/lib/input/input.scss';
 @use 'app.scss';
+@import '@angular/cdk/overlay-prebuilt.css';
 
 /* You can add global styles to this file, and also import other style files */
 :root {
