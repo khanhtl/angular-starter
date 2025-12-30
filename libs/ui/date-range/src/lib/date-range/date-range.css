@@ -30,14 +30,19 @@
     background: var(--dr-bg);
     border: 1px solid var(--dr-border);
     border-radius: var(--dr-radius);
-    padding: 2px 12px;
+    height: var(--h-md);
+    padding: 0 4px 0 12px;
     transition: all 0.2s ease;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .input-wrapper {
     flex: 1;
     display: flex;
     align-items: center;
+    min-width: 0;
+    height: 100%;
 }
 
 .input-group:hover {
@@ -49,52 +54,46 @@
     box-shadow: 0 0 0 3px rgba(66, 185, 131, 0.15);
 }
 
-
-
 .date-input,
-.date-input:focus {
+.date-input:focus,
+.date-input.app-input {
     flex: 1;
     min-width: 0;
-    border: none;
-    background: transparent;
-    padding: 8px 0;
-    font-size: 0.95rem;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    height: 100%;
+    font-size: 0.9rem;
     color: var(--dr-text);
     outline: none !important;
     box-shadow: none !important;
     text-align: center;
+    width: 0; /* Let flex-grow handle it */
 }
 
 .separator {
-    margin: 0 8px;
-    color: #9ca3af;
-    font-size: 0.85rem;
+    margin: 0 4px;
+    color: var(--c-tips);
+    font-size: 1rem;
+    flex-shrink: 0;
 }
 
-.picker-btn {
+.picker-btn,
+.clear-btn {
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 8px;
+    padding: 0 8px;
+    height: 100%;
     color: var(--c-tips);
     display: flex;
     align-items: center;
     justify-content: center;
     transition: color 0.2s;
+    flex-shrink: 0;
 }
 
-.clear-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    color: var(--c-tips);
-    display: flex;
-    align-items: center;
-    transition: color 0.2s;
-}
-
-.clear-btn:hover { color: #ef4444; }
+.clear-btn:hover { color: var(--c-red); }
 .picker-btn:hover { color: var(--dr-primary); }
 
 /* Range Dropdown */
@@ -209,11 +208,4 @@
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.current-months {
-    flex: 1;
-    display: flex;
-    justify-content: space-around;
-    font-weight: 600;
-    color: var(--dr-text);
-    font-size: 0.95rem;
-}
+
