@@ -107,7 +107,7 @@ import { ColumnConfig } from './data-grid.types';
       border: 1px solid var(--c-border);
       border-radius: var(--w-radius);
       overflow: hidden;
-      background-color: var(--c-white);
+      background-color: var(--c-surface);
 
       .data-grid-container {
         width: 100%;
@@ -139,7 +139,7 @@ import { ColumnConfig } from './data-grid.types';
           position: sticky;
           left: 0;
           z-index: 15;
-          background-color: var(--c-white);
+          background-color: var(--c-surface);
         }
 
         &.data-grid-table-regular {
@@ -150,17 +150,17 @@ import { ColumnConfig } from './data-grid.types';
           position: sticky;
           right: 0;
           z-index: 15;
-          background-color: var(--c-white);
+          background-color: var(--c-surface);
         }
       }
     }
 
     .dark .data-grid {
-      background-color: var(--c-bg);
+      background-color: var(--c-surface);
 
       .data-grid-table-left,
       .data-grid-table-right {
-        background-color: var(--c-bg);
+        background-color: var(--c-surface);
       }
     }
 
@@ -168,12 +168,12 @@ import { ColumnConfig } from './data-grid.types';
       position: sticky;
       top: 0;
       z-index: 10;
-      background-color: var(--c-bg);
+      background-color: var(--c-surface);
       /* Ensure header is above body cells especially when scrolled */
     }
 
     .dark .data-grid-header {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: var(--c-surface);
     }
   `]
 })

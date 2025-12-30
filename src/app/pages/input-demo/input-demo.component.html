@@ -31,7 +31,7 @@
                             <strong>Control Value:</strong> {{ playgroundControl.value || '(empty)' }}
                         </div>
                         <div class="value-display"
-                            style="margin-top: 8px; background-color: #fef2f2; border-color: #fecaca; color: #991b1b;"
+                            style="margin-top: 8px; background-color: color-mix(in srgb, var(--c-red), transparent 90%); border-color: color-mix(in srgb, var(--c-red), transparent 70%); color: var(--c-red);"
                             *ngIf="playgroundControl.invalid && (playgroundControl.dirty || playgroundControl.touched)">
                             <strong>Invalid:</strong> {{ config().errorText }}
                         </div>
@@ -40,7 +40,7 @@
                         <div class="code-section" style="margin-top: 24px;">
                             <div
                                 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                                <h3 style="margin: 0; font-size: 1rem; color: #64748b;">Source Code</h3>
+                                <h3 style="margin: 0; font-size: 1rem; color: var(--c-tips);">Source Code</h3>
                                 <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                     <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                         [size]="16"></i-lucide>
@@ -50,7 +50,7 @@
 
                             @if (showCode()) {
                             <div #codeEditor class="code-editor-container"
-                                style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;"></div>
+                                style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden;"></div>
                             }
                         </div>
                     </div>
@@ -61,59 +61,35 @@
                     <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-disabled" [ngModel]="config().disabled"
-                                (ngModelChange)="updateConfig('disabled', $event)">
-                            <label for="chk-disabled" style="margin: 0; cursor: pointer;">Disabled</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-readonly" [ngModel]="config().readonly"
-                                (ngModelChange)="updateConfig('readonly', $event)">
-                            <label for="chk-readonly" style="margin: 0; cursor: pointer;">Readonly</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-required" [ngModel]="config().required"
-                                (ngModelChange)="updateConfig('required', $event)">
-                            <label for="chk-required" style="margin: 0; cursor: pointer;">Required</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-clearable" [ngModel]="config().clearable"
-                                (ngModelChange)="updateConfig('clearable', $event)">
-                            <label for="chk-clearable" style="margin: 0; cursor: pointer;">Clearable</label>
-                        </div>
+                        <app-input label="Label" [ngModel]="config().label"
+                            (ngModelChange)="updateConfig('label', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Label</label>
-                        <input type="text" class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().label" (ngModelChange)="updateConfig('label', $event)">
+                        <app-input label="Placeholder" [ngModel]="config().placeholder"
+                            (ngModelChange)="updateConfig('placeholder', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Placeholder</label>
-                        <input type="text" class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().placeholder" (ngModelChange)="updateConfig('placeholder', $event)">
+                        <app-input label="Hint" [ngModel]="config().hint"
+                            (ngModelChange)="updateConfig('hint', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Hint</label>
-                        <input type="text" class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().hint" (ngModelChange)="updateConfig('hint', $event)">
+                        <app-select-box label="Input Type" [dataSource]="typeOptions" [ngModel]="config().type"
+                            (ngModelChange)="updateConfig('type', $event)"></app-select-box>
                     </div>
 
-                    <div class="control-group">
-                        <label>Input Type</label>
-                        <select class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().type" (ngModelChange)="updateConfig('type', $event)">
-                            <option value="text">Text</option>
-                            <option value="password">Password</option>
-                            <option value="email">Email</option>
-                            <option value="number">Number</option>
-                        </select>
+                    <div class="control-group"
+                        style="padding-top: 8px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 8px;">
+                        <app-check-box text="Disabled" [ngModel]="config().disabled"
+                            (ngModelChange)="updateConfig('disabled', $event)"></app-check-box>
+                        <app-check-box text="Readonly" [ngModel]="config().readonly"
+                            (ngModelChange)="updateConfig('readonly', $event)"></app-check-box>
+                        <app-check-box text="Required" [ngModel]="config().required"
+                            (ngModelChange)="updateConfig('required', $event)"></app-check-box>
+                        <app-check-box text="Clearable" [ngModel]="config().clearable"
+                            (ngModelChange)="updateConfig('clearable', $event)"></app-check-box>
                     </div>
                 </div>
             </div>
@@ -191,7 +167,7 @@
                     <app-input class="search-input" placeholder="Search..." [prefixIcon]="SearchIcon" [clearable]="true"
                         [formControl]="showcaseForm.controls.search">
                     </app-input>
-                    <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #64748b;">
+                    <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--c-tips);">
                         Input with custom rounded styling
                     </div>
                     <div class="value-display" style="margin-top: 12px; font-size: 0.75rem;">

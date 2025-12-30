@@ -1,6 +1,7 @@
-
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { CheckBoxComponent } from '@angular-starter/ui/check-box';
 import { AppInputComponent } from '@angular-starter/ui/input';
+import { SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,18 +12,27 @@ import { Calendar, Code, CreditCard, DollarSign, Eye, EyeOff, Lock, LucideAngula
 @Component({
   selector: 'app-input-demo',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, AppInputComponent, LucideAngularModule, ButtonComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppInputComponent,
+    CheckBoxComponent,
+    SelectBoxComponent,
+    LucideAngularModule,
+    ButtonComponent
+  ],
   templateUrl: './input-demo.component.html',
   styles: [`
     .value-display {
       margin-top: 1rem;
       padding: 0.75rem;
-      background: #f1f5f9;
+      background: var(--c-bg);
       border-radius: 0.5rem;
       font-family: monospace;
       font-size: 0.875rem;
-      color: #334155;
-      border: 1px solid #e2e8f0;
+      color: var(--c-text);
+      border: 1px solid var(--c-border);
     }
     .card-grid {
         display: grid;
@@ -51,6 +61,8 @@ export class InputDemoComponent implements OnDestroy {
   showCode = signal(false);
   @ViewChild('codeEditor') codeEditorRef!: ElementRef<HTMLDivElement>;
   editorView?: EditorView;
+
+  typeOptions = ['text', 'password', 'email', 'number'];
 
   // Playground Config
   config = signal({

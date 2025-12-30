@@ -1,4 +1,6 @@
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { AppInputComponent } from '@angular-starter/ui/input';
+import { SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { TabComponent, TabItem } from '@angular-starter/ui/tab';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
@@ -10,7 +12,7 @@ import { ChevronLeft, ChevronRight, Code, Eye, EyeOff, Info, Layout, List, Lucid
 @Component({
     selector: 'app-tab-demo',
     standalone: true,
-    imports: [CommonModule, FormsModule, TabComponent, ButtonComponent, LucideAngularModule],
+    imports: [CommonModule, FormsModule, TabComponent, ButtonComponent, SelectBoxComponent, AppInputComponent, LucideAngularModule],
     templateUrl: './tab-demo.component.html',
 
 })
@@ -45,6 +47,10 @@ export class TabDemoComponent implements OnDestroy {
     // Config for Playground
     selectedIndex = signal(0);
     orientation = signal<'horizontal' | 'vertical'>('horizontal');
+    orientationOptions = [
+        { id: 'horizontal', name: 'Horizontal' },
+        { id: 'vertical', name: 'Vertical' }
+    ];
 
     generatedCode = computed(() => {
         const props = [

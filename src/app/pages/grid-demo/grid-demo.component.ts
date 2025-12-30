@@ -1,5 +1,7 @@
 import { ButtonComponent } from '@angular-starter/ui/button';
 import { CellTemplateDirective, ColumnConfig, DataGridComponent } from '@angular-starter/ui/data-grid';
+import { AppInputComponent } from '@angular-starter/ui/input';
+import { RadioGroupComponent } from '@angular-starter/ui/radio-group';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -10,15 +12,64 @@ import { Code, Eye, EyeOff, LucideAngularModule, Pencil, Settings } from 'lucide
 @Component({
     selector: 'app-grid-demo',
     standalone: true,
-    imports: [CommonModule, FormsModule, DataGridComponent, CellTemplateDirective, ButtonComponent, LucideAngularModule],
+    imports: [
+        CommonModule,
+        FormsModule,
+        DataGridComponent,
+        CellTemplateDirective,
+        ButtonComponent,
+        AppInputComponent,
+        RadioGroupComponent,
+        LucideAngularModule
+    ],
     templateUrl: './grid-demo.component.html',
     styles: [`
     .grid-scroll-container {
       width: 100%;
       overflow-x: auto;
-      background: #fff;
-      border-radius: 0.5rem;
-      border: 1px solid #e2e8f0;
+      background: var(--c-surface);
+      border-radius: var(--w-radius);
+      border: 1px solid var(--c-border);
+    }
+    .preview-area {
+        display: block;
+        padding: 0;
+        min-height: 600px;
+    }
+    .code-section {
+        margin-top: 1.5rem;
+    }
+    .code-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        padding: 0 1rem;
+
+        h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--c-text-muted);
+        }
+    }
+    .code-editor-container {
+        border: 1px solid var(--c-border);
+        border-radius: var(--w-radius);
+        overflow: hidden;
+        margin: 0 1rem;
+    }
+    .demo-note {
+        padding: 1rem;
+        background: var(--c-surface);
+        border-radius: var(--w-radius);
+        border: 1px dashed var(--c-border);
+        margin-top: 2rem;
+        p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--c-text-muted);
+            font-style: italic;
+        }
     }
     @media (max-width: 1200px) {
       .controls-panel {
@@ -28,6 +79,12 @@ import { Code, Eye, EyeOff, LucideAngularModule, Pencil, Settings } from 'lucide
     .controls-panel {
       position: sticky;
       top: 2rem;
+      
+      h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
     }
     .status-badge {
       padding: 4px 10px;
@@ -35,10 +92,10 @@ import { Code, Eye, EyeOff, LucideAngularModule, Pencil, Settings } from 'lucide
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
-      &.active { background: #ecfdf5; color: #059669; }
-      &.inactive { background: #fef2f2; color: #dc2626; }
-      &.pending { background: #fffbeb; color: #d97706; }
-      &.on-leave { background: #f3f4f6; color: #4b5563; }
+      &.active { background: var(--c-success-light); color: var(--c-success); }
+      &.inactive { background: var(--c-error-light); color: var(--c-error); }
+      &.pending { background: var(--c-warning-light); color: var(--c-warning); }
+      &.on-leave { background: var(--c-surface-variant); color: var(--c-text-muted); }
     }
   `]
 })
@@ -62,6 +119,11 @@ export class GridDemoComponent implements OnDestroy {
         loading: false,
         useNested: true,
     });
+
+    headerTypes = [
+        { label: 'Nested (Grouped)', value: true },
+        { label: 'Flat (Single Level)', value: false }
+    ];
 
     // Base Data
     data = signal<Record<string, any>[]>(this.generateSampleData());

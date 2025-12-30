@@ -20,13 +20,14 @@
                     <div class="preview-area"
                         style="display: flex; flex-direction: column; align-items: center; border: none; background: transparent;">
                         <div
-                            style="width: 100%; max-width: 400px; background: white; padding: 1.5rem; border-radius: 1rem; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+                            style="width: 100%; max-width: 400px; background: var(--c-surface); padding: var(--space-md); border-radius: var(--w-radius-xl); border: 1px solid var(--c-border); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
                             <app-calendar [(value)]="selectedDate" [showHeader]="config().showHeader"
                                 [showFooter]="config().showFooter" [events]="config().showEvents ? events : []">
                             </app-calendar>
                         </div>
 
-                        <div style="margin-top: 1.5rem; text-align: center; color: #64748b; font-size: 0.9rem;">
+                        <div
+                            style="margin-top: var(--space-md); text-align: center; color: var(--c-tips); font-size: 0.9rem;">
                             Selected: <strong>{{ selectedDate() | date:'dd/MM/yyyy' }}</strong>
                         </div>
                     </div>
@@ -34,7 +35,7 @@
                     <div class="code-section" style="margin-top: 48px;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
-                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <h3 style="margin: 0; font-size: 0.9rem; color: var(--c-tips);">Source Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                     [size]="16"></i-lucide>
@@ -44,7 +45,7 @@
 
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
                         </div>
                         }
                     </div>
@@ -54,27 +55,19 @@
                 <div class="controls-panel">
                     <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
-                    <div class="control-group">
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-header" [ngModel]="config().showHeader"
-                                (ngModelChange)="updateConfig('showHeader', $event)">
-                            <label for="chk-header" style="margin: 0; cursor: pointer;">Show Header</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-footer" [ngModel]="config().showFooter"
-                                (ngModelChange)="updateConfig('showFooter', $event)">
-                            <label for="chk-footer" style="margin: 0; cursor: pointer;">Show Footer</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-events" [ngModel]="config().showEvents"
-                                (ngModelChange)="updateConfig('showEvents', $event)">
-                            <label for="chk-events" style="margin: 0; cursor: pointer;">Show Events</label>
-                        </div>
+                    <div class="control-group"
+                        style="display: flex; flex-direction: column; gap: 12px; padding: 12px 0;">
+                        <app-check-box text="Show Header" [ngModel]="config().showHeader"
+                            (ngModelChange)="updateConfig('showHeader', $event)"></app-check-box>
+                        <app-check-box text="Show Footer" [ngModel]="config().showFooter"
+                            (ngModelChange)="updateConfig('showFooter', $event)"></app-check-box>
+                        <app-check-box text="Show Events" [ngModel]="config().showEvents"
+                            (ngModelChange)="updateConfig('showEvents', $event)"></app-check-box>
                     </div>
 
                     <div
-                        style="margin-top: 2rem; padding: 1rem; background: #fff; border-radius: 0.5rem; border: 1px dashed #cbd5e1;">
-                        <p style="margin:0; font-size: 0.8rem; color: #64748b; font-style: italic;">
+                        style="margin-top: var(--space-lg); padding: var(--space-sm); background: var(--c-surface); border-radius: var(--w-radius); border: 1px dashed var(--c-border);">
+                        <p style="margin:0; font-size: 0.8rem; color: var(--c-tips); font-style: italic;">
                             Events are handled by passing a list of `CalendarEvent` (date, title, color).
                         </p>
                     </div>

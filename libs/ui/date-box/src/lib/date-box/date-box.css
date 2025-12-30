@@ -4,7 +4,7 @@
     font-family: inherit;
     --db-primary: var(--c-brand);
     --db-text: var(--c-text);
-    --db-bg: var(--c-bg); /* was c-white, but bg adjusts better */
+    --db-bg: var(--c-surface);
     --db-border: var(--c-border);
     --db-radius: var(--w-radius);
     --db-hover-border: var(--c-brand);

@@ -16,7 +16,7 @@
 
                 <!-- Main Preview Area -->
                 <div class="demo-card">
-                    <div class="preview-area" style="display: block; padding: 0; min-height: 600px;">
+                    <div class="preview-area">
                         <div class="grid-scroll-container">
                             <app-data-grid [data]="data()" [columns]="columns()" [loading]="config().loading"
                                 [height]="config().height">
@@ -40,10 +40,9 @@
                     </div>
 
                     <!-- Generated Code Section (CodeMirror) -->
-                    <div class="code-section" style="margin-top: 24px;">
-                        <div
-                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
-                            <h3 style="margin: 0; font-size: 1rem; color: #64748b;">Installation Code</h3>
+                    <div class="code-section">
+                        <div class="code-header">
+                            <h3>Installation Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                     [size]="16"></i-lucide>
@@ -52,8 +51,7 @@
                         </div>
 
                         @if (showCode()) {
-                        <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                        <div #codeEditor class="code-editor-container">
                         </div>
                         }
                     </div>
@@ -61,7 +59,7 @@
 
                 <!-- Right Controls Panel -->
                 <div class="controls-panel">
-                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Grid Properties</h3>
+                    <h3>Grid Properties</h3>
 
                     <div class="control-group">
                         <app-button variant="outline" size="sm" style="width: 100%;" (click)="toggleLoading()">
@@ -70,29 +68,20 @@
                     </div>
 
                     <div class="control-group">
-                        <label>Viewport Height</label>
-                        <input type="text" class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().height" (ngModelChange)="updateConfig('height', $event)">
+                        <app-input label="Viewport Height" [ngModel]="config().height"
+                            (ngModelChange)="updateConfig('height', $event)" size="md">
+                        </app-input>
                     </div>
 
                     <div class="control-group">
-                        <h4 style="margin: 1rem 0 0.5rem; font-size: 0.9rem; color: #334155;">Header Structure</h4>
-                        <div class="control-row">
-                            <input type="radio" id="ds-nested" name="dataset" [value]="true"
-                                [ngModel]="config().useNested" (ngModelChange)="updateConfig('useNested', true)">
-                            <label for="ds-nested" style="margin: 0; cursor: pointer;">Nested (Grouped)</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="radio" id="ds-flat" name="dataset" [value]="false"
-                                [ngModel]="config().useNested" (ngModelChange)="updateConfig('useNested', false)">
-                            <label for="ds-flat" style="margin: 0; cursor: pointer;">Flat (Single Level)</label>
-                        </div>
+                        <app-radio-group label="Header Structure" [items]="headerTypes" displayExpr="label"
+                            valueExpr="value" [ngModel]="config().useNested"
+                            (ngModelChange)="updateConfig('useNested', $event)">
+                        </app-radio-group>
                     </div>
 
-                    <div
-                        style="padding: 1rem; background: #fff; border-radius: 0.5rem; border: 1px dashed #cbd5e1; margin-top: 2rem;">
-                        <p style="margin:0; font-size: 0.8rem; color: #64748b; font-style: italic;">
+                    <div class="demo-note">
+                        <p>
                             Demo features: Column pinning, nested headers, and custom cell templates.
                         </p>
                     </div>

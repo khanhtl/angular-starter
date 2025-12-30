@@ -41,7 +41,7 @@
 
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
                         </div>
                         }
                     </div>
@@ -51,50 +51,35 @@
                     <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
-                        <label>Label</label>
-                        <input type="text" class="app-input size-md" [ngModel]="config().label"
-                            (ngModelChange)="updateConfig('label', $event)">
+                        <app-input label="Label" size="md" [ngModel]="config().label"
+                            (ngModelChange)="updateConfig('label', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Inner Text</label>
-                        <input type="text" class="app-input size-md" [ngModel]="config().text"
-                            (ngModelChange)="updateConfig('text', $event)">
+                        <app-input label="Inner Text" size="md" [ngModel]="config().text"
+                            (ngModelChange)="updateConfig('text', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Hint</label>
-                        <input type="text" class="app-input size-md" [ngModel]="config().hint"
-                            (ngModelChange)="updateConfig('hint', $event)">
+                        <app-input label="Hint" size="md" [ngModel]="config().hint"
+                            (ngModelChange)="updateConfig('hint', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Error Text</label>
-                        <input type="text" class="app-input size-md" [ngModel]="config().errorText"
-                            (ngModelChange)="updateConfig('errorText', $event)">
+                        <app-input label="Error Text" size="md" [ngModel]="config().errorText"
+                            (ngModelChange)="updateConfig('errorText', $event)"></app-input>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-required" [ngModel]="config().required"
-                                (ngModelChange)="updateConfig('required', $event)">
-                            <label for="chk-required" style="margin:0; cursor:pointer;">Required</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-disabled" [ngModel]="config().disabled"
-                                (ngModelChange)="updateConfig('disabled', $event)">
-                            <label for="chk-disabled" style="margin:0; cursor:pointer;">Disabled</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-readonly" [ngModel]="config().readonly"
-                                (ngModelChange)="updateConfig('readonly', $event)">
-                            <label for="chk-readonly" style="margin:0; cursor:pointer;">Read Only</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-indeterminate" [ngModel]="config().allowIndeterminate"
-                                (ngModelChange)="updateConfig('allowIndeterminate', $event)">
-                            <label for="chk-indeterminate" style="margin:0; cursor:pointer;">Allow Indeterminate</label>
-                        </div>
+                    <div class="control-group"
+                        style="padding-top: 8px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 8px;">
+                        <app-check-box text="Required" [ngModel]="config().required"
+                            (ngModelChange)="updateConfig('required', $event)"></app-check-box>
+                        <app-check-box text="Disabled" [ngModel]="config().disabled"
+                            (ngModelChange)="updateConfig('disabled', $event)"></app-check-box>
+                        <app-check-box text="Read Only" [ngModel]="config().readonly"
+                            (ngModelChange)="updateConfig('readonly', $event)"></app-check-box>
+                        <app-check-box text="Allow Indeterminate" [ngModel]="config().allowIndeterminate"
+                            (ngModelChange)="updateConfig('allowIndeterminate', $event)"></app-check-box>
                     </div>
                 </div>
             </div>
@@ -105,7 +90,7 @@
             <div class="card-grid"
                 style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
                     <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">States</h3>
                     <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 1rem;">
                         <app-check-box text="Default Checked" [ngModel]="true"></app-check-box>

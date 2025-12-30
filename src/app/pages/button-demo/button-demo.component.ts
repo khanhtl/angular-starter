@@ -1,4 +1,7 @@
 import { ButtonColor, ButtonComponent, ButtonSize, ButtonVariant, DropdownItem } from '@angular-starter/ui/button';
+import { CheckBoxComponent } from '@angular-starter/ui/check-box';
+import { AppInputComponent } from '@angular-starter/ui/input';
+import { SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -21,7 +24,15 @@ interface ButtonConfig {
 @Component({
   selector: 'app-button-demo',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent, LucideAngularModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ButtonComponent,
+    AppInputComponent,
+    CheckBoxComponent,
+    SelectBoxComponent,
+    LucideAngularModule
+  ],
   templateUrl: './button-demo.component.html',
 
 })
@@ -41,6 +52,11 @@ export class ButtonDemoComponent implements OnDestroy {
   showCode = signal(false);
   @ViewChild('codeEditor') codeEditorRef!: ElementRef<HTMLDivElement>;
   editorView?: EditorView;
+
+  // Options
+  variants: ButtonVariant[] = ['solid', 'outline', 'ghost', 'link'];
+  colors: ButtonColor[] = ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'neutral'];
+  sizes: ButtonSize[] = ['sm', 'md', 'lg', 'icon'];
 
   // Playground Config
   config = signal<ButtonConfig>({

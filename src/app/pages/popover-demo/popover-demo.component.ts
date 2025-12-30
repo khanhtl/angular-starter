@@ -1,7 +1,9 @@
 
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { CheckBoxComponent } from '@angular-starter/ui/check-box';
 import { AppInputComponent } from '@angular-starter/ui/input';
 import { PopoverComponent } from '@angular-starter/ui/popover';
+import { SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +20,8 @@ import { Code, Eye, EyeOff, Info, LucideAngularModule, Settings } from 'lucide-a
         PopoverComponent,
         ButtonComponent,
         AppInputComponent,
+        SelectBoxComponent,
+        CheckBoxComponent,
         LucideAngularModule
     ],
     templateUrl: './popover-demo.component.html',
@@ -27,8 +31,9 @@ import { Code, Eye, EyeOff, Info, LucideAngularModule, Settings } from 'lucide-a
         display: flex;
         justify-content: center;
         align-items: center;
-        background: #f1f5f9;
-        border-radius: 8px;
+        background: var(--c-bg);
+        border: 1px solid var(--c-border);
+        border-radius: var(--w-radius);
         position: relative;
     }
 
@@ -37,16 +42,16 @@ import { Code, Eye, EyeOff, Info, LucideAngularModule, Settings } from 'lucide-a
         align-items: center;
         justify-content: center;
         padding: 12px 24px;
-        background: white;
-        border: 1px solid #cbd5e1;
-        border-radius: 6px;
+        background: var(--c-surface);
+        border: 1px solid var(--c-border);
+        border-radius: var(--w-radius-sm);
         font-weight: 600;
         cursor: pointer;
         box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         transition: all 0.2s;
         
         &:hover {
-            border-color: #94a3b8;
+            border-color: var(--c-brand);
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
     }
@@ -71,6 +76,13 @@ export class PopoverDemoComponent implements OnDestroy, AfterViewInit {
     title = signal('Popover Title');
     closeOnOutsideClick = signal(true);
     width = signal<string | number>('300px');
+
+    positionOptions = [
+        { id: 'top', text: 'Top' },
+        { id: 'bottom', text: 'Bottom' },
+        { id: 'left', text: 'Left' },
+        { id: 'right', text: 'Right' }
+    ];
 
     @ViewChild('popoverTrigger', { read: ElementRef }) triggerRef!: ElementRef;
 
@@ -135,9 +147,9 @@ export class PopoverDemoComponent implements OnDestroy, AfterViewInit {
                 html(),
                 EditorView.editable.of(false),
                 EditorView.theme({
-                    "&": { height: "auto", maxHeight: "400px", fontSize: "14px", backgroundColor: "#f8fafc" },
+                    "&": { height: "auto", maxHeight: "400px", fontSize: "14px", backgroundColor: "var(--c-bg)" },
                     ".cm-scroller": { overflow: "auto" },
-                    ".cm-gutters": { backgroundColor: "#f1f5f9", borderRight: "1px solid #e2e8f0" }
+                    ".cm-gutters": { backgroundColor: "var(--c-surface)", borderRight: "1px solid var(--c-border)", color: "var(--c-tips)" }
                 })
             ],
             parent: this.codeEditorRef.nativeElement

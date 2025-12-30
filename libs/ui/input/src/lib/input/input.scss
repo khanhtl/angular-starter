@@ -5,7 +5,7 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
   color: var(--c-text);
-  background-color: var(--c-bg);
+  background-color: var(--c-surface);
   background-clip: padding-box;
   border: 1px solid var(--c-border);
   border-radius: var(--w-radius);
@@ -36,7 +36,7 @@
 
   &:focus {
     color: var(--c-text);
-    background-color: var(--c-bg);
+    background-color: var(--c-surface);
     border-color: var(--c-brand);
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-brand), transparent 90%);
   }
@@ -64,6 +64,15 @@
     &:focus {
       box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-red), transparent 90%);
     }
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--c-surface) inset !important;
+    -webkit-text-fill-color: var(--c-text) !important;
+    transition: background-color 5000s ease-in-out 0s;
   }
 }
 

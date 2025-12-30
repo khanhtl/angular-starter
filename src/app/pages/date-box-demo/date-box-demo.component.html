@@ -25,7 +25,7 @@
                         </app-date-box>
 
                         <div
-                            style="margin-top: 2rem; padding: 1rem; background: #f1f5f9; border-radius: 0.5rem; font-family: monospace; font-size: 0.875rem;">
+                            style="margin-top: 2rem; padding: 1rem; background: var(--c-surface); border-radius: 0.5rem; font-family: monospace; font-size: 0.875rem;">
                             <strong>Current Value:</strong> {{ formattedValue() }}
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                     <div class="code-section" style="margin-top: 48px;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
-                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <h3 style="margin: 0; font-size: 0.9rem; color: var(--c-tips);">Source Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                     [size]="16"></i-lucide>
@@ -43,7 +43,7 @@
 
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
                         </div>
                         }
                     </div>
@@ -54,33 +54,23 @@
                     <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
-                        <label>Type</label>
-                        <select class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().type" (ngModelChange)="updateConfig('type', $event)">
-                            <option value="date">Date Only</option>
-                            <option value="time">Time Only</option>
-                            <option value="datetime">Date & Time</option>
-                        </select>
+                        <app-select-box label="Type" [dataSource]="typeOptions" [ngModel]="config().type"
+                            (ngModelChange)="updateConfig('type', $event)"></app-select-box>
                     </div>
 
                     <div class="control-group">
-                        <label>Label</label>
-                        <input type="text" class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().label" (ngModelChange)="updateConfig('label', $event)">
+                        <app-input label="Label" [ngModel]="config().label"
+                            (ngModelChange)="updateConfig('label', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Placeholder</label>
-                        <input type="text" class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().placeholder" (ngModelChange)="updateConfig('placeholder', $event)">
+                        <app-input label="Placeholder" [ngModel]="config().placeholder"
+                            (ngModelChange)="updateConfig('placeholder', $event)"></app-input>
                     </div>
 
                     <div
-                        style="margin-top: 2rem; padding: 1rem; background: #fff; border-radius: 0.5rem; border: 1px dashed #cbd5e1;">
-                        <p style="margin:0; font-size: 0.8rem; color: #64748b; font-style: italic;">
+                        style="margin-top: var(--space-lg); padding: var(--space-sm); background: var(--c-surface); border-radius: var(--w-radius); border: 1px dashed var(--c-border);">
+                        <p style="margin:0; font-size: 0.8rem; color: var(--c-tips); font-style: italic;">
                             Input fields are automatically formatted according to the date mask.
                         </p>
                     </div>

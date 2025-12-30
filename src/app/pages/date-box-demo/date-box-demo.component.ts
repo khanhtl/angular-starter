@@ -1,5 +1,7 @@
 import { ButtonComponent } from '@angular-starter/ui/button';
 import { DateBoxComponent } from '@angular-starter/ui/date-box';
+import { AppInputComponent } from '@angular-starter/ui/input';
+import { SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +12,16 @@ import { Calendar, Code, Eye, EyeOff, LucideAngularModule } from 'lucide-angular
 @Component({
   selector: 'app-date-box-demo',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DateBoxComponent, ButtonComponent, LucideAngularModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    DateBoxComponent,
+    ButtonComponent,
+    LucideAngularModule,
+    AppInputComponent,
+    SelectBoxComponent
+  ],
   templateUrl: './date-box-demo.component.html',
 
 })
@@ -29,6 +40,8 @@ export class DateBoxDemoComponent implements OnDestroy {
   showCode = signal(false);
   @ViewChild('codeEditor') codeEditorRef!: ElementRef<HTMLDivElement>;
   editorView?: EditorView;
+
+  typeOptions = ['date', 'time', 'datetime'];
 
   // Playground Config
   config = signal({

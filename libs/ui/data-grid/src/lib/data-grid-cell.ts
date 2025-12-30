@@ -44,14 +44,14 @@ import { ColumnConfig } from './data-grid.types';
       position: relative;
 
       &.pinned-left {
-        background-color: var(--c-white);
+        background-color: var(--c-surface);
         position: sticky;
         z-index: 4;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
       }
 
       &.pinned-right {
-        background-color: var(--c-white);
+        background-color: var(--c-surface);
         position: sticky;
         z-index: 4;
         box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);

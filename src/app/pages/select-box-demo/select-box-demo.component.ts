@@ -1,5 +1,6 @@
 import { CustomStore } from '@angular-starter/core/data-source';
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { CheckBoxComponent } from '@angular-starter/ui/check-box';
 import { AppInputComponent } from '@angular-starter/ui/input';
 import { FieldTemplateDirective, GroupTemplateDirective, ItemTemplateDirective, SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { CommonModule } from '@angular/common';
@@ -17,6 +18,7 @@ import { ChevronDown, Code, Eye, EyeOff, Info, LucideAngularModule } from 'lucid
     FormsModule,
     SelectBoxComponent,
     AppInputComponent,
+    CheckBoxComponent,
     ButtonComponent,
     ItemTemplateDirective,
     FieldTemplateDirective,
@@ -54,6 +56,16 @@ export class SelectBoxDemoComponent implements OnDestroy {
 
   // Playground Config
   dsType = signal<'local' | 'users' | 'countries' | 'fruits' | 'remote' | 'large'>('local');
+
+  scenarioOptions = [
+    { id: 'local', name: 'Basic Array' },
+    { id: 'fruits', name: 'Grouping (Fruits & Veggies)' },
+    { id: 'users', name: 'Users (Custom Template)' },
+    { id: 'countries', name: 'Countries (Custom Template)' },
+    { id: 'remote', name: 'Remote API (JSONPlaceholder)' },
+    { id: 'large', name: 'Large Data (Virtual Scroll)' }
+  ];
+
   groupExpr = signal('');
   groupsCollapsed = signal(false);
   searchEnabled = signal(true);

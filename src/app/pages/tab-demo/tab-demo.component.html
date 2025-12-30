@@ -23,7 +23,7 @@
                         </app-tab>
 
                         <div class="content-display"
-                            style="margin-top: 24px; padding: 24px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; flex: 1;">
+                            style="margin-top: 24px; padding: 24px; background: var(--c-surface); border-radius: 12px; border: 1px solid var(--c-border); flex: 1;">
                             <h2 style="margin-top: 0;">{{ simpleItems[selectedIndex()].text }} Content</h2>
                             <p>This is the content area for the <strong>{{ simpleItems[selectedIndex()].text }}</strong>
                                 tab. You can customize this content based on the selected index.</p>
@@ -44,7 +44,7 @@
                     <div class="code-section" style="margin-top: 24px;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
-                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <h3 style="margin: 0; font-size: 0.9rem; color: var(--c-tips);">Source Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                     [size]="16"></i-lucide>
@@ -53,7 +53,7 @@
                         </div>
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
                         </div>
                         }
                     </div>
@@ -63,18 +63,15 @@
                     <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
-                        <label>Orientation</label>
-                        <select class="app-input size-md" [ngModel]="orientation()"
-                            (ngModelChange)="orientation.set($event)">
-                            <option value="horizontal">Horizontal</option>
-                            <option value="vertical">Vertical</option>
-                        </select>
+                        <app-select-box label="Orientation" [dataSource]="orientationOptions" displayExpr="name"
+                            valueExpr="id" [ngModel]="orientation()" (ngModelChange)="orientation.set($event)">
+                        </app-select-box>
                     </div>
 
                     <div class="control-group" style="margin-top: 16px;">
-                        <label>Selected Index</label>
-                        <input type="number" class="app-input size-md" [ngModel]="selectedIndex()"
+                        <app-input label="Selected Index" type="number" [ngModel]="selectedIndex()"
                             (ngModelChange)="selectedIndex.set($event)" min="0" [max]="simpleItems.length - 1">
+                        </app-input>
                     </div>
                 </div>
             </div>

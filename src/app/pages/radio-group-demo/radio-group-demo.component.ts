@@ -1,5 +1,8 @@
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { CheckBoxComponent } from '@angular-starter/ui/check-box';
+import { AppInputComponent } from '@angular-starter/ui/input';
 import { RadioGroupComponent, RadioGroupLayout } from '@angular-starter/ui/radio-group';
+import { SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -22,14 +25,23 @@ interface RadioGroupConfig {
 @Component({
     selector: 'app-radio-group-demo',
     standalone: true,
-    imports: [CommonModule, FormsModule, RadioGroupComponent, LucideAngularModule, ButtonComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        RadioGroupComponent,
+        LucideAngularModule,
+        ButtonComponent,
+        AppInputComponent,
+        CheckBoxComponent,
+        SelectBoxComponent
+    ],
     templateUrl: './radio-group-demo.component.html',
     styles: [`
     .preview-container {
         padding: 3rem;
-        background: #f8fafc;
+        background: var(--c-surface);
         border-radius: 1rem;
-        border: 1px dashed #cbd5e1;
+        border: 1px dashed var(--c-border);
         min-height: 240px;
         display: flex;
         align-items: center;
@@ -44,23 +56,23 @@ interface RadioGroupConfig {
         left: 12px;
         font-size: 10px;
         font-weight: 800;
-        color: #94a3b8;
+        color: var(--c-tips);
         letter-spacing: 0.1em;
     }
     .custom-select, .custom-input {
         width: 100%;
         padding: 0.5rem 0.75rem;
         border-radius: 0.5rem;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         font-size: 0.875rem;
-        color: #1e293b;
-        background-color: #f8fafc;
+        color: var(--c-text);
+        background-color: var(--c-surface);
         transition: all 0.2s;
     }
     .custom-select:focus, .custom-input:focus {
         outline: none;
-        border-color: #10b981;
-        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        border-color: var(--c-brand);
+        box-shadow: 0 0 0 3px rgba(66, 185, 131, 0.1);
     }
     .state-checkbox {
         display: flex;
@@ -68,16 +80,16 @@ interface RadioGroupConfig {
         gap: 0.75rem;
         padding: 0.5rem 0.75rem;
         border-radius: 0.5rem;
-        background: #f1f5f9;
+        background: var(--c-bg);
         cursor: pointer;
         transition: all 0.2s;
     }
     .state-checkbox:hover {
-        background: #e2e8f0;
+        background: var(--c-hover-bg);
     }
     .value-card {
-        background: #ecfdf5;
-        border: 1px solid #a7f3d0;
+        background: var(--c-bg);
+        border: 1px solid var(--c-border);
         padding: 1rem;
         border-radius: 0.75rem;
     }
@@ -94,6 +106,8 @@ export class RadioGroupDemoComponent implements OnDestroy {
 
     @ViewChild('codeEditor') codeEditorRef!: ElementRef<HTMLDivElement>;
     editorView?: EditorView;
+
+    layoutOptions = ['vertical', 'horizontal'];
 
     items = [
         { id: 'standard', name: 'Standard Delivery', price: 0, description: '3-5 business days' },

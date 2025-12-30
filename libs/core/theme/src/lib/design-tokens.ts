@@ -29,7 +29,6 @@ export const BASE_DESIGN_TOKENS = {
     colorRed: '#ef4444',
     colorYellow: '#f59e0b',
     colorGray: '#9ca3af',
-    colorDisable: 'rgba(0, 0, 0, 0.25)',
 } as const;
 
 /**
@@ -41,6 +40,8 @@ export const LIGHT_MODE_COLORS = {
     colorTips: '#9ca3af',
     colorBorder: '#d1d5db',
     colorMask: 'rgba(0, 0, 0, 0.7)',
+    colorSurface: '#ffffff',
+    colorDisable: 'rgba(0, 0, 0, 0.15)',
 } as const;
 
 /**
@@ -52,6 +53,8 @@ export const DARK_MODE_COLORS = {
     colorTips: '#9ca3af',
     colorBorder: '#4b5563',
     colorMask: 'rgba(0, 0, 0, 0.85)',
+    colorSurface: '#1e1e1e',
+    colorDisable: 'rgba(255, 255, 255, 0.15)',
 } as const;
 
 /**

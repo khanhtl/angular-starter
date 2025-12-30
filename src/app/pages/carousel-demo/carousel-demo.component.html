@@ -30,7 +30,7 @@
                     <div class="code-section" style="margin-top: 24px; width: 100%;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
-                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <h3 style="margin: 0; font-size: 0.9rem; color: var(--c-tips);">Source Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                     [size]="16"></i-lucide>
@@ -40,73 +40,74 @@
 
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
                         </div>
                         }
                     </div>
                 </div>
 
                 <div class="controls-panel">
-                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
+                    <h3 style="margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--c-text);">
+                        Properties</h3>
 
                     <div class="control-group">
-                        <label>Animation Type</label>
-                        <select class="app-input size-md" [ngModel]="config().animationType"
+                        <label style="color: var(--c-text); margin-bottom: 0.5rem; display: block;">Animation
+                            Type</label>
+                        <app-select-box [dataSource]="[{id: 'slide', name: 'Slide'}, {id: 'fade', name: 'Fade'}]"
+                            displayExpr="name" valueExpr="id" [ngModel]="config().animationType"
                             (ngModelChange)="updateConfig('animationType', $event)">
-                            <option value="slide">Slide</option>
-                            <option value="fade">Fade</option>
-                        </select>
+                        </app-select-box>
                     </div>
 
                     <div class="control-group">
-                        <label>Auto Play Interval (ms)</label>
-                        <input type="number" class="app-input size-md" [ngModel]="config().interval"
+                        <label style="color: var(--c-text); margin-bottom: 0.5rem; display: block;">Auto Play Interval
+                            (ms)</label>
+                        <app-input type="number" [ngModel]="config().interval"
                             (ngModelChange)="updateConfig('interval', $event)">
+                        </app-input>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-loop" [ngModel]="config().loop"
-                                (ngModelChange)="updateConfig('loop', $event)">
-                            <label for="chk-loop" style="margin:0; cursor:pointer;">Loop</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-autoplay" [ngModel]="config().autoPlay"
-                                (ngModelChange)="updateConfig('autoPlay', $event)">
-                            <label for="chk-autoplay" style="margin:0; cursor:pointer;">Auto Play</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-nav" [ngModel]="config().showNavButtons"
-                                (ngModelChange)="updateConfig('showNavButtons', $event)">
-                            <label for="chk-nav" style="margin:0; cursor:pointer;">Show Nav Buttons</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-indicator" [ngModel]="config().showIndicator"
-                                (ngModelChange)="updateConfig('showIndicator', $event)">
-                            <label for="chk-indicator" style="margin:0; cursor:pointer;">Show Indicators</label>
-                        </div>
+                    <div class="control-group"
+                        style="padding-top: 16px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 12px;">
+                        <app-check-box text="Loop" [ngModel]="config().loop"
+                            (ngModelChange)="updateConfig('loop', $event)">
+                        </app-check-box>
+                        <app-check-box text="Auto Play" [ngModel]="config().autoPlay"
+                            (ngModelChange)="updateConfig('autoPlay', $event)">
+                        </app-check-box>
+                        <app-check-box text="Show Nav Buttons" [ngModel]="config().showNavButtons"
+                            (ngModelChange)="updateConfig('showNavButtons', $event)">
+                        </app-check-box>
+                        <app-check-box text="Show Indicators" [ngModel]="config().showIndicator"
+                            (ngModelChange)="updateConfig('showIndicator', $event)">
+                        </app-check-box>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="demo-section">
-            <h2>Custom Template Example</h2>
+            <h2 style="color: var(--c-text);">Custom Template Example</h2>
             <div class="card-grid" style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
                     <app-carousel [dataSource]="dataSource" [autoPlay]="true" [interval]="3000">
                         <ng-template #itemTemplate let-item let-index="index">
                             <div class="custom-slide" style="width: 100%; height: 100%; position: relative;">
-                                <img [src]="item.image" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img [src]="item.image"
+                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
                                 <div
-                                    style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.6); color: white; padding: 4px 12px; border-radius: 20px;">
+                                    style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.6); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;">
                                     Slide {{ index + 1 }}
                                 </div>
                                 <div
-                                    style="position: absolute; bottom: 40px; left: 40px; background: rgba(255,255,255,0.9); padding: 20px; border-radius: 8px; max-width: 300px;">
-                                    <h4 style="margin: 0; color: #1e293b;">{{ item.title }}</h4>
-                                    <app-button variant="solid" size="sm" style="margin-top: 12px;">Learn
+                                    style="position: absolute; bottom: 30px; left: 30px; background: var(--c-surface); color: var(--c-text); padding: 24px; border-radius: 12px; max-width: 320px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); border: 1px solid var(--c-border);">
+                                    <h4
+                                        style="margin: 0; color: var(--c-brand); font-size: 1.2rem; margin-bottom: 8px;">
+                                        {{ item.title }}</h4>
+                                    <p style="margin: 0; color: var(--c-tips); font-size: 0.9rem; line-height: 1.5;">{{
+                                        item.description }}</p>
+                                    <app-button variant="solid" size="sm" style="margin-top: 16px;">Learn
                                         More</app-button>
                                 </div>
                             </div>

@@ -1,5 +1,6 @@
 import { ButtonComponent } from '@angular-starter/ui/button';
 import { CheckBoxComponent, CheckBoxValue } from '@angular-starter/ui/check-box';
+import { AppInputComponent } from '@angular-starter/ui/input';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +23,7 @@ interface CheckBoxConfig {
 @Component({
     selector: 'app-check-box-demo',
     standalone: true,
-    imports: [CommonModule, FormsModule, CheckBoxComponent, LucideAngularModule, ButtonComponent],
+    imports: [CommonModule, FormsModule, CheckBoxComponent, LucideAngularModule, ButtonComponent, AppInputComponent],
     templateUrl: './check-box-demo.component.html',
 
 })

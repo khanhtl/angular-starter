@@ -1,5 +1,6 @@
 import { ButtonComponent } from '@angular-starter/ui/button';
 import { DateRangeComponent } from '@angular-starter/ui/date-range';
+import { AppInputComponent } from '@angular-starter/ui/input';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +11,7 @@ import { Code, Eye, EyeOff, LucideAngularModule } from 'lucide-angular';
 @Component({
   selector: 'app-date-range-demo',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DateRangeComponent, ButtonComponent, LucideAngularModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DateRangeComponent, ButtonComponent, LucideAngularModule, AppInputComponent],
   templateUrl: './date-range-demo.component.html',
 
 })

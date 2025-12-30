@@ -143,6 +143,7 @@ export class ThemeService {
         root.style.setProperty('--c-red', tokens.colorRed);
         root.style.setProperty('--c-yellow', tokens.colorYellow);
         root.style.setProperty('--c-gray', tokens.colorGray);
+        root.style.setProperty('--c-surface', tokens.colorSurface);
 
         // Apply theme-specific colors
         root.style.setProperty('--c-primary', palette.primary);

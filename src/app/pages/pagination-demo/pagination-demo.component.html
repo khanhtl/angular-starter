@@ -24,7 +24,7 @@
                         </app-pagination>
 
                         <div class="value-display"
-                            style="margin-top: 24px; text-align: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
+                            style="margin-top: 24px; text-align: center; padding: 1rem; background: var(--c-surface); border-radius: 8px;">
                             Current State: <strong>pageIndex: {{ pageIndex() }}, pageSize: {{ pageSize() }}, totalCount:
                                 {{ totalCount() }}</strong>
                         </div>
@@ -33,7 +33,7 @@
                     <div class="code-section" style="margin-top: 48px; width: 100%;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
-                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <h3 style="margin: 0; font-size: 0.9rem; color: var(--c-tips);">Source Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <lucide-angular [img]="showCode() ? EyeOffIcon : CodeIcon" size="16"
                                     class="mr-2"></lucide-angular>
@@ -43,34 +43,35 @@
 
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
                         </div>
                         }
                     </div>
                 </div>
 
                 <div class="controls-panel">
-                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem; color: var(--c-text);">Properties
+                    </h3>
 
                     <div class="control-group">
-                        <label>Total Count</label>
+                        <label style="color: var(--c-text); margin-bottom: 4px; display: block;">Total Count</label>
                         <app-input type="number" [ngModel]="totalCount()"
                             (ngModelChange)="totalCount.set($event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Page Size</label>
+                        <label style="color: var(--c-text); margin-bottom: 4px; display: block;">Page Size</label>
                         <app-input type="number" [ngModel]="pageSize()"
                             (ngModelChange)="pageSize.set($event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Visible Pages</label>
+                        <label style="color: var(--c-text); margin-bottom: 4px; display: block;">Visible Pages</label>
                         <app-input type="number" [ngModel]="visiblePages()"
                             (ngModelChange)="visiblePages.set($event)"></app-input>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
+                    <div class="control-group" style="padding-top: 16px; border-top: 1px solid var(--c-border);">
                         <div class="control-row">
                             <app-check-box text="Show Info" [ngModel]="showInfo()"
                                 (ngModelChange)="showInfo.set($event)"></app-check-box>

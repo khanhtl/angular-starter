@@ -1,5 +1,6 @@
 import { ButtonComponent } from '@angular-starter/ui/button';
 import { CheckBoxComponent } from '@angular-starter/ui/check-box';
+import { AppInputComponent } from '@angular-starter/ui/input';
 import { TextareaComponent } from '@angular-starter/ui/textarea';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
@@ -32,7 +33,8 @@ interface TextareaConfig {
         TextareaComponent,
         LucideAngularModule,
         ButtonComponent,
-        CheckBoxComponent
+        CheckBoxComponent,
+        AppInputComponent
     ],
     templateUrl: './textarea-demo.component.html',
 

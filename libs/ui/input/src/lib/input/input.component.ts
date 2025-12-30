@@ -63,30 +63,35 @@ import { AppPasswordInputDirective } from './password-input.directive';
       <input [id]="id" [type]="computedType" [formControl]="control" 
              [appMaskedInput]="mask" [placeholder]="placeholder" (blur)="handleBlur()" 
              [disabled]="disabled || control.disabled" [readonly]="readonly"
+             [min]="min" [max]="max"
              class="app-input" [class]="'size-' + size"
              [class.with-prefix]="prefixIcon" [class.with-suffix]="hasSuffix" />
     } @else if (format) {
       <input [id]="id" [type]="computedType" [formControl]="control" 
              [appFormattedInput]="format" [placeholder]="placeholder" (blur)="handleBlur()" 
              [disabled]="disabled || control.disabled" [readonly]="readonly"
+             [min]="min" [max]="max"
              class="app-input" [class]="'size-' + size"
              [class.with-prefix]="prefixIcon" [class.with-suffix]="hasSuffix" />
     } @else if (datePattern) {
       <input [id]="id" [type]="computedType" [formControl]="control" 
              [appDateInput]="datePattern" [placeholder]="placeholder" (blur)="handleBlur()" 
              [disabled]="disabled || control.disabled" [readonly]="readonly"
+             [min]="min" [max]="max"
              class="app-input" [class]="'size-' + size"
              [class.with-prefix]="prefixIcon" [class.with-suffix]="hasSuffix" />
     } @else if (type === 'password') {
       <input [id]="id" [type]="computedType" [formControl]="control" 
              appPasswordInput [placeholder]="placeholder" (blur)="handleBlur()" 
              [disabled]="disabled || control.disabled" [readonly]="readonly"
+             [min]="min" [max]="max"
              class="app-input" [class]="'size-' + size"
              [class.with-prefix]="prefixIcon" [class.with-suffix]="hasSuffix" />
     } @else {
       <input [id]="id" [type]="computedType" [formControl]="control" 
              appInput [placeholder]="placeholder" (blur)="handleBlur()" 
              [disabled]="disabled || control.disabled" [readonly]="readonly"
+             [min]="min" [max]="max"
              class="app-input" [class]="'size-' + size"
              [class.with-prefix]="prefixIcon" [class.with-suffix]="hasSuffix" />
     }
@@ -126,6 +131,8 @@ export class AppInputComponent extends BaseControl<any> {
   @Input() type: string = 'text';
   @Input({ transform: booleanAttribute }) clearable: boolean = false;
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  @Input() min?: string | number;
+  @Input() max?: string | number;
 
   @Input() prefixIcon: any;
   @Input() suffixIcon: any;

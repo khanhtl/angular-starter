@@ -24,7 +24,7 @@
                             [shading]="shading()" [showCloseButton]="showCloseButton()" [title]="title()"
                             [closeOnOutsideClick]="closeOnOutsideClick()" [width]="width()">
 
-                            <div style="line-height: 1.5;">
+                            <div style="line-height: 1.5; color: var(--c-text);">
                                 <p style="margin-top:0;">
                                     This is a <strong>Popover</strong> control.
                                 </p>
@@ -44,7 +44,7 @@
                     <div class="code-section" style="margin-top: 24px;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
-                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <h3 style="margin: 0; font-size: 0.9rem; color: var(--c-tips);">Source Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                     [size]="16"></i-lucide>
@@ -53,7 +53,7 @@
                         </div>
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;"></div>
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden;"></div>
                         }
                     </div>
                 </div>
@@ -65,15 +65,9 @@
                     </h3>
 
                     <div class="control-group">
-                        <label>Position</label>
-                        <select class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [(ngModel)]="position">
-                            <option value="top">Top</option>
-                            <option value="bottom">Bottom</option>
-                            <option value="left">Left</option>
-                            <option value="right">Right</option>
-                        </select>
+                        <app-select-box label="Position" [dataSource]="positionOptions" displayExpr="text"
+                            valueExpr="id" [(ngModel)]="position" size="sm">
+                        </app-select-box>
                     </div>
 
                     <div class="control-group">
@@ -84,19 +78,11 @@
                         <app-input label="Width" [(ngModel)]="width" size="sm"></app-input>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-shading" [(ngModel)]="shading">
-                            <label for="chk-shading" style="margin:0; cursor:pointer;">Shading (Backdrop)</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-close-btn" [(ngModel)]="showCloseButton">
-                            <label for="chk-close-btn" style="margin:0; cursor:pointer;">Show Close Button</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-outside" [(ngModel)]="closeOnOutsideClick">
-                            <label for="chk-outside" style="margin:0; cursor:pointer;">Close on Outside Click</label>
-                        </div>
+                    <div class="control-group"
+                        style="padding-top: 16px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 12px;">
+                        <app-check-box [(ngModel)]="shading" text="Shading (Backdrop)"></app-check-box>
+                        <app-check-box [(ngModel)]="showCloseButton" text="Show Close Button"></app-check-box>
+                        <app-check-box [(ngModel)]="closeOnOutsideClick" text="Close on Outside Click"></app-check-box>
                     </div>
 
                 </div>

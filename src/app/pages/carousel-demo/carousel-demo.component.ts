@@ -1,6 +1,9 @@
 
 import { ButtonComponent } from '@angular-starter/ui/button';
 import { CarouselComponent } from '@angular-starter/ui/carousel';
+import { CheckBoxComponent } from '@angular-starter/ui/check-box';
+import { AppInputComponent } from '@angular-starter/ui/input';
+import { SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -21,7 +24,16 @@ interface CarouselConfig {
 @Component({
     selector: 'app-carousel-demo',
     standalone: true,
-    imports: [CommonModule, FormsModule, CarouselComponent, LucideAngularModule, ButtonComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        CarouselComponent,
+        LucideAngularModule,
+        ButtonComponent,
+        CheckBoxComponent,
+        AppInputComponent,
+        SelectBoxComponent
+    ],
     templateUrl: './carousel-demo.component.html',
 
 })

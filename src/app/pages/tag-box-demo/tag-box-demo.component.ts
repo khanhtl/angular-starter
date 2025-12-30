@@ -1,6 +1,8 @@
 import { CustomStore } from '@angular-starter/core/data-source';
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { CheckBoxComponent } from '@angular-starter/ui/check-box';
 import { AppInputComponent } from '@angular-starter/ui/input';
+import { SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { ItemTemplateDirective, SelectedItemInfo, TagBoxComponent, TagTemplateDirective } from '@angular-starter/ui/tag-box';
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
@@ -17,6 +19,8 @@ import { Code, Eye, EyeOff, LucideAngularModule } from 'lucide-angular';
     FormsModule,
     TagBoxComponent,
     AppInputComponent,
+    CheckBoxComponent,
+    SelectBoxComponent,
     ButtonComponent,
     ItemTemplateDirective,
     TagTemplateDirective,
@@ -26,9 +30,9 @@ import { Code, Eye, EyeOff, LucideAngularModule } from 'lucide-angular';
   styles: [`
     /* Custom Item Styles for Demo */
     .custom-item { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
-    .avatar { width: 32px; height: 32px; border-radius: 50%; background: #eee; }
+    .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--c-bg); }
     .info .name { font-weight: 600; font-size: 0.9rem; }
-    .info .email { font-size: 0.75rem; color: #64748b; }
+    .info .email { font-size: 0.75rem; color: var(--c-tips); }
     .custom-tag { display: flex; align-items: center; gap: 6px; }
     .avatar-small { width: 18px; height: 18px; border-radius: 50%; }
     .flag { font-size: 1.2rem; }
@@ -46,6 +50,16 @@ export class TagBoxDemoComponent implements OnDestroy {
 
   // Playground Config
   dsType = signal<'local' | 'users' | 'countries' | 'skills' | 'remote' | 'large'>('local');
+
+  scenarioOptions = [
+    { id: 'local', name: 'Basic Array' },
+    { id: 'users', name: 'Users (Custom Template)' },
+    { id: 'countries', name: 'Countries (Custom Template)' },
+    { id: 'skills', name: 'Skills by Category' },
+    { id: 'remote', name: 'Remote API (JSONPlaceholder)' },
+    { id: 'large', name: 'Large Data (Virtual Scroll)' }
+  ];
+
   searchEnabled = signal(true);
   clearable = signal(true);
   closeOnScroll = signal(false);

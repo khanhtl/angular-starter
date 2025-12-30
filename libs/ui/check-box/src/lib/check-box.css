@@ -45,7 +45,7 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  background-color: var(--c-bg);
+  background-color: var(--c-surface);
   position: relative;
 
   .app-checkbox-container.checked & {

@@ -3,11 +3,11 @@
     display: inline-block;
     width: 350px;
     font-family: inherit;
-    --dr-primary: var(--c-brand, #42b983);
-    --dr-text: var(--c-text, #374151);
-    --dr-bg: var(--c-white, #fff);
-    --dr-border: var(--c-border, #e5e7eb);
-    --dr-radius: var(--w-radius, 8px);
+    --dr-primary: var(--c-brand);
+    --dr-text: var(--c-text);
+    --dr-bg: var(--c-surface);
+    --dr-border: var(--c-border);
+    --dr-radius: var(--w-radius);
     --dr-hover: rgba(var(--c-brand-rgb, 66, 185, 131), 0.1);
 }
 
@@ -76,7 +76,7 @@
     border: none;
     cursor: pointer;
     padding: 8px;
-    color: #9cb2c9;
+    color: var(--c-tips);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,7 +88,7 @@
     border: none;
     cursor: pointer;
     padding: 8px;
-    color: #d1d5db;
+    color: var(--c-tips);
     display: flex;
     align-items: center;
     transition: color 0.2s;
@@ -209,10 +209,11 @@
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.dark .range-dropdown {
-    background: #1f2937;
-    border-color: #374151;
+.current-months {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    font-weight: 600;
+    color: var(--dr-text);
+    font-size: 0.95rem;
 }
-
-.dark .current-months { color: #f3f4f6; }
-.dark .nav-btn { color: #f3f4f6; border-color: #4b5563; }

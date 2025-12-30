@@ -65,7 +65,7 @@
 
                         @if (selectedValues().length > 0) {
                         <div class="value-display"
-                            style="margin-top: 24px; padding: 12px; background: #f1f5f9; border-radius: 6px; font-size: 0.85rem;">
+                            style="margin-top: 24px; padding: 12px; background: var(--c-surface); border-radius: 6px; font-size: 0.85rem;">
                             <strong>Selected Values:</strong> <code>{{ selectedValues() | json }}</code>
                             <div style="margin-top: 8px;">
                                 <app-button variant="outline" size="sm" (click)="getSelectionInfo()">
@@ -79,7 +79,7 @@
                     <div class="code-section" style="margin-top: 48px; width: 100%;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
-                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <h3 style="margin: 0; font-size: 0.9rem; color: var(--c-tips);">Source Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                     [size]="16"></i-lucide>
@@ -89,7 +89,7 @@
 
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
                         </div>
                         }
                     </div>
@@ -100,85 +100,72 @@
                     <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
-                        <label>Scenario</label>
-                        <select class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [(ngModel)]="dsType" (change)="onScenarioChange()">
-                            <option value="local">Basic Array</option>
-                            <option value="users">Users (Custom Template)</option>
-                            <option value="countries">Countries (Custom Template)</option>
-                            <option value="skills">Skills by Category</option>
-                            <option value="remote">Remote API (JSONPlaceholder)</option>
-                            <option value="large">Large Data (Virtual Scroll)</option>
-                        </select>
+                        <app-select-box label="Scenario" [dataSource]="scenarioOptions" displayExpr="name"
+                            valueExpr="id" [ngModel]="dsType()"
+                            (ngModelChange)="dsType.set($event); onScenarioChange()">
+                        </app-select-box>
                     </div>
 
                     <div class="control-group">
-                        <label>Max Displayed Tags</label>
-                        <input type="number" class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [(ngModel)]="maxDisplayedTags" min="1" max="10">
-                        <small style="color: #64748b; font-size: 0.75rem;">Maximum tags shown before "+N more"</small>
+                        <app-input label="Max Displayed Tags" type="number" [ngModel]="maxDisplayedTags()"
+                            (ngModelChange)="maxDisplayedTags.set($event)"></app-input>
+                        <small style="color: var(--c-tips); font-size: 0.75rem;">Maximum tags shown before "+N
+                            more"</small>
                     </div>
 
                     <div class="control-group">
-                        <label>Drop Down Width</label>
-                        <input type="text" class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [(ngModel)]="dropDownWidth" placeholder="Default (Input width)">
-                        <small style="color: #64748b; font-size: 0.75rem;">CSS value (e.g., 400px, 150%)</small>
+                        <app-input label="Drop Down Width" [ngModel]="dropDownWidth()"
+                            (ngModelChange)="dropDownWidth.set($event)"></app-input>
+                        <small style="color: var(--c-tips); font-size: 0.75rem;">CSS value (e.g., 400px, 150%)</small>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <div class="control-row"
-                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                            <input type="checkbox" id="chk-search" [(ngModel)]="searchEnabled">
-                            <label for="chk-search" style="margin:0; cursor:pointer;">Enable Search</label>
-                        </div>
-                        <div class="control-row"
-                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                            <input type="checkbox" id="chk-select-all" [(ngModel)]="showSelectAll">
-                            <label for="chk-select-all" style="margin:0; cursor:pointer;">Show Select All</label>
-                        </div>
-                        <div class="control-row"
-                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                            <input type="checkbox" id="chk-clear" [(ngModel)]="clearable">
-                            <label for="chk-clear" style="margin:0; cursor:pointer;">Clearable</label>
-                        </div>
-                        <div class="control-row"
-                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                            <input type="checkbox" id="chk-close-on-scroll" [(ngModel)]="closeOnScroll">
-                            <label for="chk-close-on-scroll" style="margin:0; cursor:pointer;">Close on Scroll</label>
-                        </div>
+                    <div class="control-group"
+                        style="padding-top: 8px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 8px;">
+                        <app-check-box text="Enable Search" [ngModel]="searchEnabled()"
+                            (ngModelChange)="searchEnabled.set($event)"></app-check-box>
+                        <app-check-box text="Show Select All" [ngModel]="showSelectAll()"
+                            (ngModelChange)="showSelectAll.set($event)"></app-check-box>
+                        <app-check-box text="Clearable" [ngModel]="clearable()"
+                            (ngModelChange)="clearable.set($event)"></app-check-box>
+                        <app-check-box text="Close on Scroll" [ngModel]="closeOnScroll()"
+                            (ngModelChange)="closeOnScroll.set($event)"></app-check-box>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <app-input label="Placeholder" [(ngModel)]="placeholder" size="sm"></app-input>
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid var(--c-border);">
+                        <app-input label="Placeholder" [ngModel]="placeholder()"
+                            (ngModelChange)="placeholder.set($event)" size="sm"></app-input>
                         <div style="margin-top: 8px;">
-                            <app-input label="Display Expression" [(ngModel)]="displayExpr" size="sm"></app-input>
+                            <app-input label="Display Expression" [ngModel]="displayExpr()"
+                                (ngModelChange)="displayExpr.set($event)" size="sm"></app-input>
                         </div>
                         <div style="margin-top: 8px;">
-                            <app-input label="Value Expression" [(ngModel)]="valueExpr" size="sm"></app-input>
+                            <app-input label="Value Expression" [ngModel]="valueExpr()"
+                                (ngModelChange)="valueExpr.set($event)" size="sm"></app-input>
                         </div>
                         <div style="margin-top: 8px;">
-                            <app-input label="Group Expression" [(ngModel)]="groupExpr" size="sm"
+                            <app-input label="Group Expression" [ngModel]="groupExpr()"
+                                (ngModelChange)="groupExpr.set($event)" size="sm"
                                 placeholder="e.g. category"></app-input>
-                            <small style="color: #64748b; font-size: 0.75rem;">Property name to group items by</small>
+                            <small style="color: var(--c-tips); font-size: 0.75rem;">Property name to group items
+                                by</small>
                         </div>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <h4 style="margin: 0 0 12px 0; font-size: 0.9rem; color: #64748b;">Form Control</h4>
-                        <app-input label="Label" [(ngModel)]="demoLabel" size="sm"></app-input>
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid var(--c-border);">
+                        <h4 style="margin: 0 0 12px 0; font-size: 0.9rem; color: var(--c-tips);">Form Control</h4>
+                        <app-input label="Label" [ngModel]="demoLabel()" (ngModelChange)="demoLabel.set($event)"
+                            size="sm"></app-input>
                         <div style="margin-top: 8px;">
-                            <app-input label="Hint" [(ngModel)]="demoHint" size="sm"></app-input>
+                            <app-input label="Hint" [ngModel]="demoHint()" (ngModelChange)="demoHint.set($event)"
+                                size="sm"></app-input>
                         </div>
                         <div style="margin-top: 8px;">
-                            <app-input label="Error Text" [(ngModel)]="demoError" size="sm"></app-input>
+                            <app-input label="Error Text" [ngModel]="demoError()"
+                                (ngModelChange)="demoError.set($event)" size="sm"></app-input>
                         </div>
-                        <div class="control-row" style="margin-top: 12px;">
-                            <input type="checkbox" id="chk-required" [(ngModel)]="demoRequired">
-                            <label for="chk-required" style="margin:0; cursor:pointer;">Required</label>
+                        <div style="margin-top: 12px;">
+                            <app-check-box text="Required" [ngModel]="demoRequired()"
+                                (ngModelChange)="demoRequired.set($event)"></app-check-box>
                         </div>
                     </div>
                 </div>
@@ -192,8 +179,8 @@
                 style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
 
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
-                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Multi-Select with Tags</h3>
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: var(--c-text);">Multi-Select with Tags</h3>
                     <div style="margin-top: 1rem;">
                         <app-tag-box [dataSource]="users" displayExpr="name"
                             placeholder="Choose team members..."></app-tag-box>
@@ -201,8 +188,8 @@
                 </div>
 
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
-                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Custom Rendering with Flags</h3>
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: var(--c-text);">Custom Rendering with Flags</h3>
                     <div style="margin-top: 1rem;">
                         <app-tag-box [dataSource]="countries" displayExpr="name" [clearable]="true"
                             [showSelectAll]="true">
@@ -219,8 +206,9 @@
                 </div>
 
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
-                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Grouped Selection (Skills by Category)
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: var(--c-text);">Grouped Selection (Skills by
+                        Category)
                     </h3>
                     <div style="margin-top: 1rem;">
                         <app-tag-box [dataSource]="skills" displayExpr="name" groupExpr="category"

@@ -25,7 +25,8 @@
                             <ng-template itemTemplate let-item>
                                 <div style="display: flex; flex-direction: column;">
                                     <span style="font-weight: 600;">{{ item.name }}</span>
-                                    <span style="font-size: 0.75rem; color: #64748b;">{{ item.description }}</span>
+                                    <span style="font-size: 0.75rem; color: var(--c-tips);">{{ item.description
+                                        }}</span>
                                     @if (item.price > 0) {
                                     <span
                                         style="font-size: 0.75rem; color: #10b981; font-weight: 600; margin-top: 2px;">+${{
@@ -37,7 +38,7 @@
 
                         <div class="value-display" style="margin-top: 32px;">
                             <label
-                                style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 8px; display: block;">Selected
+                                style="font-size: 0.75rem; font-weight: 700; color: var(--c-tips); text-transform: uppercase; margin-bottom: 8px; display: block;">Selected
                                 Value</label>
                             <div class="value-card">
                                 <strong>{{ selectedValue() || 'null' }}</strong>
@@ -48,7 +49,7 @@
                     <div class="code-section" style="margin-top: auto; padding-top: 40px; width: 100%;">
                         <div
                             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0;">
-                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <h3 style="margin: 0; font-size: 0.9rem; color: var(--c-tips);">Source Code</h3>
                             <app-button variant="ghost" size="sm" (click)="toggleCode()">
                                 <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
                                     [size]="16"></i-lucide>
@@ -58,7 +59,7 @@
 
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden;">
                         </div>
                         }
                     </div>
@@ -69,65 +70,41 @@
                     </h3>
 
                     <div class="control-group">
-                        <label>Label</label>
-                        <input type="text" class="custom-input" [ngModel]="config().label"
-                            (ngModelChange)="updateConfig('label', $event)">
+                        <app-input label="Label" [ngModel]="config().label"
+                            (ngModelChange)="updateConfig('label', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Hint</label>
-                        <input type="text" class="custom-input" [ngModel]="config().hint"
-                            (ngModelChange)="updateConfig('hint', $event)">
+                        <app-input label="Hint" [ngModel]="config().hint"
+                            (ngModelChange)="updateConfig('hint', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Error Text</label>
-                        <input type="text" class="custom-input" [ngModel]="config().errorText"
-                            (ngModelChange)="updateConfig('errorText', $event)">
+                        <app-input label="Error Text" [ngModel]="config().errorText"
+                            (ngModelChange)="updateConfig('errorText', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label
-                            style="display: block; font-size: 0.875rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">Layout</label>
-                        <select [ngModel]="config().layout" (ngModelChange)="updateConfig('layout', $event)"
-                            class="app-input size-md" style="width: 100%;">
-                            <option value="vertical">Vertical</option>
-                            <option value="horizontal">Horizontal</option>
-                        </select>
+                        <app-select-box label="Layout" [dataSource]="layoutOptions" [ngModel]="config().layout"
+                            (ngModelChange)="updateConfig('layout', $event)"></app-select-box>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <label
-                            style="display: block; font-size: 0.875rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">States</label>
-                        <div class="control-row"
-                            style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                            <input type="checkbox" id="chk-disabled" [ngModel]="config().disabled"
-                                (ngModelChange)="updateConfig('disabled', $event)">
-                            <label for="chk-disabled"
-                                style="margin:0; cursor:pointer; font-size: 0.875rem;">Disabled</label>
-                        </div>
-                        <div class="control-row" style="display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="chk-readonly" [ngModel]="config().readonly"
-                                (ngModelChange)="updateConfig('readonly', $event)">
-                            <label for="chk-readonly" style="margin:0; cursor:pointer; font-size: 0.875rem;">Read
-                                Only</label>
-                        </div>
+                    <div class="control-group"
+                        style="padding-top: 8px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 8px;">
+                        <app-check-box text="Disabled" [ngModel]="config().disabled"
+                            (ngModelChange)="updateConfig('disabled', $event)"></app-check-box>
+                        <app-check-box text="ReadOnly" [ngModel]="config().readonly"
+                            (ngModelChange)="updateConfig('readonly', $event)"></app-check-box>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <label
-                            style="display: block; font-size: 0.875rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">Display
-                            Expression</label>
-                        <input type="text" class="app-input size-md" style="width: 100%;"
-                            [ngModel]="config().displayExpr" (ngModelChange)="updateConfig('displayExpr', $event)">
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid var(--c-border);">
+                        <app-input label="Display Expression" [ngModel]="config().displayExpr"
+                            (ngModelChange)="updateConfig('displayExpr', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label
-                            style="display: block; font-size: 0.875rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">Value
-                            Expression</label>
-                        <input type="text" class="app-input size-md" style="width: 100%;" [ngModel]="config().valueExpr"
-                            (ngModelChange)="updateConfig('valueExpr', $event)">
+                        <app-input label="Value Expression" [ngModel]="config().valueExpr"
+                            (ngModelChange)="updateConfig('valueExpr', $event)"></app-input>
                     </div>
                 </div>
             </div>
@@ -139,8 +116,8 @@
                 style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
                 <!-- Basic Group -->
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
-                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Basic Usage</h3>
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: var(--c-tips);">Basic Usage</h3>
                     <div style="margin-top: 1rem;">
                         <app-radio-group [items]="['Small', 'Medium', 'Large']" [ngModel]="'Medium'"></app-radio-group>
                     </div>
@@ -148,8 +125,8 @@
 
                 <!-- Horizontal Layout -->
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
-                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Horizontal Layout</h3>
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: var(--c-tips);">Horizontal Layout</h3>
                     <div style="margin-top: 1rem;">
                         <app-radio-group layout="horizontal" [items]="['Option A', 'Option B', 'Option C']"
                             [ngModel]="'Option A'"></app-radio-group>
@@ -158,8 +135,8 @@
 
                 <!-- Custom Template (Status) -->
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
-                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Custom Template</h3>
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: var(--c-tips);">Custom Template</h3>
                     <div style="margin-top: 1rem;">
                         <app-radio-group [items]="[
                             { status: 'Online', color: '#10b981', desc: 'User is active' },

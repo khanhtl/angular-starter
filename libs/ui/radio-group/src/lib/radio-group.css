@@ -63,7 +63,7 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  background-color: var(--c-bg); /* primary bg */
+  background-color: var(--c-surface); /* primary bg */
 
   .radio-item:hover:not(.item-disabled) & {
     border-color: var(--c-brand);

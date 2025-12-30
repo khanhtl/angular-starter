@@ -75,4 +75,5 @@ export interface DesignTokens {
     colorRed: string;
     colorYellow: string;
     colorGray: string;
+    colorSurface: string;
 }

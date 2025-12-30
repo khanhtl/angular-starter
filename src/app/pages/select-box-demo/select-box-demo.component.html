@@ -69,7 +69,7 @@
 
                         @if (selectedValue()) {
                         <div class="value-display"
-                            style="margin-top: 24px; padding: 12px; background: #f1f5f9; border-radius: 6px; font-size: 0.85rem;">
+                            style="margin-top: 24px; padding: 12px; background: var(--c-surface); border-radius: 6px; font-size: 0.85rem;">
                             <strong>Selected Value:</strong> <code>{{ selectedValue() | json }}</code>
                         </div>
                         }
@@ -88,7 +88,7 @@
 
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
                         </div>
                         }
                     </div>
@@ -99,58 +99,50 @@
                     <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
-                        <label>Scenario</label>
-                        <select class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [(ngModel)]="dsType" (change)="onScenarioChange()">
-                            <option value="local">Basic Array</option>
-                            <option value="fruits">Grouping (Fruits & Veggies)</option>
-                            <option value="users">Users (Custom Template)</option>
-                            <option value="countries">Countries (Custom Template)</option>
-                            <option value="remote">Remote API (JSONPlaceholder)</option>
-                            <option value="large">Large Data (Virtual Scroll)</option>
-                        </select>
+                        <app-select-box label="Scenario" [dataSource]="scenarioOptions" displayExpr="name"
+                            valueExpr="id" [ngModel]="dsType()"
+                            (ngModelChange)="dsType.set($event); onScenarioChange()">
+                        </app-select-box>
                     </div>
 
                     <!-- Form Control Props -->
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <label>Form Control Props</label>
-                        <app-input label="Label" [(ngModel)]="label" size="sm"></app-input>
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid var(--c-border);">
+                        <label style="margin-bottom: 8px; display: block; font-weight: 600;">Form Control Props</label>
+                        <app-input label="Label" [ngModel]="label()" (ngModelChange)="label.set($event)"
+                            size="sm"></app-input>
                         <div style="margin-top: 8px;">
-                            <app-input label="Hint" [(ngModel)]="hint" size="sm"></app-input>
+                            <app-input label="Hint" [ngModel]="hint()" (ngModelChange)="hint.set($event)"
+                                size="sm"></app-input>
                         </div>
                         <div style="margin-top: 8px;">
-                            <app-input label="Error Text" [(ngModel)]="errorText" size="sm"></app-input>
+                            <app-input label="Error Text" [ngModel]="errorText()"
+                                (ngModelChange)="errorText.set($event)" size="sm"></app-input>
                         </div>
-                        <div class="control-row" style="margin-top: 8px;">
-                            <input type="checkbox" id="chk-required" [(ngModel)]="required">
-                            <label for="chk-required" style="margin:0; cursor:pointer;">Required</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-disabled" [(ngModel)]="disabled">
-                            <label for="chk-disabled" style="margin:0; cursor:pointer;">Disabled</label>
+                        <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 8px;">
+                            <app-check-box text="Required" [ngModel]="required()"
+                                (ngModelChange)="required.set($event)"></app-check-box>
+                            <app-check-box text="Disabled" [ngModel]="disabled()"
+                                (ngModelChange)="disabled.set($event)"></app-check-box>
                         </div>
                     </div>
 
                     <!-- Grouping Props -->
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <label>Grouping</label>
-                        <app-input label="Group Expression" [(ngModel)]="groupExpr" size="sm"></app-input>
-                        <div class="control-row" style="margin-top: 8px;">
-                            <input type="checkbox" id="chk-collapsed" [(ngModel)]="groupsCollapsed">
-                            <label for="chk-collapsed" style="margin:0; cursor:pointer;">Groups Collapsed</label>
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid var(--c-border);">
+                        <label style="margin-bottom: 8px; display: block; font-weight: 600;">Grouping</label>
+                        <app-input label="Group Expression" [ngModel]="groupExpr()"
+                            (ngModelChange)="groupExpr.set($event)" size="sm"></app-input>
+                        <div style="margin-top: 8px;">
+                            <app-check-box text="Groups Collapsed" [ngModel]="groupsCollapsed()"
+                                (ngModelChange)="groupsCollapsed.set($event)"></app-check-box>
                         </div>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-search" [(ngModel)]="searchEnabled">
-                            <label for="chk-search" style="margin:0; cursor:pointer;">Enable Search</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-clear" [(ngModel)]="clearable">
-                            <label for="chk-clear" style="margin:0; cursor:pointer;">Clearable</label>
-                        </div>
+                    <div class="control-group"
+                        style="padding-top: 8px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 8px;">
+                        <app-check-box text="Enable Search" [ngModel]="searchEnabled()"
+                            (ngModelChange)="searchEnabled.set($event)"></app-check-box>
+                        <app-check-box text="Clearable" [ngModel]="clearable()"
+                            (ngModelChange)="clearable.set($event)"></app-check-box>
                     </div>
                 </div>
             </div>

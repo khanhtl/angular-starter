@@ -47,7 +47,7 @@
 
                         @if (showCode()) {
                         <div #codeEditor class="code-editor-container"
-                            style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
                         </div>
                         }
                     </div>
@@ -58,81 +58,41 @@
                     <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
-                        <label>Button Text</label>
-                        <input type="text" class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().text" (ngModelChange)="updateConfig('text', $event)">
+                        <app-input label="Button Text" [ngModel]="config().text"
+                            (ngModelChange)="updateConfig('text', $event)"></app-input>
                     </div>
 
                     <div class="control-group">
-                        <label>Variant</label>
-                        <select class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().variant" (ngModelChange)="updateConfig('variant', $event)">
-                            <option value="solid">Solid</option>
-                            <option value="outline">Outline</option>
-                            <option value="ghost">Ghost</option>
-                            <option value="link">Link</option>
-                        </select>
+                        <app-select-box label="Variant" [dataSource]="variants" [ngModel]="config().variant"
+                            (ngModelChange)="updateConfig('variant', $event)"></app-select-box>
                     </div>
 
                     <div class="control-group">
-                        <label>Color</label>
-                        <select class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().color" (ngModelChange)="updateConfig('color', $event)">
-                            <option value="primary">Primary</option>
-                            <option value="secondary">Secondary</option>
-                            <option value="success">Success</option>
-                            <option value="warning">Warning</option>
-                            <option value="danger">Danger</option>
-                            <option value="info">Info</option>
-                            <option value="neutral">Neutral</option>
-                        </select>
+                        <app-select-box label="Color" [dataSource]="colors" [ngModel]="config().color"
+                            (ngModelChange)="updateConfig('color', $event)"></app-select-box>
                     </div>
 
                     <div class="control-group">
-                        <label>Size</label>
-                        <select class="app-input"
-                            style="width: 100%; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 4px;"
-                            [ngModel]="config().size" (ngModelChange)="updateConfig('size', $event)">
-                            <option value="sm">Small</option>
-                            <option value="md">Medium (Default)</option>
-                            <option value="lg">Large</option>
-                            <option value="icon">Icon Only</option>
-                        </select>
+                        <app-select-box label="Size" [dataSource]="sizes" [ngModel]="config().size"
+                            (ngModelChange)="updateConfig('size', $event)"></app-select-box>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-loading" [ngModel]="config().loading"
-                                (ngModelChange)="updateConfig('loading', $event)">
-                            <label for="chk-loading" style="margin:0; cursor:pointer;">Loading State</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-disabled" [ngModel]="config().disabled"
-                                (ngModelChange)="updateConfig('disabled', $event)">
-                            <label for="chk-disabled" style="margin:0; cursor:pointer;">Disabled</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-ripple" [ngModel]="config().ripple"
-                                (ngModelChange)="updateConfig('ripple', $event)">
-                            <label for="chk-ripple" style="margin:0; cursor:pointer;">Ripple Effect</label>
-                        </div>
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-icon" [ngModel]="config().showIcon"
-                                (ngModelChange)="updateConfig('showIcon', $event)"
-                                [disabled]="config().size === 'icon'">
-                            <label for="chk-icon" style="margin:0; cursor:pointer;">Show Icon</label>
-                        </div>
+                    <div class="control-group"
+                        style="padding-top: 8px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 8px;">
+                        <app-check-box text="Loading State" [ngModel]="config().loading"
+                            (ngModelChange)="updateConfig('loading', $event)"></app-check-box>
+                        <app-check-box text="Disabled" [ngModel]="config().disabled"
+                            (ngModelChange)="updateConfig('disabled', $event)"></app-check-box>
+                        <app-check-box text="Ripple Effect" [ngModel]="config().ripple"
+                            (ngModelChange)="updateConfig('ripple', $event)"></app-check-box>
+                        <app-check-box text="Show Icon" [ngModel]="config().showIcon"
+                            (ngModelChange)="updateConfig('showIcon', $event)"
+                            [disabled]="config().size === 'icon'"></app-check-box>
                     </div>
 
-                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid #e2e8f0;">
-                        <div class="control-row">
-                            <input type="checkbox" id="chk-dropdown" [ngModel]="config().dropdown"
-                                (ngModelChange)="updateConfig('dropdown', $event)">
-                            <label for="chk-dropdown" style="margin:0; cursor:pointer;">Dropdown Menu (Split)</label>
-                        </div>
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid var(--c-border);">
+                        <app-check-box text="Dropdown Menu (Split)" [ngModel]="config().dropdown"
+                            (ngModelChange)="updateConfig('dropdown', $event)"></app-check-box>
                     </div>
                 </div>
             </div>
@@ -144,7 +104,7 @@
                 style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
                 <!-- States -->
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
                     <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">States & Indicators</h3>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem;">
                         <app-button [loading]="isLoading()" (click)="toggleLoading()">
@@ -158,7 +118,7 @@
 
                 <!-- Dropdowns -->
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
                     <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Menus & Actions</h3>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem;">
                         <app-button dropdown [items]="mockItems" color="primary">
@@ -172,7 +132,7 @@
 
                 <!-- Icons usage -->
                 <div class="preview-card"
-                    style="background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
                     <h3 style="margin-top: 0; font-size: 1rem; color: #64748b;">Icon Positions</h3>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1rem;">
                         <app-button>

@@ -35,7 +35,7 @@
   padding: 0 var(--space-xs);
   border: 1px solid var(--c-border);
   border-radius: var(--w-radius);
-  background-color: var(--c-bg);
+  background-color: var(--c-surface);
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
@@ -112,7 +112,7 @@
 /* Dropdown Styles */
 .select-box-dropdown {
   width: 100%;
-  background-color: var(--c-bg);
+  background-color: var(--c-surface);
   border: 1px solid var(--c-border);
   border-radius: var(--w-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -128,7 +128,7 @@
   align-items: center;
   padding: 8px;
   border-bottom: 1px solid var(--c-border);
-  background-color: var(--c-bg);
+  background-color: var(--c-surface);
   position: sticky;
   top: 0;
   z-index: 11;
@@ -183,7 +183,7 @@
 
 /* Grouping Styles */
 .list-item.group-header {
-  background-color: color-mix(in srgb, var(--c-bg), var(--c-text) 5%);
+  background-color: color-mix(in srgb, var(--c-surface), var(--c-text) 5%);
   font-weight: 600;
   font-size: 12px;
   color: var(--c-tips);
