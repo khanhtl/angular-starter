@@ -87,6 +87,19 @@ body {
   }
 }
 
+/* CDK Dialog Styling */
+.cdk-overlay-backdrop {
+  background-color: var(--c-mask);
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease;
+}
+
+.cdk-overlay-pane {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
 i-lucide,
 lucide-angular {
   display: flex;

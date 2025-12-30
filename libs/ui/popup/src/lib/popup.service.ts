@@ -29,6 +29,8 @@ export class PopupService<
             width: config?.width,
             height: config?.height,
             disableClose: config?.disableClose,
+            panelClass: config?.panelClass,
+            backdropClass: config?.backdropClass,
         });
 
         ref.closed.subscribe(result => {

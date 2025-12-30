@@ -22,6 +22,8 @@ export interface PopupConfig<
     width?: string;
     height?: string;
     disableClose?: boolean;
+    panelClass?: string | string[];
+    backdropClass?: string | string[];
     hooks?: PopupHooks<
         PopupData<TMap, K>,
         PopupResult<TMap, K>

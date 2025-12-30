@@ -1,0 +1,520 @@
+<div class="page-container">
+    <header class="page-header">
+        <div class="header-content">
+            <div>
+                <h1>User Management</h1>
+                <p>A professional demonstration of using <strong>PopupService</strong> for complex CRUD workflows,
+                    forms, and API states.</p>
+            </div>
+            <div class="header-actions">
+                <app-button color="info" variant="outline" (click)="simulateSync()">
+                    <i-lucide [img]="RefreshIcon" [size]="16" style="margin-right: 8px;"></i-lucide>
+                    Sync Database
+                </app-button>
+                <app-button color="primary" (click)="openCreateForm()">
+                    <i-lucide [img]="PlusIcon" [size]="18" style="margin-right: 8px;"></i-lucide>
+                    Create User
+                </app-button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Management Board</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">Service Secrets</button>
+    </nav>
+
+    @if (activeTab() === 'preview') {
+    <div class="management-layout">
+        <!-- Top Section: The Grid (Source of Truth) -->
+        <section class="grid-section">
+            <div class="section-title">
+                <i-lucide [img]="SearchIcon" [size]="18" class="title-icon"></i-lucide>
+                <span>User Directory</span>
+            </div>
+            <div class="grid-card">
+                <app-data-grid [data]="users()" [columns]="columns" height="400px" [loading]="loading()">
+
+                    <ng-template appCellTemplate="role-cell" let-value="value">
+                        <span class="role-badge" [class]="value">{{ value || 'Guest' }}</span>
+                    </ng-template>
+
+                    <ng-template appCellTemplate="actions-cell" let-row="row">
+                        <div class="row-actions">
+                            <app-button color="primary" variant="ghost" size="icon" (click)="openEditForm(row)"
+                                title="Edit User">
+                                <i-lucide [img]="PencilIcon" [size]="14"></i-lucide>
+                            </app-button>
+                            <div class="v-divider"></div>
+                            <app-button color="danger" variant="ghost" size="icon" (click)="confirmDelete(row)"
+                                title="Delete User">
+                                <i-lucide [img]="TrashIcon" [size]="14"></i-lucide>
+                            </app-button>
+                        </div>
+                    </ng-template>
+                </app-data-grid>
+            </div>
+        </section>
+
+        <!-- Bottom Section: Insights & Logic -->
+        <div class="insights-grid">
+            <aside class="activity-feed">
+                <div class="panel-header">
+                    <h3>Recent Activity</h3>
+                    @if (lastResult()) {
+                    <span class="activity-dot pulsing"></span>
+                    }
+                </div>
+
+                <div class="activity-content">
+                    @if (lastResult()) {
+                    <div class="activity-item" [class]="lastResult().action">
+                        <div class="item-header">
+                            <span class="action-tag">{{ lastResult().action }}</span>
+                            <span class="item-time">Just now</span>
+                        </div>
+                        <div class="item-body">
+                            <pre>{{ lastResult().data || lastResult().id | json }}</pre>
+                        </div>
+                    </div>
+                    } @else {
+                    <div class="empty-feed">
+                        <div class="empty-icon">📂</div>
+                        <p>No transactions yet</p>
+                        <span>Perform an action above to see results</span>
+                    </div>
+                    }
+                </div>
+            </aside>
+
+            <section class="implementation-details">
+                <div class="panel-header">
+                    <div class="header-left">
+                        <h3>Implementation</h3>
+                        <span class="file-tag">popup-demo.component.ts</span>
+                    </div>
+                    <app-button variant="outline" size="sm" (click)="toggleCode()">
+                        <i-lucide [img]="showCode() ? EyeOffIcon : EyeIcon" [size]="14"
+                            style="margin-right: 6px;"></i-lucide>
+                        {{ showCode() ? 'Hide Code' : 'Show View' }}
+                    </app-button>
+                </div>
+
+                <div class="code-container" [class.hidden]="!showCode()">
+                    @if (showCode()) {
+                    <div #codeEditor class="modern-editor"></div>
+                    } @else {
+                    <div class="code-placeholder">
+                        <i-lucide [img]="ExternalIcon" [size]="32" class="p-icon"></i-lucide>
+                        <p>Code insights are hidden</p>
+                        <app-button color="neutral" variant="ghost" size="sm" (click)="toggleCode()">Reveal
+                            Source</app-button>
+                    </div>
+                    }
+                </div>
+            </section>
+        </div>
+    </div>
+    } @else {
+    <div class="api-documentation">
+        <div class="doc-card">
+            <div class="doc-header">
+                <i-lucide [img]="RefreshIcon" [size]="20"></i-lucide>
+                <h3>Service Orchestration</h3>
+            </div>
+            <div class="doc-body">
+                <p>The <code>PopupService</code> acts as a central dispatcher for all dialogs in your feature. It
+                    supports both lazy loading of components and type-safe data passing.</p>
+
+                <div class="type-block">
+                    <h4>Shared Registry Pattern</h4>
+                    <pre>export interface FeaturePopups {{ '{' }}
+  'edit': {{ '{' }} data: User; result: SaveResult {{ '}' }};
+  'confirm': {{ '{' }} data: string; result: boolean {{ '}' }};
+{{ '}' }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+<style>
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 8px;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    .management-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        animation: fadeIn 0.4s ease-out;
+    }
+
+    .grid-section {
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: var(--c-text);
+            font-weight: 600;
+            font-size: 1.1rem;
+
+            .title-icon {
+                color: var(--c-brand);
+            }
+        }
+    }
+
+    .grid-card {
+        background: var(--c-surface);
+        border: 1px solid var(--c-border);
+        border-radius: var(--w-radius-lg);
+        overflow: hidden;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+        }
+    }
+
+    .insights-grid {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 24px;
+        align-items: start;
+
+        @media (max-width: 1024px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+
+        h3 {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--c-tips);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .file-tag {
+            font-size: 0.7rem;
+            color: var(--c-brand);
+            background: var(--c-bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            border: 1px solid var(--c-border);
+        }
+    }
+
+    .activity-feed {
+        background: var(--c-surface);
+        border: 1px solid var(--c-border);
+        border-radius: 16px;
+        padding: 24px;
+        min-height: 350px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .activity-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--c-brand);
+
+        &.pulsing {
+            box-shadow: 0 0 0 0 rgba(66, 185, 131, 0.4);
+            animation: pulse 2s infinite;
+        }
+    }
+
+    .activity-item {
+        background: var(--c-bg);
+        border: 1px solid var(--c-border);
+        border-radius: 12px;
+        padding: 16px;
+        margin-top: 8px;
+        animation: slideInRight 0.3s ease-out;
+
+        &.created {
+            border-left: 4px solid var(--c-green);
+        }
+
+        &.updated {
+            border-left: 4px solid var(--c-blue);
+        }
+
+        &.deleted {
+            border-left: 4px solid var(--c-red);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .action-tag {
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            background: var(--c-surface);
+            border-radius: 4px;
+            border: 1px solid var(--c-border);
+        }
+
+        .item-time {
+            font-size: 0.65rem;
+            color: var(--c-tips);
+        }
+
+        pre {
+            margin: 0;
+            font-size: 0.75rem;
+            color: var(--c-brand);
+            overflow: auto;
+            max-height: 150px;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 6px;
+        }
+    }
+
+    .empty-feed {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--c-tips);
+        text-align: center;
+
+        .empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        p {
+            margin: 0 0 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--c-text);
+        }
+
+        span {
+            font-size: 0.8rem;
+        }
+    }
+
+    .implementation-details {
+        flex: 1;
+    }
+
+    .code-container {
+        background: #0f172a;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        min-height: 350px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+
+        &.hidden {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--c-surface);
+            border: 1px dashed var(--c-border);
+            box-shadow: none;
+        }
+    }
+
+    .code-placeholder {
+        text-align: center;
+        color: var(--c-tips);
+
+        .p-icon {
+            margin-bottom: 16px;
+            opacity: 0.1;
+            color: var(--c-text);
+            transform: scale(1.5);
+        }
+
+        p {
+            margin: 0 0 16px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+    }
+
+    .role-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 10px;
+        border-radius: 99px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: capitalize;
+
+        &.admin {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        &.editor {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        &.user {
+            background: #dcfce7;
+            color: #166534;
+        }
+    }
+
+    .row-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+
+        .v-divider {
+            width: 1px;
+            height: 16px;
+            background: var(--c-border);
+            margin: 0 4px;
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(66, 185, 131, 0.7);
+        }
+
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(66, 185, 131, 0);
+        }
+
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(66, 185, 131, 0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .api-documentation {
+        display: flex;
+        justify-content: center;
+        animation: fadeIn 0.4s ease-out;
+
+        .doc-card {
+            background: var(--c-surface);
+            border: 1px solid var(--c-border);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .doc-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            color: var(--c-brand);
+
+            h3 {
+                margin: 0;
+                font-size: 1.75rem;
+                color: var(--c-text);
+            }
+        }
+
+        .doc-body {
+            color: var(--c-text);
+            line-height: 1.7;
+
+            p {
+                margin-bottom: 32px;
+                font-size: 1.1rem;
+                color: var(--c-tips);
+            }
+        }
+
+        .type-block {
+            background: var(--c-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--c-border);
+
+            h4 {
+                margin: 0 0 16px;
+                font-size: 0.95rem;
+                color: var(--c-tips);
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            pre {
+                margin: 0;
+                color: var(--c-brand);
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.9rem;
+            }
+        }
+    }
+</style>

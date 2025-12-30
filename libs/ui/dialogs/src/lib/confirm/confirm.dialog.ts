@@ -2,6 +2,8 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 
+import { ButtonComponent } from '@angular-starter/ui/button';
+
 import {
   ConfirmPopupData,
   ConfirmPopupResult,
@@ -10,39 +12,75 @@ import {
 @Component({
   standalone: true,
   selector: 'ui-confirm-dialog',
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
-    <h2>{{ data.title || 'Confirm' }}</h2>
-    <p>{{ data.message }}</p>
-
-    <div class="actions">
-      <button (click)="cancel()">
-        {{ data.cancelText || 'Cancel' }}
-      </button>
-      <button (click)="ok()">
-        {{ data.okText || 'OK' }}
-      </button>
+    <div class="dialog-container">
+      <div class="dialog-header">
+        <h2 class="dialog-title">{{ data.title || 'Confirm' }}</h2>
+      </div>
+      <div class="dialog-body">
+        <p class="dialog-message">{{ data.message }}</p>
+      </div>
+      <div class="dialog-actions">
+        <app-button color="neutral" variant="outline" (click)="cancel()">
+          {{ data.cancelText || 'Cancel' }}
+        </app-button>
+        <app-button color="primary" (click)="ok()">
+          {{ data.okText || 'OK' }}
+        </app-button>
+      </div>
     </div>
   `,
   styles: [
     `
       :host {
         display: block;
-        padding: 16px;
         width: 100%;
-        background: white;
-        border-radius: 8px;
+        max-width: 400px;
+        background: var(--c-surface);
+        border-radius: var(--w-radius-lg);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+        border: 1px solid var(--c-border);
       }
 
-      h2 {
-        margin-top: 0;
+      .dialog-container {
+        display: flex;
+        flex-direction: column;
       }
-      .actions {
-        margin-top: 16px;
+
+      .dialog-header {
+        padding: var(--space-sm) var(--space-md);
+        border-bottom: 1px solid var(--c-border);
+      }
+
+      .dialog-title {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--c-text);
+      }
+
+      .dialog-body {
+        padding: var(--space-md);
+      }
+
+      .dialog-message {
+        margin: 0;
+        color: var(--c-text);
+        opacity: 0.8;
+        line-height: 1.5;
+      }
+
+      .dialog-actions {
+        padding: var(--space-sm) var(--space-md);
         display: flex;
         justify-content: flex-end;
-        gap: 8px;
+        gap: var(--space-xs);
+        background: var(--c-bg);
+        border-top: 1px solid var(--c-border);
       }
+
     `,
   ],
 })
