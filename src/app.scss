@@ -36,7 +36,7 @@
     border-radius: 0.75rem;
     padding: 0;
     margin-bottom: 24px;
-    overflow: hidden;
+    position: relative;
     transition: background-color 0.2s, border-color 0.2s;
 
     .preview-area {
@@ -46,6 +46,8 @@
         flex-direction: column;
         background: var(--c-bg);
         border-bottom: 1px solid var(--c-border);
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
 
         @media (max-width: 768px) {
             padding: 20px;
@@ -169,7 +171,8 @@
 
 .demo-section {
     margin-bottom: var(--space-xl);
-    overflow-x: auto;
+    position: relative;
+    // Removed overflow-x: auto to prevent clipping of dropdowns like calendar
     -webkit-overflow-scrolling: touch;
 
     h2 {
