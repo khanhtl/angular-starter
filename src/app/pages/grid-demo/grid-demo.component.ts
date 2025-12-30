@@ -169,7 +169,7 @@ export class GridDemoComponent implements OnDestroy {
                         { key: 'projects', title: 'Projects', width: '100px', align: 'center' as const }
                     ]
                 },
-                { key: 'status', cellTemplate: 'cell-status', title: 'Status', width: '150px', align: 'center' as const, pinned: 'right' as const },
+                { key: 'status', cellTemplate: 'cell-status', title: 'Status', width: '150px', align: 'center' as const },
                 { key: 'actions', title: 'Actions', width: '120px', align: 'center' as const, pinned: 'right' as const, pinnable: false }
             ];
         }

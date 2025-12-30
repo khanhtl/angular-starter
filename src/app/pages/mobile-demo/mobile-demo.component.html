@@ -1,0 +1,170 @@
+<div class="page-container">
+    <div class="page-header">
+        <h1>Responsive Mobile UI</h1>
+        <p>Experience our components in various device simulations.</p>
+    </div>
+
+    <div class="demo-controls">
+        <div class="device-selector">
+            @for (device of devices; track device.id) {
+            <button class="device-btn" [class.active]="currentDevice() === device.id" (click)="setDevice(device.id)">
+                <i-lucide [img]="device.icon"></i-lucide>
+                {{ device.label }}
+            </button>
+            }
+        </div>
+
+        <div class="screen-selector">
+            <button class="screen-btn" [class.active]="currentScreen() === 'login'"
+                (click)="setScreen('login')">Login</button>
+            <button class="screen-btn" [class.active]="currentScreen() === 'dashboard'"
+                (click)="setScreen('dashboard')">Dashboard</button>
+            <button class="screen-btn" [class.active]="currentScreen() === 'settings'"
+                (click)="setScreen('settings')">Settings</button>
+        </div>
+    </div>
+
+    <div class="device-preview" [attr.data-device]="currentDevice()">
+        <div class="device-frame">
+            <div class="device-screen">
+                <!-- Status Bar Simulator -->
+                <div class="status-bar">
+                    <span class="time">12:45</span>
+                    <div class="status-icons">
+                        <div class="network"></div>
+                        <div class="wifi"></div>
+                        <div class="battery"></div>
+                    </div>
+                </div>
+
+                <!-- App Header Simulator -->
+                <header class="mobile-header">
+                    @if (currentScreen() !== 'login') {
+                    <button class="back-btn" (click)="setScreen('login')">
+                        <i-lucide [img]="ChevronLeft"></i-lucide>
+                    </button>
+                    }
+                    <span class="title">My App</span>
+                    <div class="header-actions">
+                        <i-lucide [img]="Bell" class="icon"></i-lucide>
+                    </div>
+                </header>
+
+                <!-- Dynamic Content -->
+                <main class="mobile-content">
+                    @if (currentScreen() === 'login') {
+                    <div class="login-screen">
+                        <div class="logo-area">
+                            <div class="app-logo">AS</div>
+                            <h2>Welcome Back</h2>
+                            <p>Sign in to continue</p>
+                        </div>
+
+                        <div class="form-area">
+                            <app-input label="Email" placeholder="user@example.com"></app-input>
+                            <app-input label="Password" type="password" placeholder="••••••••"></app-input>
+
+                            <div class="form-options">
+                                <app-check-box label="Remember me"></app-check-box>
+                                <a href="javascript:void(0)" class="forgot-link">Forgot password?</a>
+                            </div>
+
+                            <app-button color="primary" width="100%" (click)="setScreen('dashboard')">Sign
+                                In</app-button>
+
+                            <div class="divider">
+                                <span>OR</span>
+                            </div>
+
+                            <app-button color="secondary" style="width: 100%">Continue with Google</app-button>
+                        </div>
+                    </div>
+                    }
+
+                    @if (currentScreen() === 'dashboard') {
+                    <div class="dashboard-screen">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <span class="label">Revenue</span>
+                                <span class="value">$12,450</span>
+                                <span class="trend up">+12%</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="label">Users</span>
+                                <span class="value">1,240</span>
+                                <span class="trend up">+5%</span>
+                            </div>
+                        </div>
+
+                        <div class="section-title">Recent Activity</div>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="avatar blue">JD</div>
+                                <div class="details">
+                                    <span class="name">John Doe</span>
+                                    <span class="action">Purchased Premium Plan</span>
+                                </div>
+                                <span class="time">2m ago</span>
+                            </div>
+                            <div class="activity-item">
+                                <div class="avatar green">SK</div>
+                                <div class="details">
+                                    <span class="name">Sarah King</span>
+                                    <span class="action">Invited 3 members</span>
+                                </div>
+                                <span class="time">15m ago</span>
+                            </div>
+                        </div>
+
+                        <div class="section-title">Common Controls</div>
+                        <div class="controls-demo">
+                            <app-select-box label="Category" [dataSource]="['Business', 'Personal', 'Other']"
+                                ngModel="Business"></app-select-box>
+                            <div style="margin-top: 16px;">
+                                <app-check-box label="Enable notifications" [ngModel]="true"></app-check-box>
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                    @if (currentScreen() === 'settings') {
+                    <div class="settings-screen">
+                        <div class="settings-group">
+                            <div class="settings-item">
+                                <div class="icon-wrap"><i-lucide [img]="User"></i-lucide></div>
+                                <span>Profile Settings</span>
+                            </div>
+                            <div class="settings-item">
+                                <div class="icon-wrap"><i-lucide [img]="Bell"></i-lucide></div>
+                                <span>Notifications</span>
+                            </div>
+                            <div class="settings-item">
+                                <div class="icon-wrap"><i-lucide [img]="Settings"></i-lucide></div>
+                                <span>Security</span>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </main>
+
+                <!-- Bottom Navigation Simulator -->
+                <nav class="mobile-nav">
+                    <button class="nav-btn" [class.active]="currentScreen() === 'dashboard'"
+                        (click)="setScreen('dashboard')">
+                        <i-lucide [img]="Home"></i-lucide>
+                        <span>Home</span>
+                    </button>
+                    <button class="nav-btn">
+                        <i-lucide [img]="Search"></i-lucide>
+                        <span>Search</span>
+                    </button>
+                    <button class="nav-btn" [class.active]="currentScreen() === 'settings'"
+                        (click)="setScreen('settings')">
+                        <i-lucide [img]="User"></i-lucide>
+                        <span>Profile</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

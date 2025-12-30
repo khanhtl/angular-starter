@@ -1,90 +1,104 @@
-<div class="app-layout">
+<div class="app-layout" [class.sidebar-open]="sidebarVisible()">
+  <!-- Backdrop for mobile -->
+  <div class="sidebar-backdrop" (click)="closeSidebar()"></div>
+
   <aside class="sidebar">
-    <div class="logo">Angular Starter</div>
+    <div class="sidebar-header">
+      <div class="logo">Angular Starter</div>
+      <button class="close-sidebar-btn" (click)="closeSidebar()">
+        <i-lucide [img]="X"></i-lucide>
+      </button>
+    </div>
     <nav>
-      <a routerLink="/button" routerLinkActive="active">
+      <a routerLink="/mobile-demo" routerLinkActive="active" (click)="closeSidebar()">
+        <i-lucide [img]="Smartphone" class="nav-icon"></i-lucide>
+        Mobile Demo
+      </a>
+      <a routerLink="/button" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="MousePointer2" class="nav-icon"></i-lucide>
         Buttons
       </a>
-      <a routerLink="/grid" routerLinkActive="active">
+      <a routerLink="/grid" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="Table2" class="nav-icon"></i-lucide>
         Data Grid
       </a>
-      <a routerLink="/input" routerLinkActive="active">
+      <a routerLink="/input" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="TextCursorInput" class="nav-icon"></i-lucide>
         Inputs
       </a>
-      <a routerLink="/calendar" routerLinkActive="active">
+      <a routerLink="/calendar" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="Calendar" class="nav-icon"></i-lucide>
         Calendar
       </a>
-      <a routerLink="/date-box" routerLinkActive="active">
+      <a routerLink="/date-box" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="CalendarDays" class="nav-icon"></i-lucide>
         Date Box
       </a>
-      <a routerLink="/date-range" routerLinkActive="active">
+      <a routerLink="/date-range" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="CalendarRange" class="nav-icon"></i-lucide>
         Date Range
       </a>
-      <a routerLink="/select-box" routerLinkActive="active">
+      <a routerLink="/select-box" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="SquareChevronDown" class="nav-icon"></i-lucide>
         Select Box
       </a>
-      <a routerLink="/tag-box" routerLinkActive="active">
+      <a routerLink="/tag-box" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="Tags" class="nav-icon"></i-lucide>
         Tag Box
       </a>
-      <a routerLink="/check-box" routerLinkActive="active">
+      <a routerLink="/check-box" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="CheckSquare" class="nav-icon"></i-lucide>
         Check Box
       </a>
-      <a routerLink="/radio-group" routerLinkActive="active">
+      <a routerLink="/radio-group" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="CircleDot" class="nav-icon"></i-lucide>
         Radio Group
       </a>
-      <a routerLink="/tab" routerLinkActive="active">
+      <a routerLink="/tab" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="TableProperties" class="nav-icon"></i-lucide>
         Tabs
       </a>
-      <a routerLink="/textarea" routerLinkActive="active">
+      <a routerLink="/textarea" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="FileText" class="nav-icon"></i-lucide>
         Textarea
       </a>
-      <a routerLink="/carousel" routerLinkActive="active">
+      <a routerLink="/carousel" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="Images" class="nav-icon"></i-lucide>
         Carousel
       </a>
-      <a routerLink="/pagination" routerLinkActive="active">
+      <a routerLink="/pagination" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="PaginationIcon" class="nav-icon"></i-lucide>
         Pagination
       </a>
-      <a routerLink="/popover" routerLinkActive="active">
+      <a routerLink="/popover" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="MessageCircle" class="nav-icon"></i-lucide>
         Popover
       </a>
-      <a routerLink="/popup" routerLinkActive="active">
+      <a routerLink="/popup" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="MessageSquare" class="nav-icon"></i-lucide>
         Popup & Dialog
       </a>
-      <a routerLink="/toast" routerLinkActive="active">
+      <a routerLink="/toast" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="Bell" class="nav-icon"></i-lucide>
         Toast
       </a>
-      <a routerLink="/skeleton" routerLinkActive="active">
+      <a routerLink="/skeleton" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="Layout" class="nav-icon"></i-lucide>
         Skeleton
       </a>
-      <a routerLink="/spinner" routerLinkActive="active">
+      <a routerLink="/spinner" routerLinkActive="active" (click)="closeSidebar()">
         <i-lucide [img]="Loader2" class="nav-icon"></i-lucide>
         Spinner
       </a>
     </nav>
-
-
   </aside>
 
   <main class="content">
     <header class="app-header">
+      <button class="menu-toggle-btn" (click)="toggleSidebar()">
+        <i-lucide [img]="Menu"></i-lucide>
+      </button>
+
       <!-- Theme Controls -->
       <div class="theme-controls">
         <div class="theme-section">

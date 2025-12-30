@@ -1,14 +1,15 @@
 import { THEME_COLOR_LIST } from '@angular-starter/core/theme';
 import { ToastContainerComponent } from '@angular-starter/ui/toast';
-import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Bell, Calendar, CalendarDays, CalendarRange, ChevronsRight, CircleDot, FileText, Images, Layout, Loader2, LucideAngularModule, MessageCircle, MessageSquare, Moon, MousePointer2, Palette, Square, SquareChevronDown, Sun, Table2, TableProperties, Tags, TextCursorInput } from 'lucide-angular';
+import { Bell, Calendar, CalendarDays, CalendarRange, ChevronsRight, CircleDot, FileText, Images, Layout, Loader2, LucideAngularModule, Menu, MessageCircle, MessageSquare, Moon, MousePointer2, Palette, Smartphone, Square, SquareChevronDown, Sun, Table2, TableProperties, Tags, TextCursorInput, X } from 'lucide-angular';
 import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, LucideAngularModule, ToastContainerComponent],
+  imports: [RouterModule, LucideAngularModule, ToastContainerComponent, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -16,6 +17,17 @@ export class App {
   // Theme service
   readonly themeService = inject(ThemeService);
   readonly themeColors = THEME_COLOR_LIST;
+
+  // Sidebar state
+  sidebarVisible = signal(false);
+
+  toggleSidebar() {
+    this.sidebarVisible.update(v => !v);
+  }
+
+  closeSidebar() {
+    this.sidebarVisible.set(false);
+  }
 
   // Icons
   readonly MousePointer2 = MousePointer2;
@@ -40,4 +52,7 @@ export class App {
   readonly Sun = Sun;
   readonly Moon = Moon;
   readonly Palette = Palette;
+  readonly Menu = Menu;
+  readonly X = X;
+  readonly Smartphone = Smartphone;
 }

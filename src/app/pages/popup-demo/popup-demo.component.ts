@@ -1,27 +1,41 @@
 import { ButtonComponent } from '@angular-starter/ui/button';
+import { CheckBoxComponent } from '@angular-starter/ui/check-box';
 import { CellTemplateDirective, ColumnConfig, DataGridComponent } from '@angular-starter/ui/data-grid';
 import { registerApiDemoPopup, registerConfirmPopup, registerUserFormPopup, SharedPopupMap, UserFormData } from '@angular-starter/ui/dialogs';
+import { AppInputComponent } from '@angular-starter/ui/input';
 import { PopupService } from '@angular-starter/ui/popup';
+import { SelectBoxComponent } from '@angular-starter/ui/select-box';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, OnDestroy, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, inject, OnDestroy, signal, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { html } from '@codemirror/lang-html';
 import { basicSetup, EditorView } from 'codemirror';
-import { ExternalLink, Eye, EyeOff, LucideAngularModule, Pencil, Plus, RefreshCcw, Search, Trash2 } from 'lucide-angular';
+import { ExternalLink, Eye, EyeOff, Layout, LucideAngularModule, Pencil, Plus, RefreshCcw, Rocket, Search, Terminal, Trash2 } from 'lucide-angular';
 
 @Component({
     selector: 'app-popup-demo',
     standalone: true,
     imports: [
         CommonModule,
+        FormsModule,
         LucideAngularModule,
         ButtonComponent,
         DataGridComponent,
-        CellTemplateDirective
+        CellTemplateDirective,
+        AppInputComponent,
+        SelectBoxComponent,
+        CheckBoxComponent
     ],
     templateUrl: './popup-demo.component.html'
 })
-export class PopupDemoComponent implements OnDestroy {
+export class PopupDemoComponent implements OnDestroy, AfterViewInit {
     private popupService = inject(PopupService<SharedPopupMap>);
+
+    ngAfterViewInit() {
+        if (this.showCode()) {
+            this.initEditor();
+        }
+    }
 
     // Icons
     readonly PlusIcon = Plus;
@@ -32,6 +46,9 @@ export class PopupDemoComponent implements OnDestroy {
     readonly EyeIcon = Eye;
     readonly EyeOffIcon = EyeOff;
     readonly SearchIcon = Search;
+    readonly RocketIcon = Rocket;
+    readonly DashboardIcon = Layout;
+    readonly TerminalIcon = Terminal;
 
     // Registration cleanup
     private unregistrations: (() => void)[] = [
@@ -40,10 +57,52 @@ export class PopupDemoComponent implements OnDestroy {
         registerApiDemoPopup()
     ];
 
-    activeTab = signal<'preview' | 'api'>('preview');
-    showCode = signal(false);
+    activeTab = signal<'playground' | 'dashboard' | 'api'>('playground');
+    showCode = signal(true);
     lastResult = signal<any>(null);
     loading = signal(false);
+
+    playgroundConfig = signal({
+        type: 'ui.confirm',
+        title: 'Delete User Account',
+        message: 'Are you sure you want to permanently delete your account?',
+        okText: 'Delete Permanently',
+        cancelText: 'Maybe Later',
+        width: '500px',
+        disableClose: false
+    });
+
+    popupTypes = [
+        { label: 'Confirm Dialog', value: 'ui.confirm' },
+        { label: 'User Form', value: 'ui.user-form' },
+        { label: 'API Simulation', value: 'ui.api-demo' }
+    ];
+
+    generatedCode = computed(() => {
+        const c = this.playgroundConfig();
+        if (c.type === 'ui.confirm') {
+            return `const result = await this.popupService.openAndWait('ui.confirm', {
+  data: {
+    title: '${c.title}',
+    message: '${c.message}',
+    okText: '${c.okText}',
+    cancelText: '${c.cancelText}'
+  },
+  width: '${c.width}',
+  disableClose: ${c.disableClose}
+});`;
+        } else if (c.type === 'ui.user-form') {
+            return `const result = await this.popupService.openAndWait('ui.user-form', {
+  data: { name: 'John Doe', email: 'john@example.com' },
+  width: '${c.width}',
+  disableClose: ${c.disableClose}
+});`;
+        }
+        return `const result = await this.popupService.openAndWait('ui.api-demo', {
+  data: { title: 'Processing...', duration: 2000 },
+  disableClose: true 
+});`;
+    });
 
     @ViewChild('codeEditor') codeEditorRef!: ElementRef<HTMLDivElement>;
     editorView?: EditorView;
@@ -65,23 +124,51 @@ export class PopupDemoComponent implements OnDestroy {
         { key: 'actions', title: 'Actions', width: '120px', align: 'center', cellTemplate: 'actions-cell', pinned: 'right' }
     ];
 
-    generatedCode = signal<string>(`// Professional CRUD with PopupService
-const result = await this.popupService.openAndWait('ui.user-form', {
-  data: candidateData,
-  width: '500px'
-});
+    constructor() {
+        effect(() => {
+            const code = this.generatedCode();
+            if (this.editorView) {
+                this.editorView.dispatch({
+                    changes: { from: 0, to: this.editorView.state.doc.length, insert: code }
+                });
+            }
+        });
+    }
 
-if (result) {
-  this.users.update(list => [...list, result]);
-}`);
+    updatePlayground(key: string, value: any) {
+        this.playgroundConfig.update(c => ({ ...c, [key]: value }));
+    }
+
+    async openPlayground() {
+        const c = this.playgroundConfig();
+        let result;
+        if (c.type === 'ui.confirm') {
+            result = await this.popupService.openAndWait('ui.confirm', {
+                data: {
+                    title: c.title,
+                    message: c.message,
+                    okText: c.okText,
+                    cancelText: c.cancelText
+                },
+                width: c.width,
+                disableClose: c.disableClose
+            });
+        } else if (c.type === 'ui.user-form') {
+            result = await this.popupService.openAndWait('ui.user-form', {
+                data: { name: 'John Doe', email: 'john@example.com' },
+                width: c.width,
+                disableClose: c.disableClose
+            });
+        } else {
+            result = await this.popupService.openAndWait('ui.api-demo', {
+                data: { title: 'Simulating Process', duration: 2000 },
+                disableClose: true
+            });
+        }
+        this.lastResult.set(result);
+    }
 
     async openCreateForm() {
-        this.generatedCode.set(`// Create new user
-const result = await this.popupService.openAndWait('ui.user-form', {
-  data: {}, // Empty for create
-  width: '600px'
-});`);
-
         const result = await this.popupService.openAndWait('ui.user-form', {
             data: {},
             width: '600px'
@@ -95,12 +182,6 @@ const result = await this.popupService.openAndWait('ui.user-form', {
     }
 
     async openEditForm(user: UserFormData) {
-        this.generatedCode.set(`// Edit existing user
-const result = await this.popupService.openAndWait('ui.user-form', {
-  data: { ...user }, // Pre-fill data
-  width: '600px'
-});`);
-
         const result = await this.popupService.openAndWait('ui.user-form', {
             data: { ...user },
             width: '600px'

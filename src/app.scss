@@ -46,6 +46,10 @@
         flex-direction: column;
         background: var(--c-bg);
         border-bottom: 1px solid var(--c-border);
+
+        @media (max-width: 768px) {
+            padding: 20px;
+        }
     }
 
     .code-area {
@@ -96,6 +100,10 @@
     padding: 40px;
     max-width: 1200px;
     margin: 0 auto;
+
+    @media (max-width: 768px) {
+        padding: 16px;
+    }
 }
 
 .page-header {
@@ -105,12 +113,20 @@
         font-size: 2.5rem;
         margin: 0 0 12px 0;
         color: var(--c-text);
+
+        @media (max-width: 768px) {
+            font-size: 1.75rem;
+        }
     }
 
     p {
         font-size: 1.1rem;
         color: var(--c-tips);
         margin: 0;
+
+        @media (max-width: 768px) {
+            font-size: 0.9375rem;
+        }
     }
 }
 
@@ -153,6 +169,8 @@
 
 .demo-section {
     margin-bottom: var(--space-xl);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 
     h2 {
         font-size: 1.5rem;
@@ -164,6 +182,7 @@
 
 .api-table {
     width: 100%;
+    min-width: 600px;
     border-collapse: collapse;
 
     th {
@@ -173,6 +192,7 @@
         border-bottom: 2px solid var(--c-border);
         font-size: 0.875rem;
         color: var(--c-text);
+        white-space: nowrap;
     }
 
     td {
@@ -180,15 +200,18 @@
         border-bottom: 1px solid var(--c-border);
         font-size: 0.875rem;
         color: var(--c-text);
+        vertical-align: top;
     }
 
     .type-cell {
         color: var(--c-type-text);
-        font-family: monospace;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.8rem;
     }
 
     .default-cell {
         color: var(--c-default-text);
-        font-family: monospace;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.8rem;
     }
 }
