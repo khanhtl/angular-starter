@@ -53,10 +53,30 @@ export class ButtonDemoComponent implements OnDestroy {
   @ViewChild('codeEditor') codeEditorRef!: ElementRef<HTMLDivElement>;
   editorView?: EditorView;
 
-  // Options
-  variants: ButtonVariant[] = ['solid', 'outline', 'ghost', 'link'];
-  colors: ButtonColor[] = ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'neutral'];
-  sizes: ButtonSize[] = ['sm', 'md', 'lg', 'icon'];
+  // Options for SelectBox
+  variants = [
+    { value: 'solid' as ButtonVariant, text: 'Solid' },
+    { value: 'outline' as ButtonVariant, text: 'Outline' },
+    { value: 'ghost' as ButtonVariant, text: 'Ghost' },
+    { value: 'link' as ButtonVariant, text: 'Link' }
+  ];
+
+  colors = [
+    { value: 'primary' as ButtonColor, text: 'Primary' },
+    { value: 'secondary' as ButtonColor, text: 'Secondary' },
+    { value: 'success' as ButtonColor, text: 'Success' },
+    { value: 'warning' as ButtonColor, text: 'Warning' },
+    { value: 'danger' as ButtonColor, text: 'Danger' },
+    { value: 'info' as ButtonColor, text: 'Info' },
+    { value: 'neutral' as ButtonColor, text: 'Neutral' }
+  ];
+
+  sizes = [
+    { value: 'sm' as ButtonSize, text: 'Small' },
+    { value: 'md' as ButtonSize, text: 'Medium' },
+    { value: 'lg' as ButtonSize, text: 'Large' },
+    { value: 'icon' as ButtonSize, text: 'Icon Only' }
+  ];
 
   // Playground Config
   config = signal<ButtonConfig>({

@@ -20,7 +20,7 @@
                     <div class="preview-area" style="border: none; background: transparent; padding: 40px;">
                         <app-button [variant]="config().variant" [color]="config().color" [size]="config().size"
                             [loading]="config().loading" [disabled]="config().disabled" [ripple]="config().ripple"
-                            [dropdown]="config().dropdown" [items]="mockItems">
+                            [dropdown]="config().dropdown" [items]="config().dropdown ? mockItems : undefined">
 
                             @if (config().size === 'icon') {
                             <i-lucide [img]="SendIcon" [size]="18"></i-lucide>
@@ -63,18 +63,19 @@
                     </div>
 
                     <div class="control-group">
-                        <app-select-box label="Variant" [dataSource]="variants" [ngModel]="config().variant"
+                        <app-select-box label="Variant" [dataSource]="variants" displayExpr="text" valueExpr="value"
+                            [ngModel]="config().variant"
                             (ngModelChange)="updateConfig('variant', $event)"></app-select-box>
                     </div>
 
                     <div class="control-group">
-                        <app-select-box label="Color" [dataSource]="colors" [ngModel]="config().color"
-                            (ngModelChange)="updateConfig('color', $event)"></app-select-box>
+                        <app-select-box label="Color" [dataSource]="colors" displayExpr="text" valueExpr="value"
+                            [ngModel]="config().color" (ngModelChange)="updateConfig('color', $event)"></app-select-box>
                     </div>
 
                     <div class="control-group">
-                        <app-select-box label="Size" [dataSource]="sizes" [ngModel]="config().size"
-                            (ngModelChange)="updateConfig('size', $event)"></app-select-box>
+                        <app-select-box label="Size" [dataSource]="sizes" displayExpr="text" valueExpr="value"
+                            [ngModel]="config().size" (ngModelChange)="updateConfig('size', $event)"></app-select-box>
                     </div>
 
                     <div class="control-group"

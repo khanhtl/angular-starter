@@ -92,7 +92,7 @@ export class ButtonComponent {
     const menu = this.menu();
     const items = this.items();
 
-    if (menu || items.length > 0) {
+    if (menu || (items && items.length > 0)) {
       this.isOpen.update(v => !v);
       event?.stopPropagation();
     }
@@ -110,7 +110,8 @@ export class ButtonComponent {
   }
 
   hasMenu = computed(() => {
-    return this.split() || this.dropdown() || this.items().length > 0 || !!this.menu();
+    const items = this.items();
+    return this.split() || this.dropdown() || (items && items.length > 0) || !!this.menu();
   });
 
   /* Core Click Logic */
