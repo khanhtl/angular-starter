@@ -8,13 +8,13 @@
 .app-select-box-label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--c-text-primary, #374151);
+  color: var(--c-text);
   display: flex;
   gap: 0.25rem;
 }
 
 .required-star {
-  color: var(--c-danger, #ef4444);
+  color: var(--c-red);
 }
 
 .app-select-box-hint,
@@ -24,7 +24,7 @@
 }
 
 .app-select-box-error {
-  color: var(--c-danger, #ef4444);
+  color: var(--c-red);
 }
 
 .select-box-container {
@@ -32,10 +32,10 @@
   align-items: center;
   width: 100%;
   height: var(--h-md);
-  padding: 0 var(--w-space-xs);
+  padding: 0 var(--space-xs);
   border: 1px solid var(--c-border);
   border-radius: var(--w-radius);
-  background-color: var(--c-white);
+  background-color: var(--c-bg);
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
@@ -48,17 +48,17 @@
 
 .select-box-container.is-open {
   border-color: var(--c-brand);
-  box-shadow: 0 0 0 2px rgba(66, 185, 131, 0.2);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-brand), transparent 80%);
 }
 
 .select-box-container.is-disabled {
-  background-color: var(--c-bg);
+  background-color: var(--c-disable);
   cursor: not-allowed;
   opacity: 0.6;
 }
 
 .app-select-box-container.has-error .select-box-container {
-  border-color: var(--c-danger, #ef4444);
+  border-color: var(--c-red);
 }
 
 .select-box-input-wrapper {
@@ -112,7 +112,7 @@
 /* Dropdown Styles */
 .select-box-dropdown {
   width: 100%;
-  background-color: var(--c-white);
+  background-color: var(--c-bg);
   border: 1px solid var(--c-border);
   border-radius: var(--w-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -123,24 +123,15 @@
   z-index: 1000;
 }
 
-.dark .select-box-dropdown {
-  background-color: var(--c-bg);
-  color: var(--c-text);
-}
-
 .search-container {
   display: flex;
   align-items: center;
   padding: 8px;
   border-bottom: 1px solid var(--c-border);
-  background-color: var(--c-white);
+  background-color: var(--c-bg);
   position: sticky;
   top: 0;
   z-index: 11;
-}
-
-.dark .search-container {
-  background-color: var(--c-bg);
 }
 
 .search-icon {
@@ -178,11 +169,11 @@
 }
 
 .list-item:hover {
-  background-color: rgba(66, 185, 131, 0.1);
+  background-color: color-mix(in srgb, var(--c-brand), transparent 90%);
 }
 
 .list-item.is-focused:not(.group-header) {
-  background-color: rgba(66, 185, 131, 0.15);
+  background-color: color-mix(in srgb, var(--c-brand), transparent 85%);
 }
 
 .list-item.is-selected {
@@ -192,7 +183,7 @@
 
 /* Grouping Styles */
 .list-item.group-header {
-  background-color: var(--c-bg);
+  background-color: color-mix(in srgb, var(--c-bg), var(--c-text) 5%);
   font-weight: 600;
   font-size: 12px;
   color: var(--c-tips);
@@ -256,13 +247,13 @@
   gap: 8px;
   font-size: 12px;
   color: var(--c-tips);
-  background: rgba(255, 255, 255, 0.8);
+  background: color-mix(in srgb, var(--c-bg), transparent 20%);
 }
 
 .spinner {
   width: 24px;
   height: 24px;
-  border: 2px solid rgba(66, 185, 131, 0.2);
+  border: 2px solid color-mix(in srgb, var(--c-brand), transparent 80%);
   border-top-color: var(--c-brand);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;

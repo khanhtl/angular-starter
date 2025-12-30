@@ -13,7 +13,7 @@
 }
 
 .required-star {
-  color: var(--c-danger, #ef4444);
+  color: var(--c-red);
   margin-left: 2px;
 }
 
@@ -25,12 +25,12 @@
 
 .app-tag-box-error {
   font-size: 12px;
-  color: var(--c-danger, #ef4444);
+  color: var(--c-red);
   margin: 0;
 }
 
 .app-tag-box-container.has-error .tag-box-container {
-  border-color: var(--c-danger, #ef4444);
+  border-color: var(--c-red);
 }
 
 .tag-box-container {
@@ -38,10 +38,10 @@
   align-items: center;
   width: 100%;
   min-height: var(--h-md);
-  padding: 0 var(--w-space-xs);
+  padding: 0 var(--space-xs);
   border: 1px solid var(--c-border);
   border-radius: var(--w-radius);
-  background-color: var(--c-white);
+  background-color: var(--c-bg);
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
@@ -54,11 +54,11 @@
 
 .tag-box-container.is-open {
   border-color: var(--c-brand);
-  box-shadow: 0 0 0 2px rgba(66, 185, 131, 0.2);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--c-brand), transparent 80%);
 }
 
 .tag-box-container.is-disabled {
-  background-color: var(--c-bg);
+  background-color: var(--c-disable);
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -169,7 +169,7 @@
 
 /* Remaining Tags Popup */
 .remaining-popup {
-  background-color: var(--c-white);
+  background-color: var(--c-bg); /* was c-white, consistent with other popups */
   border: 1px solid var(--c-border);
   border-radius: var(--w-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -188,7 +188,7 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-bottom: 1px solid var(--c-border);
-  background: var(--c-bg);
+  background: color-mix(in srgb, var(--c-bg), var(--c-text) 5%);
 }
 
 .remaining-popup-content {
@@ -208,7 +208,7 @@
 }
 
 .remaining-item:hover {
-  background-color: rgba(66, 185, 131, 0.1);
+  background-color: color-mix(in srgb, var(--c-brand), transparent 90%);
 }
 
 .remaining-item-text {
@@ -230,14 +230,14 @@
 }
 
 .remaining-item-remove:hover {
-  color: var(--c-danger, #ef4444);
-  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--c-red);
+  background-color: color-mix(in srgb, var(--c-red), transparent 90%);
 }
 
 /* Dropdown Styles */
 .tag-box-dropdown {
   width: 100%;
-  background-color: var(--c-white);
+  background-color: var(--c-bg);
   border: 1px solid var(--c-border);
   border-radius: var(--w-radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -247,24 +247,15 @@
   margin-top: 4px;
 }
 
-.dark .tag-box-dropdown {
-  background-color: var(--c-bg);
-  color: var(--c-text);
-}
-
 .search-container {
   display: flex;
   align-items: center;
   padding: 8px;
   border-bottom: 1px solid var(--c-border);
-  background-color: var(--c-white);
+  background-color: var(--c-bg);
   position: sticky;
   top: 0;
   z-index: 1;
-}
-
-.dark .search-container {
-  background-color: var(--c-bg);
 }
 
 .search-icon {
@@ -284,10 +275,6 @@
 .select-all-container {
   padding: 8px 12px;
   border-bottom: 1px solid var(--c-border);
-  background-color: var(--c-white);
-}
-
-.dark .select-all-container {
   background-color: var(--c-bg);
 }
 
@@ -331,7 +318,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background-color: var(--c-bg);
+  background-color: color-mix(in srgb, var(--c-bg), var(--c-text) 5%);
   cursor: pointer;
   user-select: none;
   transition: background-color 0.1s;
@@ -339,7 +326,7 @@
 }
 
 .group-header:hover {
-  background-color: rgba(66, 185, 131, 0.1);
+  background-color: color-mix(in srgb, var(--c-brand), transparent 90%);
 }
 
 .group-expand-icon {
@@ -411,15 +398,15 @@
 }
 
 .list-item:hover {
-  background-color: rgba(66, 185, 131, 0.1);
+  background-color: color-mix(in srgb, var(--c-brand), transparent 90%);
 }
 
 .list-item.is-focused {
-  background-color: rgba(66, 185, 131, 0.15);
+  background-color: color-mix(in srgb, var(--c-brand), transparent 85%);
 }
 
 .list-item.is-selected {
-  background-color: rgba(66, 185, 131, 0.2);
+  background-color: color-mix(in srgb, var(--c-brand), transparent 80%);
 }
 
 .item-checkbox {
@@ -460,13 +447,13 @@
   gap: 8px;
   font-size: 12px;
   color: var(--c-tips);
-  background: rgba(255, 255, 255, 0.8);
+  background: color-mix(in srgb, var(--c-bg), transparent 20%);
 }
 
 .spinner {
   width: 24px;
   height: 24px;
-  border: 2px solid rgba(66, 185, 131, 0.2);
+  border: 2px solid color-mix(in srgb, var(--c-brand), transparent 80%);
   border-top-color: var(--c-brand);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;

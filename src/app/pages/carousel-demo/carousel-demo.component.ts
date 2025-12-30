@@ -23,14 +23,7 @@ interface CarouselConfig {
     standalone: true,
     imports: [CommonModule, FormsModule, CarouselComponent, LucideAngularModule, ButtonComponent],
     templateUrl: './carousel-demo.component.html',
-    styles: [`
-    .playground-grid {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 2rem;
-      align-items: start;
-    }
-  `]
+
 })
 export class CarouselDemoComponent implements OnDestroy {
     readonly CodeIcon = Code;

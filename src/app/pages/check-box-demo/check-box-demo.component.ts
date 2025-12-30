@@ -24,14 +24,7 @@ interface CheckBoxConfig {
     standalone: true,
     imports: [CommonModule, FormsModule, CheckBoxComponent, LucideAngularModule, ButtonComponent],
     templateUrl: './check-box-demo.component.html',
-    styles: [`
-    .playground-grid {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 2rem;
-      align-items: start;
-    }
-  `]
+
 })
 export class CheckBoxDemoComponent implements OnDestroy {
     readonly CodeIcon = Code;

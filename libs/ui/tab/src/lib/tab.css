@@ -5,8 +5,8 @@
     --tab-padding: 0 20px;
     --tab-gap: 8px;
     --tab-active-color: var(--c-brand);
-    --tab-inactive-color: #64748b;
-    --tab-hover-bg: rgba(0, 0, 0, 0.04);
+    --tab-inactive-color: var(--c-tips);
+    --tab-hover-bg: color-mix(in srgb, var(--c-text), transparent 96%);
     --tab-underline-height: 2px;
     --tab-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--c-border);
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none; /* Firefox */
@@ -60,6 +60,7 @@
     &.disabled {
         opacity: 0.5;
         cursor: not-allowed;
+        color: var(--c-tips);
     }
 }
 
@@ -77,7 +78,7 @@
     .tabs-container {
         flex-direction: column;
         border-bottom: none;
-        border-right: 1px solid #e2e8f0;
+        border-right: 1px solid var(--c-border);
         overflow-y: auto;
         overflow-x: hidden;
     }

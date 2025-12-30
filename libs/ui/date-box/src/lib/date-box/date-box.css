@@ -1,13 +1,14 @@
-
 :host {
     display: inline-block;
     width: 250px;
     font-family: inherit;
-    --db-primary: var(--c-brand, #42b983);
-    --db-text: var(--c-text, #374151);
-    --db-bg: var(--c-white, #fff);
-    --db-border: var(--c-border, #e5e7eb);
-    --db-radius: var(--w-radius, 8px);
+    --db-primary: var(--c-brand);
+    --db-text: var(--c-text);
+    --db-bg: var(--c-bg); /* was c-white, but bg adjusts better */
+    --db-border: var(--c-border);
+    --db-radius: var(--w-radius);
+    --db-hover-border: var(--c-brand);
+    --db-shadow-focus: color-mix(in srgb, var(--c-brand), transparent 85%);
 }
 
 .date-box-container {
@@ -35,25 +36,25 @@
 }
 
 .input-group.size-sm {
-    height: var(--h-sm, 28px);
+    height: var(--h-sm);
 }
 
 .input-group.size-md {
-    height: var(--h-md, 36px);
+    height: var(--h-md);
 }
 
 .input-group.size-lg {
-    height: var(--h-lg, 44px);
+    height: var(--h-lg);
 }
 
 
 .input-group:hover {
-    border-color: var(--db-primary);
+    border-color: var(--db-hover-border);
 }
 
 .input-group.focused {
     border-color: var(--db-primary);
-    box-shadow: 0 0 0 3px rgba(66, 185, 131, 0.15);
+    box-shadow: 0 0 0 3px var(--db-shadow-focus);
 }
 
 .date-input,
@@ -87,7 +88,7 @@
     border: none;
     cursor: pointer;
     padding: 8px 10px;
-    color: #9cb2c9;
+    color: var(--c-tips);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -99,7 +100,7 @@
     border: none;
     cursor: pointer;
     padding: 8px 6px;
-    color: #d1d5db;
+    color: var(--c-tips);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,7 +108,7 @@
 }
 
 .clear-btn:hover {
-    color: #ef4444;
+    color: var(--c-red);
 }
 
 .picker-btn:hover {
@@ -122,6 +123,8 @@
     z-index: 1000;
     background: var(--db-bg);
     border-radius: 12px;
+    /* border: 1px solid var(--db-border); Optional if shadow isn't enough */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     transform-origin: top;
     animation: slideDown 0.2s ease-out;
 }
@@ -135,10 +138,4 @@
         opacity: 1;
         transform: translateY(0) scale(1);
     }
-}
-
-/* Dark mode overrides if needed */
-.dark .calendar-dropdown {
-    background: #1f2937;
-    border-color: #374151;
 }

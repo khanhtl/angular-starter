@@ -8,13 +8,13 @@
 .app-radiogroup-outer-label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--c-text-primary, #374151);
+  color: var(--c-text);
   display: flex;
   gap: 0.25rem;
 }
 
 .required-star {
-  color: var(--c-danger, #ef4444);
+  color: var(--c-red);
 }
 
 .radio-group-container {
@@ -57,20 +57,20 @@
 .radio-circle {
   width: 1.25rem;
   height: 1.25rem;
-  border: 1.5px solid var(--c-border-light, #d1d5db);
+  border: 1.5px solid var(--c-border);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  background-color: var(--c-bg-primary, #ffffff);
+  background-color: var(--c-bg); /* primary bg */
 
   .radio-item:hover:not(.item-disabled) & {
-    border-color: var(--c-brand, #3b82f6);
+    border-color: var(--c-brand);
   }
 
   .radio-item.selected & {
-    border-color: var(--c-brand, #3b82f6);
+    border-color: var(--c-brand);
   }
 }
 
@@ -78,7 +78,7 @@
   width: 0.625rem;
   height: 0.625rem;
   border-radius: 50%;
-  background-color: var(--c-brand, #3b82f6);
+  background-color: var(--c-brand);
   transform: scale(0);
   transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
@@ -89,7 +89,7 @@
 
 .radio-text {
   font-size: 0.875rem;
-  color: var(--c-text-primary, #111827);
+  color: var(--c-text);
 }
 
 .app-radiogroup-hint,
@@ -99,9 +99,9 @@
 }
 
 .app-radiogroup-hint {
-  color: var(--c-text-secondary, #6b7280);
+  color: var(--c-tips);
 }
 
 .app-radiogroup-error {
-  color: var(--c-danger, #ef4444);
+  color: var(--c-red);
 }

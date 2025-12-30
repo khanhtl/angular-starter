@@ -196,9 +196,9 @@ export class DataGridHeaderComponent {
 
   getHeaderHeight(column: ColumnConfig): string {
     if (column.children?.length || column.parentKey) {
-      return 'var(--h-md, 36px)';
+      return 'var(--h-md)';
     }
-    return `calc(var(--h-md, 36px) * ${this.maxHeaderDepth()})`;
+    return `calc(var(--h-md) * ${this.maxHeaderDepth()})`;
   }
 
 

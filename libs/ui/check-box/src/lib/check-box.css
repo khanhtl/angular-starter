@@ -8,13 +8,13 @@
 .app-checkbox-outer-label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--c-text-primary, #374151);
+  color: var(--c-text);
   display: flex;
   gap: 0.25rem;
 }
 
 .required-star {
-  color: var(--c-danger, #ef4444);
+  color: var(--c-red);
 }
 
 .app-checkbox-container {
@@ -39,32 +39,32 @@
 .checkbox-box {
   width: 1.125rem;
   height: 1.125rem;
-  border: 1.5px solid var(--c-border-light, #d1d5db);
+  border: 1.5px solid var(--c-border);
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  background-color: var(--c-bg-primary, #ffffff);
+  background-color: var(--c-bg);
   position: relative;
 
   .app-checkbox-container.checked & {
-    background-color: var(--c-brand, #3b82f6);
-    border-color: var(--c-brand, #3b82f6);
+    background-color: var(--c-brand);
+    border-color: var(--c-brand);
   }
 
   .app-checkbox-container.indeterminate & {
-    background-color: var(--c-brand, #3b82f6);
-    border-color: var(--c-brand, #3b82f6);
+    background-color: var(--c-brand);
+    border-color: var(--c-brand);
   }
 
   .app-checkbox-container:hover:not(.disabled):not(.read-only) & {
-    border-color: var(--c-brand, #3b82f6);
+    border-color: var(--c-brand);
   }
 }
 
 .checkbox-icon {
-  color: white;
+  color: var(--c-white);
   width: 0.875rem;
   height: 0.875rem;
   stroke-width: 3px;
@@ -79,7 +79,7 @@
 
 .checkbox-inner-label {
   font-size: 0.875rem;
-  color: var(--c-text-primary, #111827);
+  color: var(--c-text);
 }
 
 .app-checkbox-hint,
@@ -89,9 +89,9 @@
 }
 
 .app-checkbox-hint {
-  color: var(--c-text-secondary, #6b7280);
+  color: var(--c-tips);
 }
 
 .app-checkbox-error {
-  color: var(--c-danger, #ef4444);
+  color: var(--c-red);
 }

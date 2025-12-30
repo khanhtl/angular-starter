@@ -25,37 +25,6 @@ interface RadioGroupConfig {
     imports: [CommonModule, FormsModule, RadioGroupComponent, LucideAngularModule, ButtonComponent],
     templateUrl: './radio-group-demo.component.html',
     styles: [`
-    .playground-grid {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 2.5rem;
-      align-items: start;
-    }
-    .controls-panel {
-      background: #ffffff;
-      padding: 1.5rem;
-      border-radius: 1rem;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    }
-    .control-group {
-      margin-bottom: 1.5rem;
-    }
-    .control-group label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: #475569;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.75rem;
-    }
-    .control-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
     .preview-container {
         padding: 3rem;
         background: #f8fafc;

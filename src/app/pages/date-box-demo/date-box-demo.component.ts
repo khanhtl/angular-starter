@@ -12,30 +12,7 @@ import { Calendar, Code, Eye, EyeOff, LucideAngularModule } from 'lucide-angular
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, DateBoxComponent, ButtonComponent, LucideAngularModule],
   templateUrl: './date-box-demo.component.html',
-  styles: [`
-    .playground-grid {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 2rem;
-      align-items: start;
-    }
-    .controls-panel {
-      background: #f8fafc;
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      border: 1px solid #e2e8f0;
-    }
-    .control-group {
-      margin-bottom: 1.25rem;
-    }
-    .control-group label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #64748b;
-      margin-bottom: 0.5rem;
-    }
-  `]
+
 })
 export class DateBoxDemoComponent implements OnDestroy {
   readonly CodeIcon = Code;

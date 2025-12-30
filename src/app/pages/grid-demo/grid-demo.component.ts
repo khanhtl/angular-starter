@@ -13,12 +13,6 @@ import { Code, Eye, EyeOff, LucideAngularModule, Pencil, Settings } from 'lucide
     imports: [CommonModule, FormsModule, DataGridComponent, CellTemplateDirective, ButtonComponent, LucideAngularModule],
     templateUrl: './grid-demo.component.html',
     styles: [`
-    .playground-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 300px;
-      gap: 2rem;
-      align-items: start;
-    }
     .grid-scroll-container {
       width: 100%;
       overflow-x: auto;
@@ -27,36 +21,13 @@ import { Code, Eye, EyeOff, LucideAngularModule, Pencil, Settings } from 'lucide
       border: 1px solid #e2e8f0;
     }
     @media (max-width: 1200px) {
-      .playground-grid {
-        grid-template-columns: 1fr;
-      }
       .controls-panel {
         position: static;
       }
     }
     .controls-panel {
-      background: #f8fafc;
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      border: 1px solid #e2e8f0;
       position: sticky;
       top: 2rem;
-    }
-    .control-group {
-      margin-bottom: 1.25rem;
-    }
-    .control-group label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #64748b;
-      margin-bottom: 0.5rem;
-    }
-    .control-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
     }
     .status-badge {
       padding: 4px 10px;

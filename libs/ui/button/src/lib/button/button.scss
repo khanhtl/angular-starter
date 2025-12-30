@@ -16,13 +16,432 @@
     cursor: pointer;
     user-select: none;
     overflow: hidden;
-    border-radius: var(--w-radius, 8px) !important;
+    border-radius: var(--w-radius);
     box-sizing: border-box;
 
     .button-inner.is-split {
-      padding-left: var(--w-space, 16px);
-      ;
+      padding-left: var(--w-space);
       gap: 0;
+    }
+  }
+
+  // Inner wrapper for complex layout (split/dropdowns)
+  .button-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  .button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+  }
+
+  // Helper Mixins
+  @mixin set-colors($bg, $color, $border: transparent) {
+    background-color: $bg;
+    color: $color;
+    border-color: $border;
+  }
+
+  @mixin hover-darken($bg) {
+    &:hover:not(.is-disabled) {
+      // Use existing color-mix if $bg is a color, but css vars might need different handling
+      // For simplicity with vars in SCSS, we often rely on specific hover tokens or brightness filters
+      // But standard way here:
+      background-color: color-mix(in srgb, $bg, black 10%);
+    }
+  }
+
+  // Colors Variables Mapped to Design Tokens
+  $c-primary: var(--c-primary);
+  $c-secondary: var(--c-gray); // Keeping secondary as gray/neutral
+  $c-success: var(--c-green);
+  $c-warning: var(--c-yellow);
+  $c-danger: var(--c-red);
+  $c-info: var(--c-blue);
+  $c-neutral: var(--c-text);
+  $c-white: var(--c-white);
+  $c-black: var(--c-black);
+
+  // Variant: Solid (Default)
+  .variant-solid {
+    &.color-primary {
+      @include set-colors($c-primary, $c-white);
+
+      &:hover:not(.is-disabled) {
+        background-color: var(--c-primary-hover);
+      }
+    }
+
+    &.color-secondary {
+      @include set-colors($c-secondary, $c-white);
+      @include hover-darken($c-secondary);
+    }
+
+    &.color-success {
+      @include set-colors($c-success, $c-white);
+      @include hover-darken($c-success);
+    }
+
+    &.color-warning {
+      @include set-colors($c-warning, $c-white);
+      @include hover-darken($c-warning);
+    }
+
+    &.color-danger {
+      @include set-colors($c-danger, $c-white);
+      @include hover-darken($c-danger);
+    }
+
+    &.color-info {
+      @include set-colors($c-info, $c-white);
+      @include hover-darken($c-info);
+    }
+
+    &.color-neutral {
+      @include set-colors(#4b5563, $c-white);
+      @include hover-darken(#4b5563);
+    }
+  }
+
+  // Variant: Outline
+  .variant-outline {
+    background-color: transparent;
+    border: 1px solid currentColor;
+
+    &.color-primary {
+      color: $c-primary;
+
+      &:hover:not(.is-disabled) {
+        background-color: color-mix(in srgb, var(--c-primary), transparent 90%);
+      }
+    }
+
+    @mixin outline-color($color) {
+      color: $color;
+
+      &:hover:not(.is-disabled) {
+        background-color: color-mix(in srgb, $color, white 95%);
+      }
+    }
+
+    &.color-secondary {
+      @include outline-color($c-secondary);
+    }
+
+    &.color-success {
+      @include outline-color($c-success);
+    }
+
+    &.color-warning {
+      @include outline-color($c-warning);
+    }
+
+    &.color-danger {
+      @include outline-color($c-danger);
+    }
+
+    &.color-info {
+      @include outline-color($c-info);
+    }
+
+    &.color-neutral {
+      @include outline-color($c-neutral);
+    }
+  }
+
+  // Variant: Ghost
+  .variant-ghost {
+    background-color: transparent;
+    border-color: transparent;
+
+    @mixin ghost-color($color) {
+      color: $color;
+
+      &:hover:not(.is-disabled) {
+        background-color: color-mix(in srgb, $color, white 90%);
+      }
+    }
+
+    &.color-primary {
+      @include ghost-color($c-primary);
+    }
+
+    &.color-secondary {
+      @include ghost-color($c-secondary);
+    }
+
+    &.color-success {
+      @include ghost-color($c-success);
+    }
+
+    &.color-warning {
+      @include ghost-color($c-warning);
+    }
+
+    &.color-danger {
+      @include ghost-color($c-danger);
+    }
+
+    &.color-info {
+      @include ghost-color($c-info);
+    }
+
+    &.color-neutral {
+      @include ghost-color($c-neutral);
+    }
+  }
+
+
+  // Variant: Link
+  .variant-link {
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
+    padding: 0;
+    height: auto !important;
+
+    &:hover:not(.is-disabled) {
+      opacity: 0.8;
+    }
+
+    @mixin link-color($color) {
+      color: $color;
+    }
+
+    &.color-primary {
+      @include link-color($c-primary);
+    }
+
+    &.color-secondary {
+      @include link-color($c-secondary);
+    }
+
+    &.color-success {
+      @include link-color($c-success);
+    }
+
+    &.color-warning {
+      @include link-color($c-warning);
+    }
+
+    &.color-danger {
+      @include link-color($c-danger);
+    }
+
+    &.color-info {
+      @include link-color($c-info);
+    }
+
+    &.color-neutral {
+      @include link-color($c-neutral);
+    }
+  }
+
+  // Sizes (Using tokens)
+  .size-sm {
+    height: var(--h-sm);
+    font-size: 0.875rem;
+    padding: 0 var(--space-sm);
+  }
+
+  .size-md {
+    height: var(--h-md);
+    font-size: 1rem;
+    padding: 0 var(--space-md);
+  }
+
+  .size-lg {
+    height: var(--h-lg);
+    font-size: 1.125rem;
+    padding: 0 var(--space-lg);
+  }
+
+  .size-icon {
+    height: var(--h-md);
+    width: var(--h-md);
+    padding: 0;
+    border-radius: 50% !important;
+  }
+
+
+  // States
+  .is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+
+    background-color: var(--c-disable);
+    color: var(--c-tips);
+    border-color: transparent;
+
+    &.variant-outline,
+    &.variant-ghost,
+    &.variant-link {
+      background-color: transparent;
+      border-color: var(--c-border);
+      color: var(--c-tips);
+    }
+
+    &.variant-ghost,
+    &.variant-link {
+      border-color: transparent;
+    }
+  }
+
+  .is-loading {
+    cursor: wait;
+    pointer-events: none;
+  }
+
+  .spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .spinner {
+    animation: spin 1s linear infinite;
+    height: 1.25em;
+    width: 1.25em;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .invisible {
+    visibility: hidden;
+  }
+
+  // Dropdown Chevron
+  .dropdown-chevron {
+    opacity: 0.8;
+  }
+
+  .is-split {
+    padding: 0;
+    gap: 0;
+  }
+
+  .main-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex: 1;
+  }
+
+  .dropdown-trigger {
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    &:hover:not(.invisible) {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .separator {
+    width: 1px;
+    height: 60%;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin-left: 8px;
+  }
+
+  .variant-outline .separator,
+  .variant-ghost .separator {
+    background-color: currentColor;
+    opacity: 0.3;
+  }
+
+  // Ripple logic
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple-effect 0.6s linear;
+    background-color: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .variant-outline .ripple,
+  .variant-ghost .ripple,
+  .variant-link .ripple {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  @keyframes ripple-effect {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+
+  // Dropdown Panel
+  .dropdown-panel {
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--w-radius);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    margin-top: 4px;
+    min-width: 180px;
+    max-width: 320px;
+    overflow: hidden;
+    z-index: 1000;
+    padding: 4px;
+  }
+
+  .dropdown-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 12px;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--c-text);
+    font-size: 0.875rem;
+    border-radius: var(--w-radius-xs);
+    transition: all 0.2s;
+    font-weight: 500;
+
+    &:hover:not([disabled]) {
+      background-color: var(--c-bg); // or secondary bg
+      filter: brightness(0.95);
+      color: var(--c-primary);
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 

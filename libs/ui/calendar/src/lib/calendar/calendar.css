@@ -1,14 +1,14 @@
 /* Base Variables - Reused from button/global overrides if needed, providing defaults */
 :host {
-    --cal-primary: #42b983;
-    --cal-bg: #ffffff;
-    --cal-text: #374151;
-    --cal-text-muted: #9ca3af;
-    --cal-border: #e5e7eb;
-    --cal-hover: #f3f4f6;
-    --cal-today-bg: #ecfdf5;
-    --cal-today-text: #059669;
-    --cal-radius: 8px;
+    --cal-primary: var(--c-brand);
+    --cal-bg: var(--c-bg); /* Adapts to light/dark mode */
+    --cal-text: var(--c-text);
+    --cal-text-muted: var(--c-tips);
+    --cal-border: var(--c-border);
+    --cal-hover: color-mix(in srgb, var(--c-text), transparent 95%);
+    --cal-today-bg: color-mix(in srgb, var(--cal-primary), transparent 90%);
+    --cal-today-text: var(--cal-primary);
+    --cal-radius: var(--w-radius);
     --cal-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
     display: block;
@@ -141,7 +141,7 @@
 
 .cell.selected {
     background-color: var(--cal-primary);
-    color: white;
+    color: white; /* Always white on primary brand color */
 }
 
 .cell.selected:hover {
@@ -150,7 +150,7 @@
 
 /* Range Selection Styles */
 .cell.in-range {
-    background-color: color-mix(in srgb, var(--cal-primary), white 80%);
+    background-color: color-mix(in srgb, var(--cal-primary), transparent 85%); /* Lighter for range */
     border-radius: 0;
 }
 
@@ -228,7 +228,7 @@
 .time-picker-container {
     border-top: 1px solid var(--cal-border);
     padding: 12px;
-    background-color: #fafafa;
+    background-color: color-mix(in srgb, var(--cal-bg), var(--cal-text) 2%);
 }
 
 .time-picker-container.only-time {
@@ -246,7 +246,7 @@
     display: flex;
     flex-direction: column;
     padding: 16px 12px;
-    background-color: white;
+    background-color: var(--cal-bg);
 }
 
 .time-picker-header {
@@ -269,7 +269,7 @@
     align-items: center;
     position: relative;
     height: 120px;
-    background: white;
+    background: var(--cal-bg);
     border-radius: 8px;
     border: 1px solid var(--cal-border);
     overflow: hidden;
@@ -287,10 +287,10 @@
     right: 0;
     height: 32px;
     margin-top: -16px; /* Half of height */
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: color-mix(in srgb, var(--cal-text), transparent 96%);
     pointer-events: none;
-    border-top: 1px solid rgba(0,0,0,0.05);
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-top: 1px solid var(--cal-border);
+    border-bottom: 1px solid var(--cal-border);
 }
 
 .time-column {
@@ -338,7 +338,7 @@
 }
 
 .time-item:hover {
-    background-color: rgba(0,0,0,0.02);
+    background-color: var(--cal-hover);
 }
 
 .time-item.selected {

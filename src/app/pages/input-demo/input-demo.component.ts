@@ -14,34 +14,6 @@ import { Calendar, Code, CreditCard, DollarSign, Eye, EyeOff, Lock, LucideAngula
   imports: [CommonModule, FormsModule, ReactiveFormsModule, AppInputComponent, LucideAngularModule, ButtonComponent],
   templateUrl: './input-demo.component.html',
   styles: [`
-    .playground-grid {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 2rem;
-      align-items: start;
-    }
-    .controls-panel {
-      background: #f8fafc;
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      border: 1px solid #e2e8f0;
-    }
-    .control-group {
-      margin-bottom: 1.25rem;
-    }
-    .control-group label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #64748b;
-      margin-bottom: 0.5rem;
-    }
-    .control-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
     .value-display {
       margin-top: 1rem;
       padding: 0.75rem;
@@ -56,12 +28,6 @@ import { Calendar, Code, CreditCard, DollarSign, Eye, EyeOff, Lock, LucideAngula
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
         gap: 1.5rem;
-    }
-    .preview-card {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 0.75rem;
-        padding: 1.5rem;
     }
   `]
 })

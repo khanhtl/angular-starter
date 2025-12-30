@@ -22,14 +22,7 @@ import { Code, Eye, EyeOff, Info, LucideAngularModule } from 'lucide-angular';
         LucideAngularModule
     ],
     templateUrl: './pagination-demo.component.html',
-    styles: [`
-    .playground-grid {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 2rem;
-      align-items: start;
-    }
-  `]
+
 })
 export class PaginationDemoComponent implements OnDestroy {
     readonly EyeIcon = Eye;

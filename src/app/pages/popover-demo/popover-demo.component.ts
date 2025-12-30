@@ -22,35 +22,6 @@ import { Code, Eye, EyeOff, Info, LucideAngularModule, Settings } from 'lucide-a
     ],
     templateUrl: './popover-demo.component.html',
     styles: [`
-    .playground-grid {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 2rem;
-      align-items: start;
-    }
-    .controls-panel {
-      background: #f8fafc;
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      border: 1px solid #e2e8f0;
-    }
-    .control-group {
-      margin-bottom: 1.25rem;
-    }
-    .control-group label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #64748b;
-      margin-bottom: 0.5rem;
-    }
-    .control-row {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
-    
     .demo-area {
         height: 400px;
         display: flex;

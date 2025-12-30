@@ -2,22 +2,34 @@
 @use 'app.scss';
 @import '@angular/cdk/overlay-prebuilt.css';
 
-/* You can add global styles to this file, and also import other style files */
+/* Design Tokens - Base values that will be overridden by ThemeService */
 :root {
+  /* Spacing tokens */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+
+  /* Legacy spacing (for backward compatibility) */
   --w-space-xs: 8px;
   --w-space-sm: 16px;
   --w-space: 16px;
   --w-space-lg: 24px;
 
+  /* Border radius tokens */
   --w-radius-xs: 4px;
+  --w-radius-sm: 6px;
   --w-radius: 8px;
   --w-radius-lg: 12px;
   --w-radius-xl: 16px;
 
+  /* Sizing tokens */
   --h-sm: 28px;
   --h-md: 36px;
   --h-lg: 44px;
 
+  /* Fixed colors */
   --c-white: #fff;
   --c-black: #000;
   --c-blue: #3b82f6;
@@ -27,18 +39,21 @@
   --c-gray: #9ca3af;
   --c-disable: rgba(0, 0, 0, 0.25);
 
-  --c-brand: var(--c-green);
+  /* Semantic colors - Default light mode with green theme */
+  --c-brand: #42b983;
+  --c-primary: #42b983;
+  --c-primary-hover: #3aa876;
+  --c-primary-active: #339769;
+  --c-secondary: #52c993;
+  --c-secondary-hover: #42b983;
+  --c-secondary-active: #3aa876;
+
   --c-bg: #f8f8f8;
   --c-text: #374151;
-  --c-tips: var(--c-gray);
-  --c-border: var(--c-gray);
+  --c-tips: #9ca3af;
+  --c-border: #d1d5db;
   --c-mask: rgba(0, 0, 0, 0.7);
-  --c-hover: var(--c-brand);
-
-  &.dark {
-    --c-bg: #181818;
-    --c-text: #e5e7eb;
-  }
+  --c-hover: #42b983;
 }
 
 .box-shadow-right {

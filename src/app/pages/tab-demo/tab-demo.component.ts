@@ -12,14 +12,7 @@ import { ChevronLeft, ChevronRight, Code, Eye, EyeOff, Info, Layout, List, Lucid
     standalone: true,
     imports: [CommonModule, FormsModule, TabComponent, ButtonComponent, LucideAngularModule],
     templateUrl: './tab-demo.component.html',
-    styles: [`
-    .playground-grid {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 2rem;
-      align-items: start;
-    }
-  `]
+
 })
 export class TabDemoComponent implements OnDestroy {
     readonly CodeIcon = Code;

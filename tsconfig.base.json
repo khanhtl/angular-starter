@@ -26,6 +26,9 @@
       "@angular-starter/core/forms": [
         "libs/core/forms/src/index.ts"
       ],
+      "@angular-starter/core/theme": [
+        "libs/core/theme/src/index.ts"
+      ],
       "@angular-starter/ui/popup": [
         "libs/ui/popup/src/index.ts"
       ],

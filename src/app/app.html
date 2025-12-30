@@ -63,9 +63,41 @@
         Popover
       </a>
     </nav>
+
+
   </aside>
 
   <main class="content">
-    <router-outlet></router-outlet>
+    <header class="app-header">
+      <!-- Theme Controls -->
+      <div class="theme-controls">
+        <div class="theme-section">
+          <!-- Color Theme Selector -->
+          <div class="color-themes">
+            @for (theme of themeColors; track theme.name) {
+            <button class="color-theme-btn" [class.active]="themeService.color() === theme.name"
+              [attr.data-theme]="theme.name" [title]="theme.label" (click)="themeService.setColor(theme.name)">
+              <span class="color-preview"></span>
+            </button>
+            }
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Dark/Light Mode Toggle -->
+          <button class="mode-toggle" (click)="themeService.toggleMode()"
+            [title]="themeService.mode() === 'light' ? 'Switch to dark mode' : 'Switch to light mode'">
+            @if (themeService.mode() === 'light') {
+            <i-lucide [img]="Moon" class="mode-icon"></i-lucide>
+            } @else {
+            <i-lucide [img]="Sun" class="mode-icon"></i-lucide>
+            }
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="page-content">
+      <router-outlet></router-outlet>
+    </div>
   </main>
 </div>

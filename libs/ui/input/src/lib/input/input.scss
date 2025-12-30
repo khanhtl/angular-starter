@@ -4,41 +4,41 @@
   padding: 0 0.875rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: var(--c-text-primary, #111827);
-  background-color: var(--c-bg-primary, #ffffff);
+  color: var(--c-text);
+  background-color: var(--c-bg);
   background-clip: padding-box;
-  border: 1px solid var(--c-border-light, #d1d5db);
-  border-radius: 0.5rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--w-radius);
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   outline: none;
   box-sizing: border-box;
 
   &.size-sm {
-    height: var(--h-sm, 2rem);
+    height: var(--h-sm);
     font-size: 0.75rem;
   }
 
   &.size-md {
-    height: var(--h-md, 2.5rem);
+    height: var(--h-md);
     font-size: 0.875rem;
   }
 
   &.size-lg {
-    height: var(--h-lg, 3rem);
+    height: var(--h-lg);
     font-size: 1rem;
   }
 
 
   &::placeholder {
-    color: var(--c-text-placeholder, #9ca3af);
+    color: var(--c-tips);
     opacity: 1;
   }
 
   &:focus {
-    color: var(--c-text-primary, #111827);
-    background-color: var(--c-bg-primary, #ffffff);
-    border-color: var(--c-brand, #3b82f6);
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    color: var(--c-text);
+    background-color: var(--c-bg);
+    border-color: var(--c-brand);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-brand), transparent 90%);
   }
 
   &.with-prefix {
@@ -51,17 +51,18 @@
 
   &:disabled,
   &[readonly] {
-    background-color: var(--c-bg-secondary, #f3f4f6);
-    border-color: var(--c-border-light, #e5e7eb);
+    background-color: var(--c-disable);
+    border-color: var(--c-border);
     cursor: not-allowed;
     opacity: 0.7;
+    color: var(--c-tips);
   }
 
   &.ng-invalid.ng-touched {
-    border-color: var(--c-danger, #ef4444);
+    border-color: var(--c-red);
 
     &:focus {
-      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-red), transparent 90%);
     }
   }
 }
@@ -76,19 +77,19 @@
 .app-input-label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--c-text-primary, #374151);
+  color: var(--c-text);
   display: flex;
   gap: 0.25rem;
 }
 
 .required-star {
-  color: var(--c-danger, #ef4444);
+  color: var(--c-red);
 }
 
 .input-wrapper {
   position: relative !important;
   width: 100%;
-  display: block; // Changed from flex to block to let absolute children position correctly
+  display: block;
 }
 
 .icon-prefix {
@@ -99,7 +100,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--c-text-secondary, #6b7280);
+  color: var(--c-tips);
   pointer-events: none;
   z-index: 5;
   height: 18px;
@@ -119,14 +120,15 @@
 
 .input-action-btn {
   cursor: pointer;
-  color: var(--c-text-secondary, #6b7280);
+  color: var(--c-tips);
   padding: 0.25rem;
   border-radius: 4px;
   display: flex;
+  transition: all 0.2s;
 
   &:hover {
-    background: var(--c-bg-secondary, #f3f4f6);
-    color: var(--c-text-primary, #111827);
+    background: color-mix(in srgb, var(--c-text), transparent 90%);
+    color: var(--c-text);
   }
 }
 
@@ -134,7 +136,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--c-text-secondary, #6b7280);
+  color: var(--c-tips);
 }
 
 .app-input-hint,
@@ -144,7 +146,7 @@
 }
 
 .app-input-error {
-  color: var(--c-danger, #ef4444);
+  color: var(--c-red);
 }
 
 .is-disabled {

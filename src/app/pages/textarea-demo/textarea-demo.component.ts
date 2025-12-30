@@ -35,26 +35,7 @@ interface TextareaConfig {
         CheckBoxComponent
     ],
     templateUrl: './textarea-demo.component.html',
-    styles: [`
-    .playground-grid {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 2rem;
-      align-items: start;
-    }
-    .demo-section {
-      margin-bottom: 2rem;
-    }
-    .control-group {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1rem;
-      background: #f8fafc;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-    }
-  `]
+
 })
 export class TextareaDemoComponent implements OnDestroy {
     readonly CodeIcon = Code;
