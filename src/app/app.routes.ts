@@ -71,6 +71,14 @@ export const appRoutes: Route[] = [
         path: 'toast',
         loadComponent: () => import('./pages/toast-demo/toast-demo.component').then(m => m.ToastDemoComponent)
     },
+    {
+        path: 'skeleton',
+        loadComponent: () => import('./pages/skeleton-demo/skeleton-demo.component').then(m => m.SkeletonDemoComponent)
+    },
+    {
+        path: 'spinner',
+        loadComponent: () => import('./pages/spinner-demo/spinner-demo.component').then(m => m.SpinnerDemoComponent)
+    },
 
     { path: '', redirectTo: 'button', pathMatch: 'full' },
 ];

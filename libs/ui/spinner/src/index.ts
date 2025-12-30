@@ -1,1 +1,3 @@
-export * from './lib/spinnerẻ/spinnerẻ';
+export * from './lib/spinner';
+export * from './lib/spinner-core';
+

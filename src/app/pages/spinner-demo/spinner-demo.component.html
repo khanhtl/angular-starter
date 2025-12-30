@@ -1,0 +1,155 @@
+<div class="page-container">
+    <header class="page-header">
+        <h1>Spinner / Load Indicator</h1>
+        <p>A sleek, high-performance loading indicator built with SVG and CSS animations. Supports multiple sizes and
+            custom labels.</p>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
+    </nav>
+
+    <div class="tab-content">
+        @if (activeTab() === 'preview') {
+        <div class="demo-section">
+            <div class="playground-grid">
+                <div class="demo-card"
+                    style="min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div class="preview-area" style="border: none; background: transparent; padding: 40px;">
+                        <app-spinner [visible]="config().visible" [size]="config().size" [label]="config().label"
+                            [inline]="config().inline" [rainbow]="config().rainbow">
+                        </app-spinner>
+                    </div>
+
+                    <div class="code-section" style="margin-top: 48px; width: 100%;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <app-button variant="ghost" size="sm" (click)="toggleCode()">
+                                <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
+                                    [size]="16"></i-lucide>
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
+                            </app-button>
+                        </div>
+
+                        @if (showCode()) {
+                        <div #codeEditor class="code-editor-container"
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
+
+                    <div class="control-group">
+                        <app-select-box label="Size" [dataSource]="sizes" displayExpr="text" valueExpr="id"
+                            [ngModel]="config().size" (ngModelChange)="updateConfig('size', $event)">
+                        </app-select-box>
+                    </div>
+
+                    <div class="control-group">
+                        <app-input label="Label" size="md" [ngModel]="config().label"
+                            (ngModelChange)="updateConfig('label', $event)"></app-input>
+                    </div>
+
+                    <div class="control-group"
+                        style="padding-top: 8px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 8px;">
+                        <app-check-box text="Visible" [ngModel]="config().visible"
+                            (ngModelChange)="updateConfig('visible', $event)"></app-check-box>
+                        <app-check-box text="Inline" [ngModel]="config().inline"
+                            (ngModelChange)="updateConfig('inline', $event)"></app-check-box>
+                        <app-check-box text="Rainbow Mode" [ngModel]="config().rainbow"
+                            (ngModelChange)="updateConfig('rainbow', $event)"></app-check-box>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Common Examples</h2>
+            <div class="card-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
+                <div class="preview-card"
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b; width: 100%;">Scale variants</h3>
+                    <div style="display: flex; align-items: center; gap: 24px;">
+                        <app-spinner size="sm" label="Small"></app-spinner>
+                        <app-spinner size="md" label="Medium"></app-spinner>
+                        <app-spinner size="lg" label="Large"></app-spinner>
+                    </div>
+                </div>
+
+                <div class="preview-card"
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b; width: 100%;">Inline vs Block</h3>
+                    <div style="width: 100%;">
+                        <p>Inline: <app-spinner size="sm"></app-spinner> continues with text.</p>
+                        <div style="border: 1px dashed var(--c-border); padding: 1rem; text-align: center;">
+                            <app-spinner [inline]="false" label="Full width container"></app-spinner>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-card"
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b; width: 100%;">Rainbow Animation</h3>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                        <app-spinner size="lg" [rainbow]="true" label="Multi-color effect"></app-spinner>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (activeTab() === 'api') {
+        <div class="api-section">
+            <h2>app-spinner API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>visible</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">true</td>
+                        <td>Controls the visibility of the spinner.</td>
+                    </tr>
+                    <tr>
+                        <td>size</td>
+                        <td class="type-cell">'sm' | 'md' | 'lg' | number</td>
+                        <td class="default-cell">'md'</td>
+                        <td>The size of the spinner. Can be a predefined string or a pixel number.</td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td class="type-cell">string</td>
+                        <td class="default-cell">undefined</td>
+                        <td>Optional text to display below or beside the spinner.</td>
+                    </tr>
+                    <tr>
+                        <td>inline</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">true</td>
+                        <td>If true, display as inline-flex. If false, display as flex.</td>
+                    </tr>
+                    <tr>
+                        <td>rainbow</td>
+                        <td class="type-cell">boolean</td>
+                        <td class="default-cell">false</td>
+                        <td>Enables a colorful rainbow cycling animation for the spinner.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>

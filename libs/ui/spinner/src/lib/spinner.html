@@ -1,0 +1,16 @@
+@if (visible()) {
+<div class="app-spinner-container" [class.app-spinner-inline]="inline()" [class.app-spinner-rainbow]="rainbow()">
+
+    <div class="app-spinner-svg-wrapper" [style.width]="sizeValue()" [style.height]="sizeValue()">
+        <svg class="app-spinner-svg" [attr.viewBox]="viewBox()" xmlns="http://www.w3.org/2000/svg">
+            <circle class="app-spinner-path" [attr.cx]="center()" [attr.cy]="center()" [attr.r]="radius()" fill="none"
+                stroke-width="3">
+            </circle>
+        </svg>
+    </div>
+
+    @if (label()) {
+    <span class="app-spinner-label">{{ label() }}</span>
+    }
+</div>
+}

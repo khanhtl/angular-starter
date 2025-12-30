@@ -1,0 +1,120 @@
+import { ButtonComponent } from '@angular-starter/ui/button';
+import { CheckBoxComponent } from '@angular-starter/ui/check-box';
+import { AppInputComponent } from '@angular-starter/ui/input';
+import { SelectBoxComponent } from '@angular-starter/ui/select-box';
+import { SpinnerComponent, SpinnerSize } from '@angular-starter/ui/spinner';
+import { CommonModule } from '@angular/common';
+import { Component, computed, effect, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { html } from '@codemirror/lang-html';
+import { basicSetup, EditorView } from 'codemirror';
+import { Code, Eye, EyeOff, LucideAngularModule } from 'lucide-angular';
+
+interface SpinnerConfig {
+    visible: boolean;
+    size: SpinnerSize;
+    label: string;
+    inline: boolean;
+    rainbow: boolean;
+}
+
+@Component({
+    selector: 'app-spinner-demo',
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+        LucideAngularModule,
+        SpinnerComponent,
+        ButtonComponent,
+        AppInputComponent,
+        CheckBoxComponent,
+        SelectBoxComponent
+    ],
+    templateUrl: './spinner-demo.component.html',
+})
+export class SpinnerDemoComponent implements OnDestroy {
+    readonly CodeIcon = Code;
+    readonly EyeIcon = Eye;
+    readonly EyeOffIcon = EyeOff;
+
+    activeTab = signal<'preview' | 'api'>('preview');
+    showCode = signal(false);
+    @ViewChild('codeEditor') codeEditorRef!: ElementRef<HTMLDivElement>;
+    editorView?: EditorView;
+
+    sizes = [
+        { id: 'sm', text: 'Small (sm)' },
+        { id: 'md', text: 'Medium (md)' },
+        { id: 'lg', text: 'Large (lg)' },
+        { id: 64, text: 'Custom (64px)' }
+    ];
+
+    config = signal<SpinnerConfig>({
+        visible: true,
+        size: 'md',
+        label: 'Loading...',
+        inline: true,
+        rainbow: false,
+    });
+
+    generatedCode = computed(() => {
+        const c = this.config();
+        const props = [
+            c.visible === false ? '[visible]="false"' : '',
+            c.size !== 'md' ? `[size]="${typeof c.size === 'string' ? "'" + c.size + "'" : c.size}"` : '',
+            c.label ? `label="${c.label}"` : '',
+            c.inline === false ? '[inline]="false"' : '',
+            c.rainbow ? '[rainbow]="true"' : '',
+        ].filter(Boolean).join('\n  ');
+
+        return `<app-spinner\n  ${props}>\n</app-spinner>`;
+    });
+
+    constructor() {
+        effect(() => {
+            const code = this.generatedCode();
+            if (this.editorView) {
+                this.editorView.dispatch({
+                    changes: { from: 0, to: this.editorView.state.doc.length, insert: code }
+                });
+            }
+        });
+    }
+
+    updateConfig(key: string, value: any) {
+        this.config.update((c: any) => ({ ...c, [key]: value }));
+    }
+
+    toggleCode() {
+        this.showCode.update(v => !v);
+        if (this.showCode()) {
+            setTimeout(() => this.initEditor(), 50);
+        } else {
+            this.editorView?.destroy();
+            this.editorView = undefined;
+        }
+    }
+
+    initEditor() {
+        if (!this.codeEditorRef) return;
+        this.editorView = new EditorView({
+            doc: this.generatedCode(),
+            extensions: [
+                basicSetup,
+                html(),
+                EditorView.editable.of(false),
+                EditorView.theme({
+                    "&": { height: "auto", maxHeight: "300px", fontSize: "14px", backgroundColor: "#f8fafc" },
+                    ".cm-scroller": { overflow: "auto" },
+                    ".cm-gutters": { backgroundColor: "#f1f5f9", borderRight: "1px solid #e2e8f0" }
+                })
+            ],
+            parent: this.codeEditorRef.nativeElement
+        });
+    }
+
+    ngOnDestroy() {
+        this.editorView?.destroy();
+    }
+}

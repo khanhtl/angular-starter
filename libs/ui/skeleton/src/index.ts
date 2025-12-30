@@ -1,1 +1,3 @@
-export * from './lib/skeletonẻ/skeletonẻ';
+export * from './lib/skeleton';
+export * from './lib/skeleton-core';
+

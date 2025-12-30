@@ -1,0 +1,183 @@
+<div class="page-container">
+    <header class="page-header">
+        <h1>Skeleton</h1>
+        <p>A modern placeholder component to show while content is loading, inspired by DevExtreme.</p>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
+    </nav>
+
+    <div class="tab-content">
+        @if (activeTab() === 'preview') {
+        <div class="demo-section">
+            <div class="playground-grid">
+                <div class="demo-card"
+                    style="min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div class="preview-area"
+                        style="border: none; background: transparent; padding: 40px; width: 100%; display: flex; justify-content: center;">
+                        <div style="width: 300px;">
+                            <app-skeleton [variant]="config().variant" [animation]="config().animation"
+                                [width]="config().width" [height]="config().height"
+                                [borderRadius]="config().borderRadius">
+                            </app-skeleton>
+                        </div>
+                    </div>
+
+                    <div class="code-section" style="margin-top: 48px; width: 100%;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Source Code</h3>
+                            <app-button variant="ghost" size="sm" (click)="toggleCode()">
+                                <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
+                                    [size]="16"></i-lucide>
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
+                            </app-button>
+                        </div>
+
+                        @if (showCode()) {
+                        <div #codeEditor class="code-editor-container"
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
+
+                    <div class="control-group">
+                        <app-select-box label="Variant" [dataSource]="variantItems" valueExpr="value"
+                            displayExpr="display" [ngModel]="config().variant"
+                            (ngModelChange)="updateConfig('variant', $event)">
+                        </app-select-box>
+                    </div>
+
+                    <div class="control-group">
+                        <app-select-box label="Animation" [dataSource]="animationItems" valueExpr="value"
+                            displayExpr="display" [ngModel]="config().animation"
+                            (ngModelChange)="updateConfig('animation', $event)">
+                        </app-select-box>
+                    </div>
+
+                    <div class="control-group">
+                        <app-input label="Width" size="md" [ngModel]="config().width"
+                            (ngModelChange)="updateConfig('width', $event)"></app-input>
+                    </div>
+
+                    <div class="control-group">
+                        <app-input label="Height" size="md" [ngModel]="config().height"
+                            (ngModelChange)="updateConfig('height', $event)"></app-input>
+                    </div>
+
+                    <div class="control-group">
+                        <app-input label="Border Radius" size="md" [ngModel]="config().borderRadius"
+                            (ngModelChange)="updateConfig('borderRadius', $event)"></app-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>Common Examples</h2>
+            <div class="card-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
+                <!-- Article Skeleton -->
+                <div class="preview-card"
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b; margin-bottom: 1rem;">Article Loader</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <app-skeleton variant="rect" height="150px"></app-skeleton>
+                        <app-skeleton variant="text" width="60%"></app-skeleton>
+                        <div style="display: flex; gap: 8px;">
+                            <app-skeleton variant="circle" width="40" height="40"></app-skeleton>
+                            <div
+                                style="flex: 1; display: flex; flex-direction: column; gap: 4px; justify-content: center;">
+                                <app-skeleton variant="text" width="40%"></app-skeleton>
+                                <app-skeleton variant="text" width="20%"></app-skeleton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Skeleton -->
+                <div class="preview-card"
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b; margin-bottom: 1rem;">Profile Card</h3>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+                        <app-skeleton variant="circle" width="80" height="80"></app-skeleton>
+                        <div
+                            style="text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                            <app-skeleton variant="text" width="120px" height="24px"></app-skeleton>
+                            <app-skeleton variant="text" width="80px"></app-skeleton>
+                        </div>
+                        <div style="width: 100%; display: flex; flex-direction: column; gap: 8px;">
+                            <app-skeleton variant="rect" height="32px" borderRadius="16px"></app-skeleton>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wave Animation -->
+                <div class="preview-card"
+                    style="background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 0.75rem; padding: 1.5rem;">
+                    <h3 style="margin-top: 0; font-size: 1rem; color: #64748b; margin-bottom: 1rem;">Wave Animation</h3>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <app-skeleton animation="wave" height="20px"></app-skeleton>
+                        <app-skeleton animation="wave" height="20px"></app-skeleton>
+                        <app-skeleton animation="wave" height="20px" width="80%"></app-skeleton>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (activeTab() === 'api') {
+        <div class="api-section">
+            <h2>app-skeleton API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>variant</td>
+                        <td class="type-cell">'text' | 'rect' | 'circle'</td>
+                        <td class="default-cell">'text'</td>
+                        <td>The shape of the skeleton.</td>
+                    </tr>
+                    <tr>
+                        <td>animation</td>
+                        <td class="type-cell">'pulse' | 'wave' | 'none'</td>
+                        <td class="default-cell">'pulse'</td>
+                        <td>The animation style.</td>
+                    </tr>
+                    <tr>
+                        <td>width</td>
+                        <td class="type-cell">string | number</td>
+                        <td class="default-cell">-</td>
+                        <td>Custom width (e.g., '100%', 200, '20rem').</td>
+                    </tr>
+                    <tr>
+                        <td>height</td>
+                        <td class="type-cell">string | number</td>
+                        <td class="default-cell">-</td>
+                        <td>Custom height. For 'text' variant, defaults to 1em.</td>
+                    </tr>
+                    <tr>
+                        <td>borderRadius</td>
+                        <td class="type-cell">string | number</td>
+                        <td class="default-cell">-</td>
+                        <td>Custom border radius.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>
