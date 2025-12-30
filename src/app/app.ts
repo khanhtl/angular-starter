@@ -1,13 +1,14 @@
 import { THEME_COLOR_LIST } from '@angular-starter/core/theme';
+import { ToastContainerComponent } from '@angular-starter/ui/toast';
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Calendar, CalendarDays, CalendarRange, ChevronsRight, CircleDot, FileText, Images, LucideAngularModule, MessageSquare, Moon, MousePointer2, Palette, Square, SquareChevronDown, Sun, Table2, TableProperties, Tags, TextCursorInput } from 'lucide-angular';
+import { Bell, Calendar, CalendarDays, CalendarRange, ChevronsRight, CircleDot, FileText, Images, LucideAngularModule, MessageSquare, Moon, MousePointer2, Palette, Square, SquareChevronDown, Sun, Table2, TableProperties, Tags, TextCursorInput } from 'lucide-angular';
 import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, LucideAngularModule],
+  imports: [RouterModule, LucideAngularModule, ToastContainerComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -32,6 +33,7 @@ export class App {
   readonly Images = Images;
   readonly PaginationIcon = ChevronsRight;
   readonly MessageSquare = MessageSquare;
+  readonly Bell = Bell;
   readonly Sun = Sun;
   readonly Moon = Moon;
   readonly Palette = Palette;

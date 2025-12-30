@@ -67,6 +67,10 @@ export const appRoutes: Route[] = [
         path: 'popover',
         loadComponent: () => import('./pages/popover-demo/popover-demo.component').then(m => m.PopoverDemoComponent)
     },
+    {
+        path: 'toast',
+        loadComponent: () => import('./pages/toast-demo/toast-demo.component').then(m => m.ToastDemoComponent)
+    },
 
     { path: '', redirectTo: 'button', pathMatch: 'full' },
 ];

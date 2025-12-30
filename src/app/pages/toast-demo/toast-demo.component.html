@@ -1,0 +1,139 @@
+<div class="page-container">
+    <header class="page-header">
+        <h1>Toast</h1>
+        <p>A premium notification component with multiple positions, types, and glassmorphism styling.</p>
+    </header>
+
+    <nav class="tab-nav">
+        <button [class.active]="activeTab() === 'preview'" (click)="activeTab.set('preview')">Preview</button>
+        <button [class.active]="activeTab() === 'api'" (click)="activeTab.set('api')">API Reference</button>
+    </nav>
+
+    <div class="tab-content">
+        @if (activeTab() === 'preview') {
+        <div class="demo-section">
+            <div class="playground-grid">
+                <div class="demo-card"
+                    style="min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div class="preview-area"
+                        style="border: none; background: transparent; padding: 40px; text-align: center;">
+                        <app-button variant="solid" color="primary" size="lg" (click)="showToast()">
+                            <i-lucide [img]="BellIcon" [style.marginRight.px]="8" [size]="20"></i-lucide>
+                            Show Configured Toast
+                        </app-button>
+
+                        <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: center;">
+                            <app-button variant="solid" color="success" (click)="showSuccess()">Success
+                                Toast</app-button>
+                            <app-button variant="solid" color="danger" (click)="showError()">Error Toast</app-button>
+                        </div>
+                    </div>
+
+                    <div class="code-section" style="margin-top: 48px; width: 100%;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 16px;">
+                            <h3 style="margin: 0; font-size: 0.9rem; color: #64748b;">Implementation</h3>
+                            <app-button variant="ghost" size="sm" (click)="toggleCode()">
+                                <i-lucide [img]="showCode() ? EyeOffIcon : CodeIcon" [style.marginRight.px]="8"
+                                    [size]="16"></i-lucide>
+                                {{ showCode() ? 'Hide Code' : 'Show Code' }}
+                            </app-button>
+                        </div>
+
+                        @if (showCode()) {
+                        <div #codeEditor class="code-editor-container"
+                            style="border: 1px solid var(--c-border); border-radius: 8px; overflow: hidden; margin: 0 16px;">
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Toast Properties</h3>
+
+                    <div class="control-group">
+                        <app-input label="Message" [ngModel]="config().message"
+                            (ngModelChange)="updateConfig('message', $event)"></app-input>
+                    </div>
+
+                    <div class="control-group">
+                        <app-select-box label="Type" [dataSource]="typeOptions" displayExpr="displayValue"
+                            valueExpr="value" [ngModel]="config().type" (ngModelChange)="updateConfig('type', $event)">
+                        </app-select-box>
+                    </div>
+
+                    <div class="control-group">
+                        <app-select-box label="Position" [dataSource]="positionOptions" displayExpr="displayValue"
+                            valueExpr="value" [ngModel]="config().position"
+                            (ngModelChange)="updateConfig('position', $event)">
+                        </app-select-box>
+                    </div>
+
+                    <div class="control-group">
+                        <app-input label="Display Time (ms)" type="number" [ngModel]="config().displayTime"
+                            (ngModelChange)="updateConfig('displayTime', $event)"></app-input>
+                    </div>
+
+                    <div class="control-group">
+                        <app-input label="Width" [ngModel]="config().width"
+                            (ngModelChange)="updateConfig('width', $event)"></app-input>
+                    </div>
+
+                    <div class="control-group" style="padding-top: 8px; border-top: 1px solid var(--c-border);">
+                        <app-check-box text="Show Close Button" [ngModel]="config().showCloseButton"
+                            (ngModelChange)="updateConfig('showCloseButton', $event)">
+                        </app-check-box>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (activeTab() === 'api') {
+        <div class="api-section">
+            <h2>ToastService API Reference</h2>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>show(config)</td>
+                        <td class="type-cell">ToastConfig</td>
+                        <td>Shows a toast with the given configuration. Returns the toast ID.</td>
+                    </tr>
+                    <tr>
+                        <td>success(message, config?)</td>
+                        <td class="type-cell">string, Partial&lt;ToastConfig&gt;</td>
+                        <td>Shortcut for showing a success toast.</td>
+                    </tr>
+                    <tr>
+                        <td>error(message, config?)</td>
+                        <td class="type-cell">string, Partial&lt;ToastConfig&gt;</td>
+                        <td>Shortcut for showing an error toast.</td>
+                    </tr>
+                    <tr>
+                        <td>info(message, config?)</td>
+                        <td class="type-cell">string, Partial&lt;ToastConfig&gt;</td>
+                        <td>Shortcut for showing an info toast.</td>
+                    </tr>
+                    <tr>
+                        <td>warning(message, config?)</td>
+                        <td class="type-cell">string, Partial&lt;ToastConfig&gt;</td>
+                        <td>Shortcut for showing a warning toast.</td>
+                    </tr>
+                    <tr>
+                        <td>hide(id)</td>
+                        <td class="type-cell">string</td>
+                        <td>Hides a toast by its ID.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>

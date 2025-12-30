@@ -62,6 +62,10 @@
         <i-lucide [img]="MessageSquare" class="nav-icon"></i-lucide>
         Popover
       </a>
+      <a routerLink="/toast" routerLinkActive="active">
+        <i-lucide [img]="Bell" class="nav-icon"></i-lucide>
+        Toast
+      </a>
     </nav>
 
 
@@ -99,5 +103,6 @@
     <div class="page-content">
       <router-outlet></router-outlet>
     </div>
+    <app-toast-container></app-toast-container>
   </main>
 </div>
