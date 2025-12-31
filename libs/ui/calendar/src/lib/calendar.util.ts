@@ -1,5 +1,5 @@
 
-import { CalendarCell, CalendarEvent } from './calendar.types';
+import { CalendarCell, CalendarEvent, CalendarViewType } from './calendar.types';
 
 /**
  * Functional Core for Calendar Logic.
@@ -56,7 +56,7 @@ export class CalendarUtil {
             const date = new Date(startDate);
             const isStart = rangeStart ? this.isSameDate(date, rangeStart) : false;
             const isEnd = rangeEnd ? this.isSameDate(date, rangeEnd) : false;
-            
+
             let inRange = false;
             if (rangeStart && rangeEnd) {
                 inRange = date > rangeStart && date < rangeEnd;
@@ -130,11 +130,11 @@ export class CalendarUtil {
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
-        
+
         if (includeTime) {
-             const hours = date.getHours().toString().padStart(2, '0');
-             const minutes = date.getMinutes().toString().padStart(2, '0');
-             return `${day}/${month}/${year} ${hours}:${minutes}`;
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
         }
         return `${day}/${month}/${year}`;
     }
@@ -148,7 +148,7 @@ export class CalendarUtil {
         // Split date and time (if present)
         const [datePart, timePart] = value.split(' ');
         const parts = datePart ? datePart.split('/') : [];
-        
+
         if (parts.length === 3) {
             const day = parseInt(parts[0], 10);
             const month = parseInt(parts[1], 10) - 1;
@@ -171,5 +171,70 @@ export class CalendarUtil {
         const hours = date.getHours().toString().padStart(2, '0');
         const minutes = date.getMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes}`;
+    }
+
+    static setTime(date: Date, type: 'hour' | 'minute', val: number): Date {
+        const newDate = new Date(date);
+        if (type === 'hour') newDate.setHours(val);
+        else newDate.setMinutes(val);
+        return newDate;
+    }
+
+    static navigate(date: Date, view: CalendarViewType, direction: number): Date {
+        if (view === 'month') {
+            return this.addMonths(date, direction);
+        } else if (view === 'year') {
+            return this.addYears(date, direction);
+        } else {
+            return this.addYears(date, direction * 10);
+        }
+    }
+
+    static getKeyboardMove(date: Date, view: CalendarViewType, key: string): Date {
+        const newDate = new Date(date);
+
+        switch (key) {
+            case 'ArrowLeft':
+                if (view === 'month') newDate.setDate(date.getDate() - 1);
+                else if (view === 'year') newDate.setMonth(date.getMonth() - 1);
+                else newDate.setFullYear(date.getFullYear() - 1);
+                break;
+            case 'ArrowRight':
+                if (view === 'month') newDate.setDate(date.getDate() + 1);
+                else if (view === 'year') newDate.setMonth(date.getMonth() + 1);
+                else newDate.setFullYear(date.getFullYear() + 1);
+                break;
+            case 'ArrowUp':
+                if (view === 'month') newDate.setDate(date.getDate() - 7);
+                else if (view === 'year') newDate.setMonth(date.getMonth() - 3);
+                else newDate.setFullYear(date.getFullYear() - 3);
+                break;
+            case 'ArrowDown':
+                if (view === 'month') newDate.setDate(date.getDate() + 7);
+                else if (view === 'year') newDate.setMonth(date.getMonth() + 3);
+                else newDate.setFullYear(date.getFullYear() + 3);
+                break;
+        }
+        return newDate;
+    }
+
+    static getHeaderTitle(date: Date, type: CalendarViewType, mode: string, monthNames: string[]): string {
+        if (mode === 'time') return 'Select Time';
+        if (type === 'month') return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+        if (type === 'year') return `${date.getFullYear()}`;
+        const startYear = Math.floor(date.getFullYear() / 10) * 10;
+        return `${startYear} - ${startYear + 9}`;
+    }
+
+    static getDrillDownView(current: CalendarViewType): CalendarViewType {
+        if (current === 'decade') return 'year';
+        if (current === 'year') return 'month';
+        return 'month';
+    }
+
+    static getDrillUpView(current: CalendarViewType): CalendarViewType {
+        if (current === 'month') return 'year';
+        if (current === 'year') return 'decade';
+        return current;
     }
 }

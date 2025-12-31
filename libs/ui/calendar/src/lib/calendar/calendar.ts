@@ -4,15 +4,18 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
+  ElementRef,
   HostListener,
   input,
   model,
   output,
-  signal
+  QueryList,
+  signal,
+  ViewChildren
 } from '@angular/core';
 import { CalendarCell, CalendarEvent, CalendarLocale, CalendarViewType } from '../calendar.types';
 import { CalendarUtil } from '../calendar.util';
-import { ElementRef, ViewChildren, QueryList, AfterViewInit, effect } from '@angular/core';
 
 const VI_LOCALE: CalendarLocale = {
   days: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
@@ -122,21 +125,12 @@ export class CalendarComponent {
 
   /** Header title based on current view */
   headerTitle = computed(() => {
-    const date = this.viewDate();
-    const type = this.viewType();
-
-    if (this.mode() === 'time') {
-       return 'Select Time';
-    }
-
-    if (type === 'month') {
-      return `${this.months()[date.getMonth()]} ${date.getFullYear()}`;
-    } else if (type === 'year') {
-      return `${date.getFullYear()}`;
-    } else {
-      const startYear = Math.floor(date.getFullYear() / 10) * 10;
-      return `${startYear} - ${startYear + 9}`;
-    }
+    return CalendarUtil.getHeaderTitle(
+      this.viewDate(),
+      this.viewType(),
+      this.mode(),
+      this.months()
+    );
   });
 
   get currentHour(): number {
@@ -148,15 +142,15 @@ export class CalendarComponent {
   }
 
   @ViewChildren('timeParams') timeParams!: QueryList<ElementRef>;
-  
+
   constructor(private elementRef: ElementRef) {
     effect(() => {
-        // When value changes, scroll to time if in time mode
-        const val = this.value();
-        if (val && (this.mode() === 'time' || this.mode() === 'datetime')) {
-            // Small timeout to allow render
-            setTimeout(() => this.scrollToTime(), 0);
-        }
+      // When value changes, scroll to time if in time mode
+      const val = this.value();
+      if (val && (this.mode() === 'time' || this.mode() === 'datetime')) {
+        // Small timeout to allow render
+        setTimeout(() => this.scrollToTime(), 0);
+      }
     });
   }
 
@@ -164,81 +158,58 @@ export class CalendarComponent {
     const el = this.elementRef.nativeElement;
     const hoursEl = el.querySelector('.hours-column');
     const minutesEl = el.querySelector('.minutes-column');
-    
+
     if (hoursEl) {
-        const selectedHour = hoursEl.querySelector(`.time-item[data-value="${this.currentHour}"]`);
-        if (selectedHour) {
-            this.scrollToElement(hoursEl, selectedHour);
-        }
+      const selectedHour = hoursEl.querySelector(`.time-item[data-value="${this.currentHour}"]`);
+      if (selectedHour) {
+        this.scrollToElement(hoursEl, selectedHour);
+      }
     }
-    
+
     if (minutesEl) {
-        const selectedMinute = minutesEl.querySelector(`.time-item[data-value="${this.currentMinute}"]`);
-        if (selectedMinute) {
-             this.scrollToElement(minutesEl, selectedMinute);
-        }
+      const selectedMinute = minutesEl.querySelector(`.time-item[data-value="${this.currentMinute}"]`);
+      if (selectedMinute) {
+        this.scrollToElement(minutesEl, selectedMinute);
+      }
     }
   }
 
   private scrollToElement(container: HTMLElement, target: HTMLElement) {
-      // Calculate position to center the target
-      const containerHeight = container.clientHeight;
-      const targetHeight = target.clientHeight;
-      const targetTop = target.offsetTop;
-      
-      const scrollTop = targetTop - (containerHeight / 2) + (targetHeight / 2);
-      
-      container.scrollTo({
-          top: scrollTop,
-          behavior: 'smooth'
-      });
+    // Calculate position to center the target
+    const containerHeight = container.clientHeight;
+    const targetHeight = target.clientHeight;
+    const targetTop = target.offsetTop;
+
+    const scrollTop = targetTop - (containerHeight / 2) + (targetHeight / 2);
+
+    container.scrollTo({
+      top: scrollTop,
+      behavior: 'smooth'
+    });
   }
 
   updateTime(type: 'hour' | 'minute', val: number) {
-    const date = new Date(this.value() || new Date());
+    const date = this.value() || new Date();
+    const newDate = CalendarUtil.setTime(date, type, val);
+
     if (!this.value()) {
-         // If no date selected yet, start with today
-         this.viewDate.set(date);
+      this.viewDate.set(newDate);
     }
-    
-    if (type === 'hour') date.setHours(val);
-    else date.setMinutes(val);
-    
-    this.value.set(date);
-    this.viewDate.set(date);
+
+    this.value.set(newDate);
+    this.viewDate.set(newDate);
   }
 
   prev() {
-    const type = this.viewType();
-    const date = this.viewDate();
-    if (type === 'month') {
-      this.viewDate.set(CalendarUtil.addMonths(date, -1));
-    } else if (type === 'year') {
-      this.viewDate.set(CalendarUtil.addYears(date, -1));
-    } else {
-      this.viewDate.set(CalendarUtil.addYears(date, -10));
-    }
+    this.viewDate.set(CalendarUtil.navigate(this.viewDate(), this.viewType(), -1));
   }
 
   next() {
-    const type = this.viewType();
-    const date = this.viewDate();
-    if (type === 'month') {
-      this.viewDate.set(CalendarUtil.addMonths(date, 1));
-    } else if (type === 'year') {
-      this.viewDate.set(CalendarUtil.addYears(date, 1));
-    } else {
-      this.viewDate.set(CalendarUtil.addYears(date, 10));
-    }
+    this.viewDate.set(CalendarUtil.navigate(this.viewDate(), this.viewType(), 1));
   }
 
   toggleView() {
-    const current = this.viewType();
-    if (current === 'month') {
-      this.viewType.set('year');
-    } else if (current === 'year') {
-      this.viewType.set('decade');
-    }
+    this.viewType.set(CalendarUtil.getDrillUpView(this.viewType()));
   }
 
   selectCell(cell: CalendarCell) {
@@ -247,12 +218,9 @@ export class CalendarComponent {
     if (type === 'month') {
       this.value.set(cell.date);
       this.viewDate.set(cell.date);
-    } else if (type === 'year') {
+    } else {
       this.viewDate.set(cell.date);
-      this.viewType.set('month');
-    } else if (type === 'decade') {
-      this.viewDate.set(cell.date);
-      this.viewType.set('year');
+      this.viewType.set(CalendarUtil.getDrillDownView(type));
     }
   }
 
@@ -265,49 +233,25 @@ export class CalendarComponent {
 
   @HostListener('keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    const date = new Date(this.viewDate());
-    const type = this.viewType();
-
-    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', 'Escape'].includes(event.key)) {
+    const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', 'Escape'];
+    if (keys.includes(event.key)) {
       event.preventDefault();
     }
 
-    switch (event.key) {
-      case 'ArrowLeft':
-        if (type === 'month') date.setDate(date.getDate() - 1);
-        else if (type === 'year') date.setMonth(date.getMonth() - 1);
-        else date.setFullYear(date.getFullYear() - 1);
-        this.viewDate.set(date);
-        break;
-      case 'ArrowRight':
-        if (type === 'month') date.setDate(date.getDate() + 1);
-        else if (type === 'year') date.setMonth(date.getMonth() + 1);
-        else date.setFullYear(date.getFullYear() + 1);
-        this.viewDate.set(date);
-        break;
-      case 'ArrowUp':
-        if (type === 'month') date.setDate(date.getDate() - 7);
-        else if (type === 'year') date.setMonth(date.getMonth() - 3);
-        else date.setFullYear(date.getFullYear() - 3);
-        this.viewDate.set(date);
-        break;
-      case 'ArrowDown':
-        if (type === 'month') date.setDate(date.getDate() + 7);
-        else if (type === 'year') date.setMonth(date.getMonth() + 3);
-        else date.setFullYear(date.getFullYear() + 3);
-        this.viewDate.set(date);
-        break;
-      case 'Enter':
-        if (type === 'month') {
-          this.value.set(new Date(this.viewDate()));
-        } else {
-          this.selectCell({ date: this.viewDate(), label: '' });
-        }
-        break;
-      case 'Escape':
-        if (type === 'year') this.viewType.set('month');
-        else if (type === 'decade') this.viewType.set('year');
-        break;
+    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+      this.viewDate.set(CalendarUtil.getKeyboardMove(this.viewDate(), this.viewType(), event.key));
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      if (this.viewType() === 'month') {
+        this.value.set(new Date(this.viewDate()));
+      } else {
+        this.selectCell({ date: this.viewDate(), label: '' });
+      }
+    } else if (event.key === 'Escape') {
+      if (this.viewType() === 'year') this.viewType.set('month');
+      else if (this.viewType() === 'decade') this.viewType.set('year');
     }
   }
 }

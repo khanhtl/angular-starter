@@ -276,8 +276,9 @@
 }
 
 .datetime-time .time-wheel-wrapper {
-    height: 180px;
-    flex: 1;
+    height: 225px; /* Fixed height to match calendar grid approx */
+    flex: none; /* Do not grow, strictly respect height */
+    overflow: hidden;
 }
 
 .selection-overlay {

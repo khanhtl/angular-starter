@@ -24,8 +24,12 @@ import { Code, Eye, EyeOff, LucideAngularModule, Pencil, Settings } from 'lucide
     ],
     templateUrl: './grid-demo.component.html',
     styles: [`
+    .demo-card {
+      min-width: 0; /* Critical: allows grid item to shrink below content size */
+    }
     .grid-scroll-container {
       width: 100%;
+      max-width: 100%;
       overflow-x: auto;
       background: var(--c-surface);
       border-radius: var(--w-radius);
@@ -35,6 +39,9 @@ import { Code, Eye, EyeOff, LucideAngularModule, Pencil, Settings } from 'lucide
         display: block;
         padding: 0;
         min-height: 600px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
     }
     .code-section {
         margin-top: 1.5rem;
