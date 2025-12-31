@@ -41,7 +41,11 @@ export class DateBoxDemoComponent implements OnDestroy {
   @ViewChild('codeEditor') codeEditorRef!: ElementRef<HTMLDivElement>;
   editorView?: EditorView;
 
-  typeOptions = ['date', 'time', 'datetime'];
+  typeOptions = [
+    { value: 'date', text: 'Date' },
+    { value: 'time', text: 'Time' },
+    { value: 'datetime', text: 'Date Time' }
+  ];
 
   // Playground Config
   config = signal({

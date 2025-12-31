@@ -54,8 +54,8 @@
                     <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Properties</h3>
 
                     <div class="control-group">
-                        <app-select-box label="Type" [dataSource]="typeOptions" [ngModel]="config().type"
-                            (ngModelChange)="updateConfig('type', $event)"></app-select-box>
+                        <app-select-box label="Type" [dataSource]="typeOptions" displayExpr="text" valueExpr="value"
+                            [ngModel]="config().type" (ngModelChange)="updateConfig('type', $event)"></app-select-box>
                     </div>
 
                     <div class="control-group">
